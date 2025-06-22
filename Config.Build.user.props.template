@@ -1,0 +1,22 @@
+<Project>
+  <PropertyGroup>
+    <DeployToProd>false</DeployToProd>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GameDir>$(appdata)/com.kesomannen.gale/lost-skies/profiles/Default</GameDir>
+    <InterOpDir>$(GameDir)/BepInEx/interop</InterOpDir>
+    <PluginsDir>$(GameDir)/BepInEx/plugins</PluginsDir>
+    <FinalAssemblyName>$(AssemblyName).dll</FinalAssemblyName>
+  </PropertyGroup>
+
+  <Target Name="PostBuildCopy_FromConfig" AfterTargets="Build"
+    Condition="'$(DeployToProd)' == 'true'">
+    <Message Text="Deploy -> $(PluginsDir)/$(FinalAssemblyName)" Importance="High" />
+    <Copy
+      SourceFiles="$(OutputPath)$(FinalAssemblyName)"
+      DestinationFolder="$(PluginsDir)"
+      Condition="Exists('$(OutputPath)$(FinalAssemblyName)')" />
+  </Target>
+
+</Project>
