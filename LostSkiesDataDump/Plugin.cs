@@ -16,9 +16,12 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.IO;
 using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
+using UnityEngine;
 
 namespace LostSkiesDataDump;
 
@@ -26,10 +29,55 @@ namespace LostSkiesDataDump;
 public class Plugin : BasePlugin
 {
     internal static new ManualLogSource Log;
+    private ConfigEntry<string> configBaseOutputDirectory;
+    private ConfigEntry<string> configIconOutputDirectory;
+    private ConfigEntry<string> configTextOutputFile;
 
     public override void Load()
     {
         Log = base.Log;
         Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} is loaded!");
+        configBaseOutputDirectory = Config.Bind(
+            "Output",
+            "BaseDirectory",
+            Path.Join(Application.dataPath, MyPluginInfo.PLUGIN_GUID),
+            "The (base) directory that this plugin saves its output to."
+        );
+        configIconOutputDirectory = Config.Bind(
+            "Output",
+            "IconDirectory",
+            "icons",
+            $"The directory that this plugin saves icons files to.  Its path is relative to that of the base output directory ({configBaseOutputDirectory.Definition.Section}.{configBaseOutputDirectory.Definition.Key})."
+        );
+        configTextOutputFile = Config.Bind(
+            "Output",
+            "TextFile",
+            "data.txt",
+            $"The file that this plugin saves text output to.  Its path is relative to that of the base output directory ({configBaseOutputDirectory.Definition.Section}.{configBaseOutputDirectory.Definition.Key})."
+        );
+    }
+
+    public string BaseOutputDirectory
+    {
+        get
+        {
+            return configBaseOutputDirectory.Value;
+        }
+    }
+
+    public string IconOutputDirectory
+    {
+        get
+        {
+            return Path.Join(BaseOutputDirectory, configIconOutputDirectory.Value);
+        }
+    }
+
+    public string TextOutputFile
+    {
+        get
+        {
+            return Path.Join(BaseOutputDirectory, configTextOutputFile.Value);
+        }
     }
 }
