@@ -21,6 +21,7 @@ using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
+using HarmonyLib;
 using UnityEngine;
 
 namespace LostSkiesDataDump;
@@ -32,11 +33,12 @@ public class Plugin : BasePlugin
     private static ConfigEntry<string> configBaseOutputDirectory;
     private static ConfigEntry<string> configIconOutputDirectory;
     private static ConfigEntry<string> configTextOutputFile;
+    private static Harmony harmony;
 
     public override void Load()
     {
         Log = base.Log;
-        Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} is loaded!");
+        Log.LogInfo($"Loading plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION}...");
         configBaseOutputDirectory = Config.Bind(
             "Output",
             "BaseDirectory",
@@ -55,6 +57,17 @@ public class Plugin : BasePlugin
             "data.txt",
             $"The file that this plugin saves text output to.  Its path is relative to that of the base output directory ({configBaseOutputDirectory.Definition.Section}.{configBaseOutputDirectory.Definition.Key})."
         );
+        harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
+        harmony.PatchAll(typeof(Patch));
+        Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} has loaded.");
+    }
+
+    public override bool Unload()
+    {
+        Log.LogInfo($"Unloading plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION}...");
+        harmony?.UnpatchSelf();
+        Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} has unloaded.");
+        return base.Unload();
     }
 
     public static string BaseOutputDirectory
