@@ -29,9 +29,9 @@ namespace LostSkiesDataDump;
 public class Plugin : BasePlugin
 {
     internal static new ManualLogSource Log;
-    private ConfigEntry<string> configBaseOutputDirectory;
-    private ConfigEntry<string> configIconOutputDirectory;
-    private ConfigEntry<string> configTextOutputFile;
+    private static ConfigEntry<string> configBaseOutputDirectory;
+    private static ConfigEntry<string> configIconOutputDirectory;
+    private static ConfigEntry<string> configTextOutputFile;
 
     public override void Load()
     {
@@ -57,7 +57,7 @@ public class Plugin : BasePlugin
         );
     }
 
-    public string BaseOutputDirectory
+    public static string BaseOutputDirectory
     {
         get
         {
@@ -65,7 +65,7 @@ public class Plugin : BasePlugin
         }
     }
 
-    public string IconOutputDirectory
+    public static string IconOutputDirectory
     {
         get
         {
@@ -73,7 +73,7 @@ public class Plugin : BasePlugin
         }
     }
 
-    public string TextOutputFile
+    public static string TextOutputFile
     {
         get
         {
