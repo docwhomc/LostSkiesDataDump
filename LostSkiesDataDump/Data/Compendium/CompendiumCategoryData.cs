@@ -29,7 +29,7 @@ public class CompendiumCategoryData(CompendiumCategory compendiumCategory)
     public bool IsMainCategory => compendiumCategory.IsMainCategory;
     public int PreferredIndex => compendiumCategory.PreferredIndex;
 
-    public IEnumerable<string> SubCategories
+    public List<string> SubCategories
     {
         get
         {
