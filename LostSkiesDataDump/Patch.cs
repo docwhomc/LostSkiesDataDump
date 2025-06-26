@@ -16,16 +16,17 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Runtime.InteropServices;
 using HarmonyLib;
 using UISystem;
 using UnityEngine.InputSystem;
 using WildSkies.Mediators;
+using WildSkies.Service;
 
 namespace LostSkiesDataDump;
 
 class Patch
 {
-
     [HarmonyPatch(typeof(UIInputMediator), "Update")]
     [HarmonyPrefix]
     public static void UIInputMediator_Update(UIInputMediator __instance)
@@ -37,6 +38,16 @@ class Patch
         if (Keyboard.current.altKey.isPressed && Keyboard.current.homeKey.wasPressedThisFrame)
         {
             Plugin.Log.LogInfo("ALT + HOME");
+            Plugin.StartDataDump();
         }
+    }
+
+    [HarmonyPatch(typeof(CompendiumUiMediator), "Initialise")]
+    [HarmonyPrefix]
+    public static void CompendiumUiMediator_Initialise(CompendiumUiMediator __instance, [DefaultParameterValue(null)] IUIService uiService, [DefaultParameterValue(null)] ICompendiumService compendiumService, [DefaultParameterValue(null)] IPlayerGuideService playerGuideService, [DefaultParameterValue(null)] IPlayerInventoryService playerInventoryService, [DefaultParameterValue(null)] ICraftingService craftingService)
+    {
+        Plugin.Log.LogInfo("Patch.CompendiumUiMediator_Initialise(...)");
+        Plugin.Log.LogInfo($"compendiumService: {compendiumService}");
+        Plugin.CompendiumService = compendiumService;
     }
 }
