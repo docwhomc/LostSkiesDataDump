@@ -18,7 +18,6 @@
 
 using System;
 using System.Collections.Generic;
-using UnityEngine.Localization;
 
 namespace LostSkiesDataDump.Data.Compendium;
 
