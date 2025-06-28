@@ -24,10 +24,8 @@ using BepInEx.Configuration;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
-using Il2CppSystem.Collections.Generic;
-using LostSkiesDataDump.Data.Compendium;
+using LostSkiesDataDump.Data;
 using UnityEngine;
-using WildSkies.Service;
 
 namespace LostSkiesDataDump;
 
@@ -40,7 +38,7 @@ public class Plugin : BasePlugin
     private static ConfigEntry<string> configTextOutputFile;
     private static Harmony harmony;
     private static Task dataDumpTask = null;
-    internal static ICompendiumService CompendiumService;
+    private static MergedData mergedData = null;
 
     public override void Load()
     {
@@ -81,6 +79,15 @@ public class Plugin : BasePlugin
         return base.Unload();
     }
 
+    public static MergedData MergedData
+    {
+        get
+        {
+            mergedData ??= new();
+            return mergedData;
+        }
+    }
+
     public static string BaseOutputDirectory
     {
         get
@@ -114,9 +121,6 @@ public class Plugin : BasePlugin
         }
         else
         {
-            Log.LogInfo($"CompendiumService: {CompendiumService}");
-            Log.LogInfo(SizeLine(CompendiumService.Categories, "Category", "Categories"));
-            Log.LogInfo(SizeLine(CompendiumService.Entries, "Entry", "Entries"));
             dataDumpTask = Task.Run(DumpData);
             dataDumpTask.Wait();
         }
@@ -128,28 +132,14 @@ public class Plugin : BasePlugin
         Log.LogInfo(Directory.CreateDirectory(BaseOutputDirectory));
         using FileStream textOutputStream = File.Create(TextOutputFile);
         JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
-        if (CompendiumService is null)
-        {
-            Log.LogError("Cannot serialize compendium because Plugin.CompendiumSerive is null.");
-        }
-        else
-        {
-            CompendiumData compendiumData = new(CompendiumService);
-            Log.LogInfo("Serializing compendium.");
-            await JsonSerializer.SerializeAsync(textOutputStream, compendiumData, jsonSerializerOptions);
-            Log.LogInfo("Compendium serialized.");
-        }
+        Log.LogInfo("Serializing data.");
+        await JsonSerializer.SerializeAsync(textOutputStream, MergedData, jsonSerializerOptions);
+        Log.LogInfo("Data serialized.");
         Log.LogInfo("Data dump complete.");
     }
 
     public static void LogDataDumpStatus()
     {
         Log.LogInfo($"Data Dump Task Status: {dataDumpTask?.Status}");
-    }
-
-    private static string SizeLine<T>(List<T> list, string singular, string plural)
-    {
-        int size = list._size;
-        return $"  - {size} {(size == 1 ? singular : plural)}";
     }
 }
