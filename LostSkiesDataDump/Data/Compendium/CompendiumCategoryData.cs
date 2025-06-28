@@ -17,6 +17,7 @@
 */
 
 using System.Collections.Generic;
+using UnityEngine.Localization;
 
 namespace LostSkiesDataDump.Data.Compendium;
 
@@ -24,7 +25,23 @@ public class CompendiumCategoryData(CompendiumCategory compendiumCategory)
 {
     private readonly CompendiumCategory compendiumCategory = compendiumCategory;
     public string Id => compendiumCategory.Id;
-    // TODO: Name
+
+    public LocalizedString Name
+    {
+        get
+        {
+            Plugin.Log.LogDebug("CompendiumCategoryData.Name get {");
+            Plugin.Log.LogDebug($"    CompendiumCategoryData: {this}");
+            Plugin.Log.LogDebug($"    CompendiumCategoryData.compendiumCategory: {compendiumCategory}");
+            Plugin.Log.LogDebug(compendiumCategory);
+            Plugin.Log.LogDebug($"    CompendiumCategoryData.compendiumCategory.Id: {compendiumCategory.Id}");
+            Plugin.Log.LogDebug($"    CompendiumCategoryData.compendiumCategory.Name: {compendiumCategory.Name}");
+            Plugin.Log.LogDebug(compendiumCategory.Name);
+            Plugin.Log.LogDebug("}");
+            return compendiumCategory.Name;
+        }
+    }
+
     // TODO: Icon
     public bool IsMainCategory => compendiumCategory.IsMainCategory;
     public int PreferredIndex => compendiumCategory.PreferredIndex;
