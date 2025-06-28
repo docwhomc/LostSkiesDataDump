@@ -16,6 +16,7 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System;
 using System.Collections.Generic;
 using UnityEngine.Localization;
 
@@ -26,19 +27,30 @@ public class CompendiumCategoryData(CompendiumCategory compendiumCategory)
     private readonly CompendiumCategory compendiumCategory = compendiumCategory;
     public string Id => compendiumCategory.Id;
 
-    public LocalizedString Name
+    public string Name
     {
         get
         {
             Plugin.Log.LogDebug("CompendiumCategoryData.Name get {");
             Plugin.Log.LogDebug($"    CompendiumCategoryData: {this}");
             Plugin.Log.LogDebug($"    CompendiumCategoryData.compendiumCategory: {compendiumCategory}");
-            Plugin.Log.LogDebug(compendiumCategory);
             Plugin.Log.LogDebug($"    CompendiumCategoryData.compendiumCategory.Id: {compendiumCategory.Id}");
             Plugin.Log.LogDebug($"    CompendiumCategoryData.compendiumCategory.Name: {compendiumCategory.Name}");
             Plugin.Log.LogDebug(compendiumCategory.Name);
+            string localizedString = null;
+            try
+            {
+                localizedString = compendiumCategory.Name?.GetLocalizedString();
+                Plugin.Log.LogDebug($"    CompendiumCategoryData.compendiumCategory.Name?.GetLocalizedString(): {localizedString}");
+                Plugin.Log.LogDebug(localizedString);
+            }
+            catch (Exception exception)
+            {
+                Plugin.Log.LogError($"Unable to get localized string for name of the {compendiumCategory.Id} compendium category");
+                Plugin.Log.LogError(exception);
+            }
             Plugin.Log.LogDebug("}");
-            return compendiumCategory.Name;
+            return localizedString;
         }
     }
 
