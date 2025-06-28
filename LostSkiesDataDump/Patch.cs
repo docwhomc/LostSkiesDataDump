@@ -38,7 +38,7 @@ class Patch
         if (Keyboard.current.altKey.isPressed && Keyboard.current.homeKey.wasPressedThisFrame)
         {
             Plugin.Log.LogInfo("ALT + HOME");
-            Plugin.StartDataDump();
+            Plugin.DumpData();
         }
     }
 
