@@ -18,7 +18,6 @@
 
 using System.IO;
 using System.Text.Json;
-using System.Threading.Tasks;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
@@ -37,7 +36,6 @@ public class Plugin : BasePlugin
     private static ConfigEntry<string> configIconOutputDirectory;
     private static ConfigEntry<string> configTextOutputFile;
     private static Harmony harmony;
-    private static Task dataDumpTask = null;
     private static DataRoot dataRoot = null;
 
     public override void Load()
@@ -112,34 +110,15 @@ public class Plugin : BasePlugin
         }
     }
 
-    public static void StartDataDump()
-    {
-        if (dataDumpTask is not null)
-        {
-            Log.LogError($"Cannot start data dump task when one already exists: {dataDumpTask}");
-            LogDataDumpStatus();
-        }
-        else
-        {
-            dataDumpTask = Task.Run(DumpData);
-            dataDumpTask.Wait();
-        }
-    }
-
-    public static async Task DumpData()
+    public static void DumpData()
     {
         Log.LogInfo("Dumping data.");
         Log.LogInfo(Directory.CreateDirectory(BaseOutputDirectory));
         using FileStream textOutputStream = File.Create(TextOutputFile);
         JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
         Log.LogInfo("Serializing data.");
-        await JsonSerializer.SerializeAsync(textOutputStream, DataRoot, jsonSerializerOptions);
+        JsonSerializer.Serialize(textOutputStream, DataRoot, jsonSerializerOptions);
         Log.LogInfo("Data serialized.");
         Log.LogInfo("Data dump complete.");
-    }
-
-    public static void LogDataDumpStatus()
-    {
-        Log.LogInfo($"Data Dump Task Status: {dataDumpTask?.Status}");
     }
 }
