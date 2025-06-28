@@ -38,7 +38,7 @@ public class Plugin : BasePlugin
     private static ConfigEntry<string> configTextOutputFile;
     private static Harmony harmony;
     private static Task dataDumpTask = null;
-    private static MergedData mergedData = null;
+    private static DataRoot dataRoot = null;
 
     public override void Load()
     {
@@ -79,12 +79,12 @@ public class Plugin : BasePlugin
         return base.Unload();
     }
 
-    public static MergedData MergedData
+    public static DataRoot DataRoot
     {
         get
         {
-            mergedData ??= new();
-            return mergedData;
+            dataRoot ??= new();
+            return dataRoot;
         }
     }
 
@@ -133,7 +133,7 @@ public class Plugin : BasePlugin
         using FileStream textOutputStream = File.Create(TextOutputFile);
         JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
         Log.LogInfo("Serializing data.");
-        await JsonSerializer.SerializeAsync(textOutputStream, MergedData, jsonSerializerOptions);
+        await JsonSerializer.SerializeAsync(textOutputStream, DataRoot, jsonSerializerOptions);
         Log.LogInfo("Data serialized.");
         Log.LogInfo("Data dump complete.");
     }

@@ -48,6 +48,6 @@ class Patch
     {
         Plugin.Log.LogInfo("Patch.CompendiumUiMediator_Initialise(...)");
         Plugin.Log.LogInfo($"compendiumService: {compendiumService}");
-        Plugin.MergedData.SetCompendiumService(compendiumService);
+        Plugin.DataRoot.SetCompendiumService(compendiumService);
     }
 }

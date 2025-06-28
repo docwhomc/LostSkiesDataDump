@@ -21,7 +21,7 @@ using WildSkies.Service;
 
 namespace LostSkiesDataDump.Data;
 
-public class MergedData
+public class DataRoot
 {
     private CompendiumData _CompendiumData;
 
