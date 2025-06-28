@@ -23,19 +23,29 @@ namespace LostSkiesDataDump.Data.Compendium;
 public class CompendiumEntryData(CompendiumEntry compendiumEntry)
 {
     private readonly CompendiumEntry compendiumEntry = compendiumEntry;
-    public string EntryId => compendiumEntry.entryId;
-    public string MainCategoryId => compendiumEntry.mainCategoryId;
-    public string SubCategoryId => compendiumEntry.subCategoryId;
-    public string MainCategoryRawString => compendiumEntry.mainCategoryRawString;
-    public string EntryTitleRawString => compendiumEntry.entryTitleRawString;
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
+    public string entryId => compendiumEntry.entryId;
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
+    public string mainCategoryId => compendiumEntry.mainCategoryId;
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
+    public string subCategoryId => compendiumEntry.subCategoryId;
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
+    public string mainCategoryRawString => compendiumEntry.mainCategoryRawString;
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
+    public string entryTitleRawString => compendiumEntry.entryTitleRawString;
     // TODO: mainCategoryString
     // TODO: subCategoryString
     // TODO: entryTitleString
     // TODO: bodyTextString
-    public string ItemId => compendiumEntry.itemId;
-    public string EntityId => compendiumEntry.entityId;
-    public Il2CppStringArray UnlockIds => compendiumEntry.unlockIds;
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
+    public string itemId => compendiumEntry.itemId;
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
+    public string entityId => compendiumEntry.entityId;
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
+    public Il2CppStringArray unlockIds => compendiumEntry.unlockIds;
     // TODO: icon
-    public string VideoName => compendiumEntry.videoName;
-    public string ConversationHistoryId => compendiumEntry.conversationHistoryId;
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
+    public string videoName => compendiumEntry.videoName;
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
+    public string conversationHistoryId => compendiumEntry.conversationHistoryId;
 }
