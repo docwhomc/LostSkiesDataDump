@@ -33,10 +33,14 @@ public class CompendiumEntryData(CompendiumEntry compendiumEntry)
     public string mainCategoryRawString => compendiumEntry.mainCategoryRawString;
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
     public string entryTitleRawString => compendiumEntry.entryTitleRawString;
-    // TODO: mainCategoryString
-    // TODO: subCategoryString
-    // TODO: entryTitleString
-    // TODO: bodyTextString
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
+    public string mainCategoryString => compendiumEntry.mainCategoryString.GetLocalizedString();
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
+    public string subCategoryString => compendiumEntry.subCategoryString.GetLocalizedString();
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
+    public string entryTitleString => compendiumEntry.entryTitleString.GetLocalizedString();
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
+    public string bodyTextString => compendiumEntry.bodyTextString.GetLocalizedString();
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
     public string itemId => compendiumEntry.itemId;
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]

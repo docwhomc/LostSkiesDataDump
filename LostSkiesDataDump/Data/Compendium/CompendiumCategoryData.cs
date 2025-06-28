@@ -24,7 +24,7 @@ public class CompendiumCategoryData(CompendiumCategory compendiumCategory)
 {
     private readonly CompendiumCategory compendiumCategory = compendiumCategory;
     public string Id => compendiumCategory.Id;
-    // TODO: Name
+    public string Name => compendiumCategory.Name.GetLocalizedString();
     // TODO: Icon
     public bool IsMainCategory => compendiumCategory.IsMainCategory;
     public int PreferredIndex => compendiumCategory.PreferredIndex;
