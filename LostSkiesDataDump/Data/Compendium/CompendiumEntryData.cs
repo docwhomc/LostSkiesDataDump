@@ -20,9 +20,15 @@ using Il2CppInterop.Runtime.InteropTypes.Arrays;
 
 namespace LostSkiesDataDump.Data.Compendium;
 
-public class CompendiumEntryData(CompendiumEntry compendiumEntry)
+public class CompendiumEntryData(CompendiumEntry compendiumEntry) : BaseData
 {
     private readonly CompendiumEntry compendiumEntry = compendiumEntry;
+
+    public override string GetIdentifier()
+    {
+        return entryId;
+    }
+
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
     public string entryId => compendiumEntry.entryId;
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
@@ -34,13 +40,13 @@ public class CompendiumEntryData(CompendiumEntry compendiumEntry)
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
     public string entryTitleRawString => compendiumEntry.entryTitleRawString;
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
-    public string mainCategoryString => compendiumEntry.mainCategoryString.GetLocalizedString();
+    public string mainCategoryString => PreSerialize(compendiumEntry.mainCategoryString);
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
-    public string subCategoryString => compendiumEntry.subCategoryString.GetLocalizedString();
+    public string subCategoryString => PreSerialize(compendiumEntry.subCategoryString);
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
-    public string entryTitleString => compendiumEntry.entryTitleString.GetLocalizedString();
+    public string entryTitleString => PreSerialize(compendiumEntry.entryTitleString);
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
-    public string bodyTextString => compendiumEntry.bodyTextString.GetLocalizedString();
+    public string bodyTextString => PreSerialize(compendiumEntry.bodyTextString);
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]
     public string itemId => compendiumEntry.itemId;
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Consistency with wrapped class.")]

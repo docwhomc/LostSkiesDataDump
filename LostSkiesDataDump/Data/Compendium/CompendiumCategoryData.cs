@@ -20,11 +20,17 @@ using System.Collections.Generic;
 
 namespace LostSkiesDataDump.Data.Compendium;
 
-public class CompendiumCategoryData(CompendiumCategory compendiumCategory)
+public class CompendiumCategoryData(CompendiumCategory compendiumCategory) : BaseData
 {
     private readonly CompendiumCategory compendiumCategory = compendiumCategory;
+
+    public override string GetIdentifier()
+    {
+        return Id;
+    }
+
     public string Id => compendiumCategory.Id;
-    public string Name => compendiumCategory.Name.GetLocalizedString();
+    public string Name => PreSerialize(compendiumCategory.Name);
     // TODO: Icon
     public bool IsMainCategory => compendiumCategory.IsMainCategory;
     public int PreferredIndex => compendiumCategory.PreferredIndex;

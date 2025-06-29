@@ -21,9 +21,14 @@ using WildSkies.Service;
 
 namespace LostSkiesDataDump.Data.Compendium;
 
-public class CompendiumData(ICompendiumService compendiumService)
+public class CompendiumData(ICompendiumService compendiumService) : BaseData
 {
     private readonly ICompendiumService _CompendiumService = compendiumService;
+
+    public override string GetIdentifier()
+    {
+        return CompendiumService.CompendiumPrefix;
+    }
 
     public List<CompendiumCategoryData> Categories
     {
