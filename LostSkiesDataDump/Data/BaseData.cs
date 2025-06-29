@@ -35,7 +35,7 @@ public abstract class BaseData
         }
         catch (Exception exception)
         {
-            Plugin.Log.LogError($"Unable to serialize LocalizedString {GetType().FullName}<{GetIdentifier()}>.{expression.Split(".").Last()}");
+            Plugin.Log.LogWarning($"Unable to serialize LocalizedString {GetType().FullName}<{GetIdentifier()}>.{expression.Split(".").Last()}");
             Plugin.Log.LogDebug(exception);
             return null;
         }
