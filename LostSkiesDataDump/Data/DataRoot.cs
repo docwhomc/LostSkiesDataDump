@@ -23,18 +23,18 @@ namespace LostSkiesDataDump.Data;
 
 public class DataRoot
 {
-    private CompendiumData _CompendiumData;
+    private CompendiumData _compendiumData;
 
     public CompendiumData CompendiumData
     {
         get
         {
-            return _CompendiumData;
+            return _compendiumData;
         }
     }
 
     public void SetCompendiumService(ICompendiumService compendiumService)
     {
-        _CompendiumData = new(compendiumService);
+        _compendiumData = new(compendiumService);
     }
 }

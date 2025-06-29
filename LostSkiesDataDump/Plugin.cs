@@ -32,47 +32,47 @@ namespace LostSkiesDataDump;
 public class Plugin : BasePlugin
 {
     internal static new ManualLogSource Log;
-    private static ConfigEntry<string> configBaseOutputDirectory;
-    private static ConfigEntry<string> configIconOutputDirectory;
-    private static ConfigEntry<string> configTextOutputFile;
-    private static Harmony harmony;
-    private static DataRoot dataRoot = null;
+    private static ConfigEntry<string> s_configBaseOutputDirectory;
+    private static ConfigEntry<string> s_configIconOutputDirectory;
+    private static ConfigEntry<string> s_configTextOutputFile;
+    private static Harmony s_harmony;
+    private static DataRoot s_dataRoot = null;
 
     public override void Load()
     {
         Log = base.Log;
         Log.LogInfo($"Loading plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION}...");
         Log.LogInfo($"  - config file: {Config.ConfigFilePath}{(File.Exists(Config.ConfigFilePath) ? "" : " (does not exist)")}");
-        configBaseOutputDirectory = Config.Bind(
+        s_configBaseOutputDirectory = Config.Bind(
             "Output",
             "BaseDirectory",
             Path.Join(Application.dataPath, MyPluginInfo.PLUGIN_GUID),
             "The (base) directory that this plugin saves its output to."
         );
         Log.LogInfo($"  - base output directory: {BaseOutputDirectory}");
-        configIconOutputDirectory = Config.Bind(
+        s_configIconOutputDirectory = Config.Bind(
             "Output",
             "IconDirectory",
             "icons",
-            $"The directory that this plugin saves icons files to.  Its path is relative to that of the base output directory ({configBaseOutputDirectory.Definition.Section}.{configBaseOutputDirectory.Definition.Key})."
+            $"The directory that this plugin saves icons files to.  Its path is relative to that of the base output directory ({s_configBaseOutputDirectory.Definition.Section}.{s_configBaseOutputDirectory.Definition.Key})."
         );
         Log.LogInfo($"  - icon output directory: {IconOutputDirectory}");
-        configTextOutputFile = Config.Bind(
+        s_configTextOutputFile = Config.Bind(
             "Output",
             "TextFile",
             "data.json",
-            $"The file that this plugin saves text output to.  Its path is relative to that of the base output directory ({configBaseOutputDirectory.Definition.Section}.{configBaseOutputDirectory.Definition.Key})."
+            $"The file that this plugin saves text output to.  Its path is relative to that of the base output directory ({s_configBaseOutputDirectory.Definition.Section}.{s_configBaseOutputDirectory.Definition.Key})."
         );
         Log.LogInfo($"  - text output file: {TextOutputFile}");
-        harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
-        harmony.PatchAll(typeof(Patch));
+        s_harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
+        s_harmony.PatchAll(typeof(Patch));
         Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} has loaded.");
     }
 
     public override bool Unload()
     {
         Log.LogInfo($"Unloading plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION}...");
-        harmony?.UnpatchSelf();
+        s_harmony?.UnpatchSelf();
         Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} has unloaded.");
         return base.Unload();
     }
@@ -81,8 +81,8 @@ public class Plugin : BasePlugin
     {
         get
         {
-            dataRoot ??= new();
-            return dataRoot;
+            s_dataRoot ??= new();
+            return s_dataRoot;
         }
     }
 
@@ -90,7 +90,7 @@ public class Plugin : BasePlugin
     {
         get
         {
-            return configBaseOutputDirectory.Value;
+            return s_configBaseOutputDirectory.Value;
         }
     }
 
@@ -98,7 +98,7 @@ public class Plugin : BasePlugin
     {
         get
         {
-            return Path.Join(BaseOutputDirectory, configIconOutputDirectory.Value);
+            return Path.Join(BaseOutputDirectory, s_configIconOutputDirectory.Value);
         }
     }
 
@@ -106,7 +106,7 @@ public class Plugin : BasePlugin
     {
         get
         {
-            return Path.Join(BaseOutputDirectory, configTextOutputFile.Value);
+            return Path.Join(BaseOutputDirectory, s_configTextOutputFile.Value);
         }
     }
 

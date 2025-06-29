@@ -23,7 +23,7 @@ namespace LostSkiesDataDump.Data.Compendium;
 
 public class CompendiumData(ICompendiumService compendiumService) : BaseData
 {
-    private readonly ICompendiumService _CompendiumService = compendiumService;
+    private readonly ICompendiumService _compendiumService = compendiumService;
 
     public override string GetIdentifier()
     {
@@ -35,7 +35,7 @@ public class CompendiumData(ICompendiumService compendiumService) : BaseData
         get
         {
             List<CompendiumCategoryData> categories = [];
-            foreach (CompendiumCategory category in _CompendiumService.Categories)
+            foreach (CompendiumCategory category in _compendiumService.Categories)
             {
                 CompendiumCategoryData categoryData = new(category);
                 categories.Add(categoryData);
@@ -49,7 +49,7 @@ public class CompendiumData(ICompendiumService compendiumService) : BaseData
         get
         {
             List<CompendiumEntryData> entries = [];
-            foreach (CompendiumEntry entry in _CompendiumService.Entries)
+            foreach (CompendiumEntry entry in _compendiumService.Entries)
             {
                 CompendiumEntryData entryData = new(entry);
                 entries.Add(entryData);
