@@ -16,25 +16,25 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using LostSkiesDataDump.Data.Compendium;
+using LostSkiesDataDump.Wrappers.Compendium;
 using WildSkies.Service;
 
-namespace LostSkiesDataDump.Data;
+namespace LostSkiesDataDump;
 
-public class DataRoot
+public class SerializationRoot
 {
-    private CompendiumData _compendiumData;
+    private CompendiumServiceWrapper _compendium;
 
-    public CompendiumData CompendiumData
+    public CompendiumServiceWrapper Compendium
     {
         get
         {
-            return _compendiumData;
+            return _compendium;
         }
     }
 
     public void SetCompendiumService(ICompendiumService compendiumService)
     {
-        _compendiumData = new(compendiumService);
+        _compendium = new(compendiumService);
     }
 }

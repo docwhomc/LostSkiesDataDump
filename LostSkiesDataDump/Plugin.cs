@@ -23,7 +23,6 @@ using BepInEx.Configuration;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
-using LostSkiesDataDump.Data;
 using UnityEngine;
 
 namespace LostSkiesDataDump;
@@ -36,7 +35,7 @@ public class Plugin : BasePlugin
     private static ConfigEntry<string> s_configIconOutputDirectory;
     private static ConfigEntry<string> s_configTextOutputFile;
     private static Harmony s_harmony;
-    private static DataRoot s_dataRoot = null;
+    private static SerializationRoot s_serializationRoot = null;
 
     public override void Load()
     {
@@ -77,12 +76,12 @@ public class Plugin : BasePlugin
         return base.Unload();
     }
 
-    public static DataRoot DataRoot
+    public static SerializationRoot SerializationRoot
     {
         get
         {
-            s_dataRoot ??= new();
-            return s_dataRoot;
+            s_serializationRoot ??= new();
+            return s_serializationRoot;
         }
     }
 
@@ -117,7 +116,7 @@ public class Plugin : BasePlugin
         using FileStream textOutputStream = File.Create(TextOutputFile);
         JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
         Log.LogInfo("Serializing data.");
-        JsonSerializer.Serialize(textOutputStream, DataRoot, jsonSerializerOptions);
+        JsonSerializer.Serialize(textOutputStream, SerializationRoot, jsonSerializerOptions);
         Log.LogInfo("Data serialized.");
         Log.LogInfo("Data dump complete.");
     }

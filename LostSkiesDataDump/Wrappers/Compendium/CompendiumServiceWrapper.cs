@@ -19,9 +19,9 @@
 using System.Collections.Generic;
 using WildSkies.Service;
 
-namespace LostSkiesDataDump.Data.Compendium;
+namespace LostSkiesDataDump.Wrappers.Compendium;
 
-public class CompendiumData(ICompendiumService compendiumService) : BaseData
+public class CompendiumServiceWrapper(ICompendiumService compendiumService) : BaseWrapper
 {
     private readonly ICompendiumService _compendiumService = compendiumService;
 
@@ -30,29 +30,29 @@ public class CompendiumData(ICompendiumService compendiumService) : BaseData
         return CompendiumService.CompendiumPrefix;
     }
 
-    public List<CompendiumCategoryData> Categories
+    public List<CompendiumCategoryWrapper> Categories
     {
         get
         {
-            List<CompendiumCategoryData> categories = [];
+            List<CompendiumCategoryWrapper> categories = [];
             foreach (CompendiumCategory category in _compendiumService.Categories)
             {
-                CompendiumCategoryData categoryData = new(category);
-                categories.Add(categoryData);
+                CompendiumCategoryWrapper categoryWrapper = new(category);
+                categories.Add(categoryWrapper);
             }
             return categories;
         }
     }
 
-    public List<CompendiumEntryData> Entries
+    public List<CompendiumEntryWrapper> Entries
     {
         get
         {
-            List<CompendiumEntryData> entries = [];
+            List<CompendiumEntryWrapper> entries = [];
             foreach (CompendiumEntry entry in _compendiumService.Entries)
             {
-                CompendiumEntryData entryData = new(entry);
-                entries.Add(entryData);
+                CompendiumEntryWrapper entryWrapper = new(entry);
+                entries.Add(entryWrapper);
             }
             return entries;
         }

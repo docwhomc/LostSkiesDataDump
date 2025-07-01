@@ -21,9 +21,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine.Localization;
 
-namespace LostSkiesDataDump.Data;
+namespace LostSkiesDataDump.Wrappers;
 
-public abstract class BaseData
+public abstract class BaseWrapper
 {
     public abstract string GetIdentifier();
 

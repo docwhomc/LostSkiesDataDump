@@ -18,9 +18,9 @@
 
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 
-namespace LostSkiesDataDump.Data.Compendium;
+namespace LostSkiesDataDump.Wrappers.Compendium;
 
-public class CompendiumEntryData(CompendiumEntry compendiumEntry) : BaseData
+public class CompendiumEntryWrapper(CompendiumEntry compendiumEntry) : BaseWrapper
 {
     private readonly CompendiumEntry compendiumEntry = compendiumEntry;
 

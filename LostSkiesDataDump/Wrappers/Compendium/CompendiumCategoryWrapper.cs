@@ -18,9 +18,9 @@
 
 using System.Collections.Generic;
 
-namespace LostSkiesDataDump.Data.Compendium;
+namespace LostSkiesDataDump.Wrappers.Compendium;
 
-public class CompendiumCategoryData(CompendiumCategory compendiumCategory) : BaseData
+public class CompendiumCategoryWrapper(CompendiumCategory compendiumCategory) : BaseWrapper
 {
     private readonly CompendiumCategory compendiumCategory = compendiumCategory;
 
