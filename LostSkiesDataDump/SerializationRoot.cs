@@ -23,18 +23,10 @@ namespace LostSkiesDataDump;
 
 public class SerializationRoot
 {
-    private CompendiumServiceWrapper _compendium;
-
-    public CompendiumServiceWrapper Compendium
-    {
-        get
-        {
-            return _compendium;
-        }
-    }
+    public CompendiumServiceWrapper Compendium { get; private set; }
 
     public void SetCompendiumService(ICompendiumService compendiumService)
     {
-        _compendium = new(compendiumService);
+        Compendium = new(compendiumService);
     }
 }
