@@ -14,6 +14,33 @@
                 "isDefault": true
             },
             "problemMatcher": "$msCompile"
+        },
+        {
+            "type": "shell",
+            "label": "Open Data File",
+            "command": "code",
+            "args": [
+                "C:/Program Files (x86)/Steam/steamapps/common/Wild Skies/LostSkies_Data/LostSkiesDataDump/data.json"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "Open Log File",
+            "command": "code",
+            "args": [
+                "$env:APPDATA${/}com.kesomannen.gale${/}lost-skies${/}profiles${/}Default${/}BepInEx${/}LogOutput.log"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "Open Error Log File",
+            "command": "code",
+            "args": [
+                "$env:APPDATA${/}com.kesomannen.gale${/}lost-skies${/}profiles${/}Default${/}BepInEx${/}ErrorLog.log"
+            ],
+            "problemMatcher": []
         }
     ]
 }
