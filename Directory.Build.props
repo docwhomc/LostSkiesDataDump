@@ -23,6 +23,4 @@
     <PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=./</PathMap>
   </PropertyGroup>
 
-  <Import Project="$(SolutionRoot)/Config.Build.user.props" />
-
 </Project>

@@ -24,4 +24,6 @@
     </Reference>
   </ItemGroup>
 
+  <Import Project="$(SolutionRoot)/Config.Build.user.props" />
+
 </Project>
