@@ -23,6 +23,8 @@ using BepInEx.Configuration;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
+using LostSkiesDataDump.Converters;
+using LostSkiesDataDump.Converters.Compendium;
 using UnityEngine;
 
 namespace LostSkiesDataDump;
@@ -85,39 +87,21 @@ public class Plugin : BasePlugin
         }
     }
 
-    public static string BaseOutputDirectory
-    {
-        get
-        {
-            return s_configBaseOutputDirectory.Value;
-        }
-    }
-
-    public static string IconOutputDirectory
-    {
-        get
-        {
-            return Path.Join(BaseOutputDirectory, s_configIconOutputDirectory.Value);
-        }
-    }
-
-    public static string TextOutputFile
-    {
-        get
-        {
-            return Path.Join(BaseOutputDirectory, s_configTextOutputFile.Value);
-        }
-    }
+    public static string BaseOutputDirectory => s_configBaseOutputDirectory.Value;
+    public static string IconOutputDirectory => Path.Join(BaseOutputDirectory, s_configIconOutputDirectory.Value);
+    public static string TextOutputFile => Path.Join(BaseOutputDirectory, s_configTextOutputFile.Value);
 
     public static void DumpData()
     {
-        Log.LogInfo("Dumping data.");
+        Log.LogInfo("Dumping data");
         Log.LogInfo(Directory.CreateDirectory(BaseOutputDirectory));
         using FileStream textOutputStream = File.Create(TextOutputFile);
         JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
-        Log.LogInfo("Serializing data.");
+        jsonSerializerOptions.Converters.Add(new CLocalizedString());
+        jsonSerializerOptions.Converters.Add(new CICompendiumService());
+        jsonSerializerOptions.Converters.Add(new CCompendiumCategory());
+        jsonSerializerOptions.Converters.Add(new CCompendiumEntry());
         JsonSerializer.Serialize(textOutputStream, SerializationRoot, jsonSerializerOptions);
-        Log.LogInfo("Data serialized.");
-        Log.LogInfo("Data dump complete.");
+        Log.LogInfo("Data dump complete");
     }
 }

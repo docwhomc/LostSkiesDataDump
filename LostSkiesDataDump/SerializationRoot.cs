@@ -16,17 +16,16 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using LostSkiesDataDump.Wrappers.Compendium;
+using System;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Compendium;
 using WildSkies.Service;
 
 namespace LostSkiesDataDump;
 
+[Serializable]
 public class SerializationRoot
 {
-    public CompendiumServiceWrapper Compendium { get; private set; }
-
-    public void SetCompendiumService(ICompendiumService compendiumService)
-    {
-        Compendium = new(compendiumService);
-    }
+    [JsonConverter(typeof(CICompendiumService))]
+    public ICompendiumService CompendiumService { get; set; }
 }

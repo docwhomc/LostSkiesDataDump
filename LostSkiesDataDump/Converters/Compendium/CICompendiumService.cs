@@ -17,27 +17,24 @@
 */
 
 using System;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using UnityEngine.Localization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using WildSkies.Service;
 
-namespace LostSkiesDataDump.Wrappers;
+namespace LostSkiesDataDump.Converters.Compendium;
 
-public abstract class BaseWrapper
+public class CICompendiumService : JsonConverter<ICompendiumService>
 {
-    public abstract string GetIdentifier();
-
-    public string PreSerialize(LocalizedString localizedString, [CallerArgumentExpression(nameof(localizedString))] string expression = null)
+    public override ICompendiumService Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        try
-        {
-            return localizedString?.GetLocalizedString();
-        }
-        catch (Exception exception)
-        {
-            Plugin.Log.LogWarning($"Unable to serialize LocalizedString {GetType().FullName}<{GetIdentifier()}>.{expression.Split(".").Last()}");
-            Plugin.Log.LogDebug(exception);
-            return null;
-        }
+        throw new NotImplementedException();
+    }
+
+    public override void Write(Utf8JsonWriter writer, ICompendiumService value, JsonSerializerOptions options)
+    {
+        writer.WriteStartObject();
+        ConverterUtilities.WriteProperty(writer, value.Categories, nameof(value.Categories), options);
+        ConverterUtilities.WriteProperty(writer, value.Entries, nameof(value.Entries), options);
+        writer.WriteEndObject();
     }
 }
