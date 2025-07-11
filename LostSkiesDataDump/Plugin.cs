@@ -89,11 +89,16 @@ public class Plugin : BasePlugin
         Log.LogInfo(Directory.CreateDirectory(BaseOutputDirectory));
         using FileStream textOutputStream = File.Create(TextOutputFile);
         JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
-        jsonSerializerOptions.Converters.Add(new CLocalizedString());
-        jsonSerializerOptions.Converters.Add(new CICompendiumService());
-        jsonSerializerOptions.Converters.Add(new CCompendiumCategory());
-        jsonSerializerOptions.Converters.Add(new CCompendiumEntry());
+        AddConverters(jsonSerializerOptions);
         JsonSerializer.Serialize(textOutputStream, SerializationRoot, jsonSerializerOptions);
         Log.LogInfo("Data dump complete");
+    }
+
+    public static void AddConverters(JsonSerializerOptions options)
+    {
+        options.Converters.Add(new CLocalizedString());
+        options.Converters.Add(new CICompendiumService());
+        options.Converters.Add(new CCompendiumCategory());
+        options.Converters.Add(new CCompendiumEntry());
     }
 }
