@@ -78,15 +78,7 @@ public class Plugin : BasePlugin
         return base.Unload();
     }
 
-    public static SerializationRoot SerializationRoot
-    {
-        get
-        {
-            s_serializationRoot ??= new();
-            return s_serializationRoot;
-        }
-    }
-
+    public static SerializationRoot SerializationRoot => s_serializationRoot ??= new();
     public static string BaseOutputDirectory => s_configBaseOutputDirectory.Value;
     public static string IconOutputDirectory => Path.Join(BaseOutputDirectory, s_configIconOutputDirectory.Value);
     public static string TextOutputFile => Path.Join(BaseOutputDirectory, s_configTextOutputFile.Value);
