@@ -27,7 +27,7 @@ namespace LostSkiesDataDump;
 
 class Patch
 {
-    [HarmonyPatch(typeof(UIInputMediator), "Update")]
+    [HarmonyPatch(typeof(UIInputMediator), nameof(UIInputMediator.Update))]
     [HarmonyPrefix]
     public static void UIInputMediator_Update(UIInputMediator __instance)
     {
@@ -42,7 +42,7 @@ class Patch
         }
     }
 
-    [HarmonyPatch(typeof(CompendiumUiMediator), "Initialise")]
+    [HarmonyPatch(typeof(CompendiumUiMediator), nameof(CompendiumUiMediator.Initialise))]
     [HarmonyPrefix]
     public static void CompendiumUiMediator_Initialise(CompendiumUiMediator __instance, [DefaultParameterValue(null)] IUIService uiService, [DefaultParameterValue(null)] ICompendiumService compendiumService, [DefaultParameterValue(null)] IPlayerGuideService playerGuideService, [DefaultParameterValue(null)] IPlayerInventoryService playerInventoryService, [DefaultParameterValue(null)] ICraftingService craftingService)
     {
