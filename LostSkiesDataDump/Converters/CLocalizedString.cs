@@ -18,49 +18,38 @@
 
 using System;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 
 namespace LostSkiesDataDump.Converters;
 
-public class CLocalizedString : JsonConverter<LocalizedString>
+public class CLocalizedString<T> : BaseConverter<T> where T : LocalizedString
 {
-    public override LocalizedString Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, LocalizedString value, JsonSerializerOptions options)
-    {
-        writer.WriteStartObject();
-        if (!ConverterUtilities.WriteReference(writer, value, options))
+        if (HasTableReference(value))
         {
-            if (HasTableReference(value))
+            var initialLocale = value.LocaleOverride;
+            try
             {
-                var initialLocale = value.LocaleOverride;
-                try
+                var availableLocales = LocalizationSettings.AvailableLocales;
+                foreach (var locale in availableLocales.Locales)
                 {
-                    var availableLocales = LocalizationSettings.AvailableLocales;
-                    foreach (var locale in availableLocales.Locales)
-                    {
-                        var localeString = locale.ToString();
-                        var encodedLocale = ConverterUtilities.EncodeName(localeString, options);
-                        value.LocaleOverride = locale;
-                        var stringValue = value.GetLocalizedString();
-                        writer.WriteString(encodedLocale, stringValue);
-                    }
+                    var localeString = locale.ToString();
+                    var encodedLocale = EncodeName(localeString, options);
+                    value.LocaleOverride = locale;
+                    var stringValue = value.GetLocalizedString();
+                    writer.WriteString(encodedLocale, stringValue);
                 }
-                catch (Exception e)
-                {
-                    Plugin.Log.LogError(e);
-                }
-                value.LocaleOverride = initialLocale;
             }
-            else
-                Plugin.Log.LogWarning("Unable to serialize LocalizedString that does not specify a table collection");
+            catch (Exception e)
+            {
+                Plugin.Log.LogError(e);
+            }
+            value.LocaleOverride = initialLocale;
         }
-        writer.WriteEndObject();
+        else
+            Plugin.Log.LogWarning("Unable to serialize LocalizedString that does not specify a table collection");
     }
 
     public static bool HasTableReference(LocalizedString localizedString) => localizedString.TableReference is not null && (localizedString.TableReference.TableCollectionName is not null || localizedString.TableReference.TableCollectionNameGuid != Il2CppSystem.Guid.Empty);

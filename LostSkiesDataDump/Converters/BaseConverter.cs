@@ -23,10 +23,25 @@ using Il2CppSystem.Collections.Generic;
 
 namespace LostSkiesDataDump.Converters;
 
-public static class ConverterUtilities
+public abstract class BaseConverter<V> : JsonConverter<V>
 {
     public const string ID_KEY = "$id";
     public const string REFERENCE_KEY = "$ref";
+
+    public override V Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Write(Utf8JsonWriter writer, V value, JsonSerializerOptions options)
+    {
+        writer.WriteStartObject();
+        if (!WriteReference(writer, value, options))
+            WriteObjectBody(writer, value, options);
+        writer.WriteEndObject();
+    }
+
+    public abstract void WriteObjectBody(Utf8JsonWriter writer, V value, JsonSerializerOptions options);
 
     public static JsonEncodedText EncodeName(string name, JsonSerializerOptions options)
     {

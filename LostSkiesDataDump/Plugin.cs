@@ -27,6 +27,8 @@ using HarmonyLib;
 using LostSkiesDataDump.Converters;
 using LostSkiesDataDump.Converters.Compendium;
 using UnityEngine;
+using UnityEngine.Localization;
+using WildSkies.Service;
 
 namespace LostSkiesDataDump;
 
@@ -125,9 +127,9 @@ public class Plugin : BasePlugin
 
     public static void AddConverters(JsonSerializerOptions options)
     {
-        options.Converters.Add(new CLocalizedString());
-        options.Converters.Add(new CICompendiumService());
-        options.Converters.Add(new CCompendiumCategory());
-        options.Converters.Add(new CCompendiumEntry());
+        options.Converters.Add(new CLocalizedString<LocalizedString>());
+        options.Converters.Add(new CICompendiumService<ICompendiumService>());
+        options.Converters.Add(new CCompendiumCategory<CompendiumCategory>());
+        options.Converters.Add(new CCompendiumEntry<CompendiumEntry>());
     }
 }

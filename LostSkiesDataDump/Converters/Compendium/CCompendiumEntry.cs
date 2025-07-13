@@ -16,46 +16,34 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace LostSkiesDataDump.Converters.Compendium;
 
-public class CCompendiumEntry : JsonConverter<CompendiumEntry>
+public class CCompendiumEntry<T> : BaseConverter<T> where T : CompendiumEntry
 {
-    public override CompendiumEntry Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, CompendiumEntry value, JsonSerializerOptions options)
-    {
-        writer.WriteStartObject();
-        if (!ConverterUtilities.WriteReference(writer, value, options))
+        writer.WriteString(EncodeName(nameof(value.entryId), options), value.entryId);
+        writer.WriteString(EncodeName(nameof(value.mainCategoryId), options), value.mainCategoryId);
+        writer.WriteString(EncodeName(nameof(value.subCategoryId), options), value.subCategoryId);
+        writer.WriteString(EncodeName(nameof(value.mainCategoryRawString), options), value.mainCategoryRawString);
+        writer.WriteString(EncodeName(nameof(value.entryTitleRawString), options), value.entryTitleRawString);
+        WriteProperty(writer, value.mainCategoryString, nameof(value.mainCategoryString), options);
+        WriteProperty(writer, value.subCategoryString, nameof(value.subCategoryString), options);
+        WriteProperty(writer, value.entryTitleString, nameof(value.entryTitleString), options);
+        WriteProperty(writer, value.bodyTextString, nameof(value.bodyTextString), options);
+        writer.WriteString(EncodeName(nameof(value.itemId), options), value.itemId);
+        writer.WriteString(EncodeName(nameof(value.entityId), options), value.entityId);
+        writer.WritePropertyName(EncodeName(nameof(value.unlockIds), options));
+        writer.WriteStartArray();
+        foreach (var unlockId in value.unlockIds)
         {
-            writer.WriteString(ConverterUtilities.EncodeName(nameof(value.entryId), options), value.entryId);
-            writer.WriteString(ConverterUtilities.EncodeName(nameof(value.mainCategoryId), options), value.mainCategoryId);
-            writer.WriteString(ConverterUtilities.EncodeName(nameof(value.subCategoryId), options), value.subCategoryId);
-            writer.WriteString(ConverterUtilities.EncodeName(nameof(value.mainCategoryRawString), options), value.mainCategoryRawString);
-            writer.WriteString(ConverterUtilities.EncodeName(nameof(value.entryTitleRawString), options), value.entryTitleRawString);
-            ConverterUtilities.WriteProperty(writer, value.mainCategoryString, nameof(value.mainCategoryString), options);
-            ConverterUtilities.WriteProperty(writer, value.subCategoryString, nameof(value.subCategoryString), options);
-            ConverterUtilities.WriteProperty(writer, value.entryTitleString, nameof(value.entryTitleString), options);
-            ConverterUtilities.WriteProperty(writer, value.bodyTextString, nameof(value.bodyTextString), options);
-            writer.WriteString(ConverterUtilities.EncodeName(nameof(value.itemId), options), value.itemId);
-            writer.WriteString(ConverterUtilities.EncodeName(nameof(value.entityId), options), value.entityId);
-            writer.WritePropertyName(ConverterUtilities.EncodeName(nameof(value.unlockIds), options));
-            writer.WriteStartArray();
-            foreach (var unlockId in value.unlockIds)
-            {
-                writer.WriteStringValue(unlockId);
-            }
-            writer.WriteEndArray();
-            // TODO: Sprite icon
-            writer.WriteString(ConverterUtilities.EncodeName(nameof(value.videoName), options), value.videoName);
-            writer.WriteString(ConverterUtilities.EncodeName(nameof(value.conversationHistoryId), options), value.conversationHistoryId);
+            writer.WriteStringValue(unlockId);
         }
-        writer.WriteEndObject();
+        writer.WriteEndArray();
+        // TODO: Sprite icon
+        writer.WriteString(EncodeName(nameof(value.videoName), options), value.videoName);
+        writer.WriteString(EncodeName(nameof(value.conversationHistoryId), options), value.conversationHistoryId);
     }
 }

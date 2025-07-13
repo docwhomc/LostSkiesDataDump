@@ -26,6 +26,6 @@ namespace LostSkiesDataDump;
 [Serializable]
 public class SerializationRoot
 {
-    [JsonConverter(typeof(CICompendiumService))]
+    [JsonConverter(typeof(CICompendiumService<ICompendiumService>))]
     public ICompendiumService CompendiumService { get; set; }
 }

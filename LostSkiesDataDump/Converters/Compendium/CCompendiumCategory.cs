@@ -22,28 +22,18 @@ using System.Text.Json.Serialization;
 
 namespace LostSkiesDataDump.Converters.Compendium;
 
-public class CCompendiumCategory : JsonConverter<CompendiumCategory>
+public class CCompendiumCategory<T> : BaseConverter<T> where T : CompendiumCategory
 {
-    public override CompendiumCategory Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, CompendiumCategory value, JsonSerializerOptions options)
-    {
-        writer.WriteStartObject();
-        if (!ConverterUtilities.WriteReference(writer, value, options))
-        {
-            writer.WriteString(ConverterUtilities.EncodeName(nameof(value.Id), options), value.Id);
-            ConverterUtilities.WriteProperty(writer, value.Name, nameof(value.Name), options);
-            writer.WriteBoolean(ConverterUtilities.EncodeName(nameof(value.IsMainCategory), options), value.IsMainCategory);
-            writer.WriteNumber(ConverterUtilities.EncodeName(nameof(value.PreferredIndex), options), value.PreferredIndex);
-            writer.WritePropertyName(ConverterUtilities.EncodeName(nameof(value.SubCategories), options));
-            writer.WriteStartArray();
-            foreach (var subCategory in value.SubCategories)
-                writer.WriteStringValue(subCategory.Id);
-            writer.WriteEndArray();
-        }
-        writer.WriteEndObject();
+        writer.WriteString(EncodeName(nameof(value.Id), options), value.Id);
+        WriteProperty(writer, value.Name, nameof(value.Name), options);
+        writer.WriteBoolean(EncodeName(nameof(value.IsMainCategory), options), value.IsMainCategory);
+        writer.WriteNumber(EncodeName(nameof(value.PreferredIndex), options), value.PreferredIndex);
+        writer.WritePropertyName(EncodeName(nameof(value.SubCategories), options));
+        writer.WriteStartArray();
+        foreach (var subCategory in value.SubCategories)
+            writer.WriteStringValue(subCategory.Id);
+        writer.WriteEndArray();
     }
 }
