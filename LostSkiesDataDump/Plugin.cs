@@ -16,6 +16,7 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System;
 using System.IO;
 using System.Text.Json;
 using BepInEx;
@@ -32,37 +33,66 @@ namespace LostSkiesDataDump;
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 public class Plugin : BasePlugin
 {
-    internal static new ManualLogSource Log;
-    private static ConfigEntry<string> s_configBaseOutputDirectory;
-    private static ConfigEntry<string> s_configIconOutputDirectory;
-    private static ConfigEntry<string> s_configTextOutputFile;
-    private static Harmony s_harmony;
+    private static ManualLogSource s_log = null;
+    internal static new ManualLogSource Log
+    {
+        get => s_log ?? throw new InvalidOperationException($"{MyPluginInfo.PLUGIN_GUID} not yet initialized");
+        private set => s_log = value;
+    }
+
+    private static ConfigEntry<string> s_configBaseOutputDirectory = null;
+    protected static ConfigEntry<string> ConfigBaseOutputDirectory
+    {
+        get => s_configBaseOutputDirectory ?? throw new InvalidOperationException($"{MyPluginInfo.PLUGIN_GUID} not yet initialized");
+        private set => s_configBaseOutputDirectory = value;
+    }
+    public static string BaseOutputDirectory => ConfigBaseOutputDirectory.Value;
+
+    private static ConfigEntry<string> s_configIconOutputDirectory = null;
+    protected static ConfigEntry<string> ConfigIconOutputDirectory
+    {
+        get => s_configIconOutputDirectory ?? throw new InvalidOperationException($"{MyPluginInfo.PLUGIN_GUID} not yet initialized");
+        private set => s_configIconOutputDirectory = value;
+    }
+    public static string IconOutputDirectory => Path.Join(BaseOutputDirectory, ConfigIconOutputDirectory.Value);
+
+    private static ConfigEntry<string> s_configTextOutputFile = null;
+    protected static ConfigEntry<string> ConfigTextOutputFile
+    {
+        get => s_configTextOutputFile ?? throw new InvalidOperationException($"{MyPluginInfo.PLUGIN_GUID} not yet initialized");
+        private set => s_configTextOutputFile = value;
+    }
+    public static string TextOutputFile => Path.Join(BaseOutputDirectory, ConfigTextOutputFile.Value);
+
+    private static Harmony s_harmony = null;
+
     private static SerializationRoot s_serializationRoot = null;
+    public static SerializationRoot SerializationRoot => s_serializationRoot ??= new();
 
     public override void Load()
     {
         Log = base.Log;
         Log.LogInfo($"Loading plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION}...");
         Log.LogInfo($"  - config file: {Config.ConfigFilePath}{(File.Exists(Config.ConfigFilePath) ? "" : " (does not exist)")}");
-        s_configBaseOutputDirectory = Config.Bind(
+        ConfigBaseOutputDirectory = Config.Bind(
             "Output",
             "BaseDirectory",
             Path.Join(Application.dataPath, MyPluginInfo.PLUGIN_GUID),
             "The (base) directory that this plugin saves its output to."
         );
         Log.LogInfo($"  - base output directory: {BaseOutputDirectory}");
-        s_configIconOutputDirectory = Config.Bind(
+        ConfigIconOutputDirectory = Config.Bind(
             "Output",
             "IconDirectory",
             "icons",
-            $"The directory that this plugin saves icons files to.  Its path is relative to that of the base output directory ({s_configBaseOutputDirectory.Definition.Section}.{s_configBaseOutputDirectory.Definition.Key})."
+            $"The directory that this plugin saves icons files to.  Its path is relative to that of the base output directory ({ConfigBaseOutputDirectory.Definition.Section}.{ConfigBaseOutputDirectory.Definition.Key})."
         );
         Log.LogInfo($"  - icon output directory: {IconOutputDirectory}");
-        s_configTextOutputFile = Config.Bind(
+        ConfigTextOutputFile = Config.Bind(
             "Output",
             "TextFile",
             "data.json",
-            $"The file that this plugin saves text output to.  Its path is relative to that of the base output directory ({s_configBaseOutputDirectory.Definition.Section}.{s_configBaseOutputDirectory.Definition.Key})."
+            $"The file that this plugin saves text output to.  Its path is relative to that of the base output directory ({ConfigBaseOutputDirectory.Definition.Section}.{ConfigBaseOutputDirectory.Definition.Key})."
         );
         Log.LogInfo($"  - text output file: {TextOutputFile}");
         s_harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
@@ -77,11 +107,6 @@ public class Plugin : BasePlugin
         Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} has unloaded.");
         return base.Unload();
     }
-
-    public static SerializationRoot SerializationRoot => s_serializationRoot ??= new();
-    public static string BaseOutputDirectory => s_configBaseOutputDirectory.Value;
-    public static string IconOutputDirectory => Path.Join(BaseOutputDirectory, s_configIconOutputDirectory.Value);
-    public static string TextOutputFile => Path.Join(BaseOutputDirectory, s_configTextOutputFile.Value);
 
     public static void DumpData()
     {
