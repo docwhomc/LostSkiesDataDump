@@ -78,43 +78,6 @@ public abstract class BaseConverter<V> : JsonConverter<V>
         return null;
     }
 
-    // Returns true if REFERENCE_KEY is written, false if ID ID_KEY is written or if there is no reference.
-    public static bool WriteReference<T>(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
-    {
-        if (value is null)
-            return false;
-        if (options.ReferenceHandler?.CreateResolver() is not ReferenceResolver resolver)
-            return false;
-        var reference = resolver.GetReference(value, out bool alreadyExists);
-        if (reference is null)
-            return false;
-        writer.WriteString(alreadyExists ? REFERENCE_KEY : ID_KEY, reference);
-        return alreadyExists;
-    }
-
-    public static void WriteProperty<T>(Utf8JsonWriter writer, T value, string name, JsonSerializerOptions options)
-    {
-        JsonConverter<T> valueConverter = GetConverter<T>(name, options);
-        var encodedName = EncodeName(name, options);
-        try
-        {
-            if (valueConverter is not null)
-            {
-                writer.WritePropertyName(encodedName);
-                valueConverter.Write(writer, value, options);
-            }
-            else
-            {
-                Plugin.Log.LogDebug($"Falling back to JsonSerializer.Serialize() for value {value}");
-                JsonSerializer.Serialize(writer, value, options);
-            }
-        }
-        catch (Exception e)
-        {
-            Plugin.Log.LogError(e);
-        }
-    }
-
     public static void WriteArray<T>(Utf8JsonWriter writer, List<T> value, string name, JsonSerializerOptions options)
     {
         JsonConverter<T> valueConverter = GetConverter<T>(name, options);
@@ -140,5 +103,42 @@ public abstract class BaseConverter<V> : JsonConverter<V>
         {
             Plugin.Log.LogError(e);
         }
+    }
+
+    public static void WriteProperty<T>(Utf8JsonWriter writer, T value, string name, JsonSerializerOptions options)
+    {
+        JsonConverter<T> valueConverter = GetConverter<T>(name, options);
+        var encodedName = EncodeName(name, options);
+        try
+        {
+            if (valueConverter is not null)
+            {
+                writer.WritePropertyName(encodedName);
+                valueConverter.Write(writer, value, options);
+            }
+            else
+            {
+                Plugin.Log.LogDebug($"Falling back to JsonSerializer.Serialize() for value {value}");
+                JsonSerializer.Serialize(writer, value, options);
+            }
+        }
+        catch (Exception e)
+        {
+            Plugin.Log.LogError(e);
+        }
+    }
+
+    // Returns true if REFERENCE_KEY is written, false if ID ID_KEY is written or if there is no reference.
+    public static bool WriteReference<T>(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    {
+        if (value is null)
+            return false;
+        if (options.ReferenceHandler?.CreateResolver() is not ReferenceResolver resolver)
+            return false;
+        var reference = resolver.GetReference(value, out bool alreadyExists);
+        if (reference is null)
+            return false;
+        writer.WriteString(alreadyExists ? REFERENCE_KEY : ID_KEY, reference);
+        return alreadyExists;
     }
 }
