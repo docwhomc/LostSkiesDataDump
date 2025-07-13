@@ -16,16 +16,18 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System.Text.Json;
-using WildSkies.Service;
+using scg = System.Collections.Generic;
+using icg = Il2CppSystem.Collections.Generic;
 
-namespace LostSkiesDataDump.Converters.Compendium;
+namespace LostSkiesDataDump;
 
-public class CICompendiumService<T> : BaseConverter<T> where T : ICompendiumService
+public static class ToSystemEnumerableExtensions
 {
-    public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    public static scg.IEnumerable<T> ToSystemEnumerable<T>(this icg.List<T> values)
     {
-        WriteArray(writer, value.Categories.ToSystemEnumerable(), nameof(value.Categories), options);
-        WriteArray(writer, value.Entries.ToSystemEnumerable(), nameof(value.Entries), options);
+        foreach (var value in values)
+        {
+            yield return value;
+        }
     }
 }

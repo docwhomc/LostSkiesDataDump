@@ -17,9 +17,9 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Il2CppSystem.Collections.Generic;
 
 namespace LostSkiesDataDump.Converters;
 
@@ -78,7 +78,7 @@ public abstract class BaseConverter<V> : JsonConverter<V>
         return null;
     }
 
-    public static void WriteArray<T>(Utf8JsonWriter writer, List<T> value, string name, JsonSerializerOptions options)
+    public static void WriteArray<T>(Utf8JsonWriter writer, IEnumerable<T> value, string name, JsonSerializerOptions options)
     {
         JsonConverter<T> valueConverter = GetConverter<T>(name, options);
         try
