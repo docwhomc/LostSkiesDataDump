@@ -30,8 +30,7 @@ public class CCompendiumCategory<T> : BaseConverter<T> where T : CompendiumCateg
         WriteProperty(writer, value.Name, nameof(value.Name), options);
         writer.WriteBoolean(EncodeName(nameof(value.IsMainCategory), options), value.IsMainCategory);
         writer.WriteNumber(EncodeName(nameof(value.PreferredIndex), options), value.PreferredIndex);
-        writer.WritePropertyName(EncodeName(nameof(value.SubCategories), options));
-        writer.WriteStartArray();
+        writer.WriteStartArray(EncodeName(nameof(value.SubCategories), options));
         foreach (var subCategory in value.SubCategories)
             writer.WriteStringValue(subCategory.Id);
         writer.WriteEndArray();

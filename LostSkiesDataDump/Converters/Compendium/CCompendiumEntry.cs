@@ -35,8 +35,7 @@ public class CCompendiumEntry<T> : BaseConverter<T> where T : CompendiumEntry
         WriteProperty(writer, value.bodyTextString, nameof(value.bodyTextString), options);
         writer.WriteString(EncodeName(nameof(value.itemId), options), value.itemId);
         writer.WriteString(EncodeName(nameof(value.entityId), options), value.entityId);
-        writer.WritePropertyName(EncodeName(nameof(value.unlockIds), options));
-        writer.WriteStartArray();
+        writer.WriteStartArray(EncodeName(nameof(value.unlockIds), options));
         foreach (var unlockId in value.unlockIds)
         {
             writer.WriteStringValue(unlockId);

@@ -81,11 +81,9 @@ public abstract class BaseConverter<V> : JsonConverter<V>
     public static void WriteArray<T>(Utf8JsonWriter writer, List<T> value, string name, JsonSerializerOptions options)
     {
         JsonConverter<T> valueConverter = GetConverter<T>(name, options);
-        var encodedName = EncodeName(name, options);
         try
         {
-            writer.WritePropertyName(encodedName);
-            writer.WriteStartArray();
+            writer.WriteStartArray(EncodeName(name, options));
             if (valueConverter is not null)
             {
                 foreach (var element in value)
@@ -108,10 +106,9 @@ public abstract class BaseConverter<V> : JsonConverter<V>
     public static void WriteProperty<T>(Utf8JsonWriter writer, T value, string name, JsonSerializerOptions options)
     {
         JsonConverter<T> valueConverter = GetConverter<T>(name, options);
-        var encodedName = EncodeName(name, options);
         try
         {
-            writer.WritePropertyName(encodedName);
+            writer.WritePropertyName(EncodeName(name, options));
             if (valueConverter is not null)
             {
                 valueConverter.Write(writer, value, options);
