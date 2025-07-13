@@ -115,7 +115,7 @@ public abstract class BaseConverter<V> : JsonConverter<V>
         }
     }
 
-    public static void WriteProperty<T>(Utf8JsonWriter writer, List<T> value, string name, JsonSerializerOptions options)
+    public static void WriteArray<T>(Utf8JsonWriter writer, List<T> value, string name, JsonSerializerOptions options)
     {
         JsonConverter<T> valueConverter = GetConverter<T>(name, options);
         var encodedName = EncodeName(name, options);
