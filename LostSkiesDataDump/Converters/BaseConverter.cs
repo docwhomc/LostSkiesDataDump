@@ -111,9 +111,9 @@ public abstract class BaseConverter<V> : JsonConverter<V>
         var encodedName = EncodeName(name, options);
         try
         {
+            writer.WritePropertyName(encodedName);
             if (valueConverter is not null)
             {
-                writer.WritePropertyName(encodedName);
                 valueConverter.Write(writer, value, options);
             }
             else
