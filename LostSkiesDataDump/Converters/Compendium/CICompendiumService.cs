@@ -33,8 +33,11 @@ public class CICompendiumService : JsonConverter<ICompendiumService>
     public override void Write(Utf8JsonWriter writer, ICompendiumService value, JsonSerializerOptions options)
     {
         writer.WriteStartObject();
-        ConverterUtilities.WriteProperty(writer, value.Categories, nameof(value.Categories), options);
-        ConverterUtilities.WriteProperty(writer, value.Entries, nameof(value.Entries), options);
+        if (!ConverterUtilities.WriteReference(writer, value, options))
+        {
+            ConverterUtilities.WriteProperty(writer, value.Categories, nameof(value.Categories), options);
+            ConverterUtilities.WriteProperty(writer, value.Entries, nameof(value.Entries), options);
+        }
         writer.WriteEndObject();
     }
 }

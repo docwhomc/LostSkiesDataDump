@@ -25,6 +25,9 @@ namespace LostSkiesDataDump.Converters;
 
 public static class ConverterUtilities
 {
+    public const string ID_KEY = "$id";
+    public const string REFERENCE_KEY = "$ref";
+
     public static JsonEncodedText EncodeName(string name, JsonSerializerOptions options)
     {
         return JsonEncodedText.Encode(options.PropertyNamingPolicy?.ConvertName(name) ?? name);
@@ -58,6 +61,20 @@ public static class ConverterUtilities
             return valueConverter;
         Plugin.Log.LogWarning($"GetConverter<{typeToConvert}>({name}, {options}): {converter} is not an instance of JsonConverter<{typeToConvert}>");
         return null;
+    }
+
+    // Returns true if REFERENCE_KEY is written, false if ID ID_KEY is written or if there is no reference.
+    public static bool WriteReference<T>(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    {
+        if (value is null)
+            return false;
+        if (options.ReferenceHandler?.CreateResolver() is not ReferenceResolver resolver)
+            return false;
+        var reference = resolver.GetReference(value, out bool alreadyExists);
+        if (reference is null)
+            return false;
+        writer.WriteString(alreadyExists ? REFERENCE_KEY : ID_KEY, reference);
+        return alreadyExists;
     }
 
     public static void WriteProperty<T>(Utf8JsonWriter writer, T value, string name, JsonSerializerOptions options)

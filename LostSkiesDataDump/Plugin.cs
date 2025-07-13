@@ -115,7 +115,11 @@ public class Plugin : BasePlugin
         using FileStream textOutputStream = File.Create(TextOutputFile);
         JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
         AddConverters(jsonSerializerOptions);
+        var referenceHandler = new DataReferenceHandler();
+        jsonSerializerOptions.ReferenceHandler = referenceHandler;
         JsonSerializer.Serialize(textOutputStream, SerializationRoot, jsonSerializerOptions);
+        // Reset after serializing to avoid out of bounds memory growth in the resolver.
+        referenceHandler.Reset();
         Log.LogInfo("Data dump complete");
     }
 

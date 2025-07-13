@@ -34,29 +34,32 @@ public class CLocalizedString : JsonConverter<LocalizedString>
     public override void Write(Utf8JsonWriter writer, LocalizedString value, JsonSerializerOptions options)
     {
         writer.WriteStartObject();
-        if (HasTableReference(value))
+        if (!ConverterUtilities.WriteReference(writer, value, options))
         {
-            var initialLocale = value.LocaleOverride;
-            try
+            if (HasTableReference(value))
             {
-                var availableLocales = LocalizationSettings.AvailableLocales;
-                foreach (var locale in availableLocales.Locales)
+                var initialLocale = value.LocaleOverride;
+                try
                 {
-                    var localeString = locale.ToString();
-                    var encodedLocale = ConverterUtilities.EncodeName(localeString, options);
-                    value.LocaleOverride = locale;
-                    var stringValue = value.GetLocalizedString();
-                    writer.WriteString(encodedLocale, stringValue);
+                    var availableLocales = LocalizationSettings.AvailableLocales;
+                    foreach (var locale in availableLocales.Locales)
+                    {
+                        var localeString = locale.ToString();
+                        var encodedLocale = ConverterUtilities.EncodeName(localeString, options);
+                        value.LocaleOverride = locale;
+                        var stringValue = value.GetLocalizedString();
+                        writer.WriteString(encodedLocale, stringValue);
+                    }
                 }
+                catch (Exception e)
+                {
+                    Plugin.Log.LogError(e);
+                }
+                value.LocaleOverride = initialLocale;
             }
-            catch (Exception e)
-            {
-                Plugin.Log.LogError(e);
-            }
-            value.LocaleOverride = initialLocale;
+            else
+                Plugin.Log.LogWarning("Unable to serialize LocalizedString that does not specify a table collection");
         }
-        else
-            Plugin.Log.LogWarning("Unable to serialize LocalizedString that does not specify a table collection");
         writer.WriteEndObject();
     }
 
