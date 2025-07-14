@@ -2,5 +2,10 @@
     "dotnet.defaultSolution": "LostSkiesDataDump.sln",
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
-    "files.trimTrailingWhitespace": true
+    "files.trimTrailingWhitespace": true,
+    "[csharp]": {
+        "editor.detectIndentation": false,
+        "editor.indentSize": "tabSize",
+        "editor.tabSize": 4
+    }
 }
