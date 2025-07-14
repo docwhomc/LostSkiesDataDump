@@ -19,6 +19,7 @@
 using System;
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
@@ -131,5 +132,6 @@ public class Plugin : BasePlugin
         options.Converters.Add(new CICompendiumService<ICompendiumService>());
         options.Converters.Add(new CCompendiumCategory<CompendiumCategory>());
         options.Converters.Add(new CCompendiumEntry<CompendiumEntry>());
+        options.Converters.Add(new JsonStringEnumConverter());
     }
 }
