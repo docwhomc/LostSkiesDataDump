@@ -29,10 +29,10 @@ public class CCompendiumEntry<T> : BaseConverter<T> where T : CompendiumEntry
         writer.WriteString(EncodeName(nameof(value.subCategoryId), options), value.subCategoryId);
         writer.WriteString(EncodeName(nameof(value.mainCategoryRawString), options), value.mainCategoryRawString);
         writer.WriteString(EncodeName(nameof(value.entryTitleRawString), options), value.entryTitleRawString);
-        WriteProperty(writer, value.mainCategoryString, nameof(value.mainCategoryString), options);
-        WriteProperty(writer, value.subCategoryString, nameof(value.subCategoryString), options);
-        WriteProperty(writer, value.entryTitleString, nameof(value.entryTitleString), options);
-        WriteProperty(writer, value.bodyTextString, nameof(value.bodyTextString), options);
+        WriteProperty(writer, nameof(value.mainCategoryString), value.mainCategoryString, options);
+        WriteProperty(writer, nameof(value.subCategoryString), value.subCategoryString, options);
+        WriteProperty(writer, nameof(value.entryTitleString), value.entryTitleString, options);
+        WriteProperty(writer, nameof(value.bodyTextString), value.bodyTextString, options);
         writer.WriteString(EncodeName(nameof(value.itemId), options), value.itemId);
         writer.WriteString(EncodeName(nameof(value.entityId), options), value.entityId);
         writer.WriteStartArray(EncodeName(nameof(value.unlockIds), options));

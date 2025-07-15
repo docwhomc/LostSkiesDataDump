@@ -25,7 +25,7 @@ public class CCompendiumCategory<T> : BaseConverter<T> where T : CompendiumCateg
     public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
         writer.WriteString(EncodeName(nameof(value.Id), options), value.Id);
-        WriteProperty(writer, value.Name, nameof(value.Name), options);
+        WriteProperty(writer, nameof(value.Name), value.Name, options);
         writer.WriteBoolean(EncodeName(nameof(value.IsMainCategory), options), value.IsMainCategory);
         writer.WriteNumber(EncodeName(nameof(value.PreferredIndex), options), value.PreferredIndex);
         writer.WriteStartArray(EncodeName(nameof(value.SubCategories), options));

@@ -92,7 +92,7 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
         return null;
     }
 
-    public static void WriteArray<T>(Utf8JsonWriter writer, IEnumerable<T> value, string name, JsonSerializerOptions options)
+    public static void WriteArray<T>(Utf8JsonWriter writer, string name, IEnumerable<T> value, JsonSerializerOptions options)
     {
         JsonConverter<T> valueConverter = GetConverter<T>(name, options);
         try
@@ -117,7 +117,7 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
         }
     }
 
-    public static void WriteProperty<T>(Utf8JsonWriter writer, T value, string name, JsonSerializerOptions options)
+    public static void WriteProperty<T>(Utf8JsonWriter writer, string name, T value, JsonSerializerOptions options)
     {
         JsonConverter<T> valueConverter = GetConverter<T>(name, options);
         try
