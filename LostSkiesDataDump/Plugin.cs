@@ -114,16 +114,33 @@ public class Plugin : BasePlugin
     public static void DumpData()
     {
         Log.LogInfo("Dumping data");
-        Log.LogInfo(Directory.CreateDirectory(BaseOutputDirectory));
-        using FileStream textOutputStream = File.Create(TextOutputFile);
-        JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
-        AddConverters(jsonSerializerOptions);
-        var referenceHandler = new DataReferenceHandler();
-        jsonSerializerOptions.ReferenceHandler = referenceHandler;
-        JsonSerializer.Serialize(textOutputStream, SerializationRoot, jsonSerializerOptions);
-        // Reset after serializing to avoid out of bounds memory growth in the resolver.
-        referenceHandler.Reset();
-        Log.LogInfo("Data dump complete");
+        try
+        {
+            Log.LogInfo(Directory.CreateDirectory(BaseOutputDirectory));
+            using FileStream textOutputStream = File.Create(TextOutputFile);
+            JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
+            AddConverters(jsonSerializerOptions);
+            var referenceHandler = new DataReferenceHandler();
+            jsonSerializerOptions.ReferenceHandler = referenceHandler;
+            try
+            {
+                JsonSerializer.Serialize(textOutputStream, SerializationRoot, jsonSerializerOptions);
+            }
+            finally
+            {
+                // Reset after serializing to avoid out of bounds memory growth in the resolver.
+                referenceHandler.Reset();
+            }
+        }
+        catch (Exception e)
+        {
+            Log.LogError("Error during data dump");
+            Log.LogError(e);
+        }
+        finally
+        {
+            Log.LogInfo("Data dump complete");
+        }
     }
 
     public static void AddConverters(JsonSerializerOptions options)

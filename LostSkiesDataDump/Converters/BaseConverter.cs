@@ -36,9 +36,20 @@ public abstract class BaseConverter<V> : JsonConverter<V>
     public override void Write(Utf8JsonWriter writer, V value, JsonSerializerOptions options)
     {
         writer.WriteStartObject();
-        if (!WriteReference(writer, value, options))
-            WriteObjectBody(writer, value, options);
-        writer.WriteEndObject();
+        try
+        {
+            if (!WriteReference(writer, value, options))
+                WriteObjectBody(writer, value, options);
+        }
+        catch (Exception e)
+        {
+            Plugin.Log.LogError($"Error writing {value}");
+            Plugin.Log.LogError(e);
+        }
+        finally
+        {
+            writer.WriteEndObject();
+        }
     }
 
     public abstract void WriteObjectBody(Utf8JsonWriter writer, V value, JsonSerializerOptions options);
