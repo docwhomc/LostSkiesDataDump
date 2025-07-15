@@ -135,6 +135,7 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
         }
         catch (Exception e)
         {
+            Plugin.Log.LogError($"Error writing property {name}: {value}");
             Plugin.Log.LogError(e);
         }
     }
