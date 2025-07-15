@@ -23,6 +23,8 @@ namespace LostSkiesDataDump.Converters.Compendium;
 
 public class CICompendiumService<T> : BaseConverter<T> where T : ICompendiumService
 {
+    public CICompendiumService() : base(false) { }
+
     public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
         WriteArray(writer, value.Categories.ToSystemEnumerable(), nameof(value.Categories), options);

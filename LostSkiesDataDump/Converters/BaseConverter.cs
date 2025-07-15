@@ -23,10 +23,13 @@ using System.Text.Json.Serialization;
 
 namespace LostSkiesDataDump.Converters;
 
-public abstract class BaseConverter<V> : JsonConverter<V>
+public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
 {
     public const string ID_KEY = "$id";
     public const string REFERENCE_KEY = "$ref";
+    public bool Reference = reference;
+
+    public BaseConverter() : this(true) { }
 
     public override V Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -38,7 +41,7 @@ public abstract class BaseConverter<V> : JsonConverter<V>
         writer.WriteStartObject();
         try
         {
-            if (!WriteReference(writer, value, options))
+            if (!Reference || !WriteReference(writer, value, options))
                 WriteObjectBody(writer, value, options);
         }
         catch (Exception e)
