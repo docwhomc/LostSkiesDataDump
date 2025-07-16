@@ -38,6 +38,11 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
 
     public override void Write(Utf8JsonWriter writer, V value, JsonSerializerOptions options)
     {
+        if (value is null)
+        {
+            writer.WriteNullValue();
+            return;
+        }
         writer.WriteStartObject();
         try
         {
