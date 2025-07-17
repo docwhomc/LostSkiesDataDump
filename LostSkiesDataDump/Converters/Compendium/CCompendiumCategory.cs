@@ -16,6 +16,7 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Linq;
 using System.Text.Json;
 
 namespace LostSkiesDataDump.Converters.Compendium;
@@ -28,9 +29,6 @@ public class CCompendiumCategory<T> : BaseConverter<T> where T : CompendiumCateg
         WriteProperty(writer, nameof(value.Name), value.Name, options);
         writer.WriteBoolean(EncodeName(nameof(value.IsMainCategory), options), value.IsMainCategory);
         writer.WriteNumber(EncodeName(nameof(value.PreferredIndex), options), value.PreferredIndex);
-        writer.WriteStartArray(EncodeName(nameof(value.SubCategories), options));
-        foreach (var subCategory in value.SubCategories)
-            writer.WriteStringValue(subCategory.Id);
-        writer.WriteEndArray();
+        WriteArray(writer, nameof(value.SubCategories), value.SubCategories.Select(o => o.Id), options);
     }
 }

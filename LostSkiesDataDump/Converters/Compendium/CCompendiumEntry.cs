@@ -35,12 +35,7 @@ public class CCompendiumEntry<T> : BaseConverter<T> where T : CompendiumEntry
         WriteProperty(writer, nameof(value.bodyTextString), value.bodyTextString, options);
         writer.WriteString(EncodeName(nameof(value.itemId), options), value.itemId);
         writer.WriteString(EncodeName(nameof(value.entityId), options), value.entityId);
-        writer.WriteStartArray(EncodeName(nameof(value.unlockIds), options));
-        foreach (var unlockId in value.unlockIds)
-        {
-            writer.WriteStringValue(unlockId);
-        }
-        writer.WriteEndArray();
+        WriteArray(writer, nameof(value.unlockIds), value.unlockIds, options);
         // TODO: Sprite icon
         writer.WriteString(EncodeName(nameof(value.videoName), options), value.videoName);
         writer.WriteString(EncodeName(nameof(value.conversationHistoryId), options), value.conversationHistoryId);
