@@ -72,7 +72,7 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
         Type typeToConvert = typeof(T);
         if (typeToConvert == typeof(object))
         {
-            Plugin.Log.LogWarning($"GetConverter<{typeToConvert}>({name}, {options}) -> null: no converter for object type");
+            Plugin.Log.LogWarning($"No converter for {typeToConvert} type");
             return null;
         }
         JsonConverter converter;
@@ -82,18 +82,18 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
         }
         catch (Exception e)
         {
-            Plugin.Log.LogError($"GetConverter<{typeToConvert}>({name}, {options}) -> null: unable to get converter");
+            Plugin.Log.LogError($"Error getting converter for {typeToConvert} type");
             Plugin.Log.LogError(e);
             return null;
         }
         if (converter is null)
         {
-            Plugin.Log.LogWarning($"GetConverter<{typeToConvert}>({name}, {options}) -> null: options do not contain a JsonConverter for {typeToConvert}");
+            Plugin.Log.LogDebug($"No JsonConverter for {typeToConvert} type in {options}");
             return null;
         }
         if (converter is JsonConverter<T> valueConverter)
             return valueConverter;
-        Plugin.Log.LogWarning($"GetConverter<{typeToConvert}>({name}, {options}): {converter} is not an instance of JsonConverter<{typeToConvert}>");
+        Plugin.Log.LogWarning($"{converter} is not an instance of JsonConverter<{typeToConvert}>");
         return null;
     }
 
