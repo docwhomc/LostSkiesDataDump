@@ -56,10 +56,7 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
             Plugin.Log.LogError(message);
             Plugin.Log.LogError(e);
         }
-        finally
-        {
-            writer.WriteEndObject();
-        }
+        writer.WriteEndObject();
     }
 
     public abstract void WriteObjectBody(Utf8JsonWriter writer, V value, JsonSerializerOptions options);
