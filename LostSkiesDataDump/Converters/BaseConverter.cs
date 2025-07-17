@@ -17,13 +17,12 @@
 */
 
 using System;
-using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace LostSkiesDataDump.Converters;
 
-public abstract class BaseConverter<T>(bool reference) : JsonConverter<T>
+public abstract partial class BaseConverter<T>(bool reference) : JsonConverter<T>
 {
     public const string ID_KEY = "$id";
     public const string REFERENCE_KEY = "$ref";
@@ -61,77 +60,6 @@ public abstract class BaseConverter<T>(bool reference) : JsonConverter<T>
 
     public abstract void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options);
 
-    public static JsonEncodedText EncodeName(string name, JsonSerializerOptions options)
-    {
-        return JsonEncodedText.Encode(options.PropertyNamingPolicy?.ConvertName(name) ?? name);
-    }
-
-    public static Action<Utf8JsonWriter, V, JsonSerializerOptions> GetSerializer<V>(JsonSerializerOptions options)
-    {
-        Type typeToConvert = typeof(V);
-        if (typeToConvert == typeof(object))
-        {
-            Plugin.Log.LogWarning($"No converter for {typeToConvert} type");
-            return JsonSerializer.Serialize;
-        }
-        JsonConverter converter;
-        try
-        {
-            converter = options?.GetConverter(typeToConvert);
-        }
-        catch (Exception e)
-        {
-            Plugin.Log.LogError($"Error getting converter for {typeToConvert} type");
-            Plugin.Log.LogError(e);
-            return JsonSerializer.Serialize;
-        }
-        if (converter is null)
-        {
-            Plugin.Log.LogDebug($"No JsonConverter for {typeToConvert} type in {options}");
-            return JsonSerializer.Serialize;
-        }
-        if (converter is JsonConverter<V> valueConverter)
-            return valueConverter.Write;
-        Plugin.Log.LogWarning($"{converter} is not an instance of JsonConverter<{typeToConvert}>");
-        return JsonSerializer.Serialize;
-    }
-
-    public static void WriteArray<V>(Utf8JsonWriter writer, string name, IEnumerable<V> value, JsonSerializerOptions options)
-    {
-        var serializer = GetSerializer<V>(options);
-        try
-        {
-            writer.WriteStartArray(EncodeName(name, options));
-            foreach (var element in value)
-                serializer(writer, element, options);
-            writer.WriteEndArray();
-        }
-        catch (Exception e)
-        {
-            var message = $"Error writing array {name} with value {value}";
-            writer.WriteCommentValue(message);
-            Plugin.Log.LogError(message);
-            Plugin.Log.LogError(e);
-        }
-    }
-
-    public static void WriteProperty<V>(Utf8JsonWriter writer, string name, V value, JsonSerializerOptions options)
-    {
-        var serializer = GetSerializer<V>(options);
-        try
-        {
-            writer.WritePropertyName(EncodeName(name, options));
-            serializer(writer, value, options);
-        }
-        catch (Exception e)
-        {
-            var message = $"Error writing property {name} with value {value}";
-            writer.WriteCommentValue(message);
-            Plugin.Log.LogError(message);
-            Plugin.Log.LogError(e);
-        }
-    }
-
     // Returns true if REFERENCE_KEY is written, false if ID ID_KEY is written or if there is no reference.
     public static bool WriteReference<V>(Utf8JsonWriter writer, V value, JsonSerializerOptions options)
     {
@@ -144,21 +72,5 @@ public abstract class BaseConverter<T>(bool reference) : JsonConverter<T>
             return false;
         writer.WriteString(alreadyExists ? REFERENCE_KEY : ID_KEY, reference);
         return alreadyExists;
-    }
-
-    public static void WriteValue<V>(Utf8JsonWriter writer, V value, JsonSerializerOptions options)
-    {
-        var serializer = GetSerializer<V>(options);
-        try
-        {
-            serializer(writer, value, options);
-        }
-        catch (Exception e)
-        {
-            var message = $"Error writing value {value}";
-            writer.WriteCommentValue(message);
-            Plugin.Log.LogError(message);
-            Plugin.Log.LogError(e);
-        }
     }
 }
