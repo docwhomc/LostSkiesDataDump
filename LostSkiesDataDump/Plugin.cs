@@ -145,10 +145,12 @@ public class Plugin : BasePlugin
 
     public static void AddConverters(JsonSerializerOptions options)
     {
-        options.Converters.Add(new CLocalizedString<LocalizedString>());
+        // Compendium
         options.Converters.Add(new CICompendiumService<ICompendiumService>());
         options.Converters.Add(new CCompendiumCategory<CompendiumCategory>());
         options.Converters.Add(new CCompendiumEntry<CompendiumEntry>());
+        // Miscellaneous
+        options.Converters.Add(new CLocalizedString<LocalizedString>());
         options.Converters.Add(new JsonStringEnumConverter());
     }
 }
