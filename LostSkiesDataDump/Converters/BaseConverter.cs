@@ -145,4 +145,20 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
         writer.WriteString(alreadyExists ? REFERENCE_KEY : ID_KEY, reference);
         return alreadyExists;
     }
+
+    public static void WriteValue<T>(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    {
+        var serializer = GetSerializer<T>(options);
+        try
+        {
+            serializer(writer, value, options);
+        }
+        catch (Exception e)
+        {
+            var message = $"Error writing value {value}";
+            writer.WriteCommentValue(message);
+            Plugin.Log.LogError(message);
+            Plugin.Log.LogError(e);
+        }
+    }
 }
