@@ -51,7 +51,9 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
         }
         catch (Exception e)
         {
-            Plugin.Log.LogError($"Error writing {value}");
+            var message = $"Error writing {value}";
+            writer.WriteCommentValue(message);
+            Plugin.Log.LogError(message);
             Plugin.Log.LogError(e);
         }
         finally
@@ -109,6 +111,9 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
         }
         catch (Exception e)
         {
+            var message = $"Error writing array {name} with value {value}";
+            writer.WriteCommentValue(message);
+            Plugin.Log.LogError(message);
             Plugin.Log.LogError(e);
         }
     }
@@ -123,7 +128,9 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
         }
         catch (Exception e)
         {
-            Plugin.Log.LogError($"Error writing property {name}: {value}");
+            var message = $"Error writing property {name} with value {value}";
+            writer.WriteCommentValue(message);
+            Plugin.Log.LogError(message);
             Plugin.Log.LogError(e);
         }
     }
