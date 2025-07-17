@@ -67,7 +67,7 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
         return JsonEncodedText.Encode(options.PropertyNamingPolicy?.ConvertName(name) ?? name);
     }
 
-    public static JsonConverter<T> GetConverter<T>(string name, JsonSerializerOptions options)
+    public static JsonConverter<T> GetConverter<T>(JsonSerializerOptions options)
     {
         Type typeToConvert = typeof(T);
         if (typeToConvert == typeof(object))
@@ -99,7 +99,7 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
 
     public static void WriteArray<T>(Utf8JsonWriter writer, string name, IEnumerable<T> value, JsonSerializerOptions options)
     {
-        JsonConverter<T> valueConverter = GetConverter<T>(name, options);
+        JsonConverter<T> valueConverter = GetConverter<T>(options);
         try
         {
             writer.WriteStartArray(EncodeName(name, options));
@@ -124,7 +124,7 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
 
     public static void WriteProperty<T>(Utf8JsonWriter writer, string name, T value, JsonSerializerOptions options)
     {
-        JsonConverter<T> valueConverter = GetConverter<T>(name, options);
+        JsonConverter<T> valueConverter = GetConverter<T>(options);
         try
         {
             writer.WritePropertyName(EncodeName(name, options));
