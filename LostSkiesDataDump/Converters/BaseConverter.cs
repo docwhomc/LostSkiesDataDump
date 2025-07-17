@@ -23,7 +23,7 @@ using System.Text.Json.Serialization;
 
 namespace LostSkiesDataDump.Converters;
 
-public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
+public abstract class BaseConverter<T>(bool reference) : JsonConverter<T>
 {
     public const string ID_KEY = "$id";
     public const string REFERENCE_KEY = "$ref";
@@ -31,12 +31,12 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
 
     public BaseConverter() : this(true) { }
 
-    public override V Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         throw new NotImplementedException();
     }
 
-    public override void Write(Utf8JsonWriter writer, V value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
         if (value is null)
         {
@@ -59,16 +59,16 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
         writer.WriteEndObject();
     }
 
-    public abstract void WriteObjectBody(Utf8JsonWriter writer, V value, JsonSerializerOptions options);
+    public abstract void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options);
 
     public static JsonEncodedText EncodeName(string name, JsonSerializerOptions options)
     {
         return JsonEncodedText.Encode(options.PropertyNamingPolicy?.ConvertName(name) ?? name);
     }
 
-    public static Action<Utf8JsonWriter, T, JsonSerializerOptions> GetSerializer<T>(JsonSerializerOptions options)
+    public static Action<Utf8JsonWriter, V, JsonSerializerOptions> GetSerializer<V>(JsonSerializerOptions options)
     {
-        Type typeToConvert = typeof(T);
+        Type typeToConvert = typeof(V);
         if (typeToConvert == typeof(object))
         {
             Plugin.Log.LogWarning($"No converter for {typeToConvert} type");
@@ -90,15 +90,15 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
             Plugin.Log.LogDebug($"No JsonConverter for {typeToConvert} type in {options}");
             return JsonSerializer.Serialize;
         }
-        if (converter is JsonConverter<T> valueConverter)
+        if (converter is JsonConverter<V> valueConverter)
             return valueConverter.Write;
         Plugin.Log.LogWarning($"{converter} is not an instance of JsonConverter<{typeToConvert}>");
         return JsonSerializer.Serialize;
     }
 
-    public static void WriteArray<T>(Utf8JsonWriter writer, string name, IEnumerable<T> value, JsonSerializerOptions options)
+    public static void WriteArray<V>(Utf8JsonWriter writer, string name, IEnumerable<V> value, JsonSerializerOptions options)
     {
-        var serializer = GetSerializer<T>(options);
+        var serializer = GetSerializer<V>(options);
         try
         {
             writer.WriteStartArray(EncodeName(name, options));
@@ -115,9 +115,9 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
         }
     }
 
-    public static void WriteProperty<T>(Utf8JsonWriter writer, string name, T value, JsonSerializerOptions options)
+    public static void WriteProperty<V>(Utf8JsonWriter writer, string name, V value, JsonSerializerOptions options)
     {
-        var serializer = GetSerializer<T>(options);
+        var serializer = GetSerializer<V>(options);
         try
         {
             writer.WritePropertyName(EncodeName(name, options));
@@ -133,7 +133,7 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
     }
 
     // Returns true if REFERENCE_KEY is written, false if ID ID_KEY is written or if there is no reference.
-    public static bool WriteReference<T>(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    public static bool WriteReference<V>(Utf8JsonWriter writer, V value, JsonSerializerOptions options)
     {
         if (value is null)
             return false;
@@ -146,9 +146,9 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
         return alreadyExists;
     }
 
-    public static void WriteValue<T>(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    public static void WriteValue<V>(Utf8JsonWriter writer, V value, JsonSerializerOptions options)
     {
-        var serializer = GetSerializer<T>(options);
+        var serializer = GetSerializer<V>(options);
         try
         {
             serializer(writer, value, options);
