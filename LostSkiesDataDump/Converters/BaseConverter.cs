@@ -67,13 +67,13 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
         return JsonEncodedText.Encode(options.PropertyNamingPolicy?.ConvertName(name) ?? name);
     }
 
-    public static JsonConverter<T> GetConverter<T>(JsonSerializerOptions options)
+    public static Action<Utf8JsonWriter, T, JsonSerializerOptions> GetSerializer<T>(JsonSerializerOptions options)
     {
         Type typeToConvert = typeof(T);
         if (typeToConvert == typeof(object))
         {
             Plugin.Log.LogWarning($"No converter for {typeToConvert} type");
-            return null;
+            return JsonSerializer.Serialize;
         }
         JsonConverter converter;
         try
@@ -84,36 +84,27 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
         {
             Plugin.Log.LogError($"Error getting converter for {typeToConvert} type");
             Plugin.Log.LogError(e);
-            return null;
+            return JsonSerializer.Serialize;
         }
         if (converter is null)
         {
             Plugin.Log.LogDebug($"No JsonConverter for {typeToConvert} type in {options}");
-            return null;
+            return JsonSerializer.Serialize;
         }
         if (converter is JsonConverter<T> valueConverter)
-            return valueConverter;
+            return valueConverter.Write;
         Plugin.Log.LogWarning($"{converter} is not an instance of JsonConverter<{typeToConvert}>");
-        return null;
+        return JsonSerializer.Serialize;
     }
 
     public static void WriteArray<T>(Utf8JsonWriter writer, string name, IEnumerable<T> value, JsonSerializerOptions options)
     {
-        JsonConverter<T> valueConverter = GetConverter<T>(options);
+        var serializer = GetSerializer<T>(options);
         try
         {
             writer.WriteStartArray(EncodeName(name, options));
-            if (valueConverter is not null)
-            {
-                foreach (var element in value)
-                    valueConverter.Write(writer, element, options);
-            }
-            else
-            {
-                Plugin.Log.LogDebug($"Falling back to JsonSerializer.Serialize() for elements of {value}");
-                foreach (var element in value)
-                    JsonSerializer.Serialize(writer, element, options);
-            }
+            foreach (var element in value)
+                serializer(writer, element, options);
             writer.WriteEndArray();
         }
         catch (Exception e)
@@ -124,19 +115,11 @@ public abstract class BaseConverter<V>(bool reference) : JsonConverter<V>
 
     public static void WriteProperty<T>(Utf8JsonWriter writer, string name, T value, JsonSerializerOptions options)
     {
-        JsonConverter<T> valueConverter = GetConverter<T>(options);
+        var serializer = GetSerializer<T>(options);
         try
         {
             writer.WritePropertyName(EncodeName(name, options));
-            if (valueConverter is not null)
-            {
-                valueConverter.Write(writer, value, options);
-            }
-            else
-            {
-                Plugin.Log.LogDebug($"Falling back to JsonSerializer.Serialize() for value {value}");
-                JsonSerializer.Serialize(writer, value, options);
-            }
+            serializer(writer, value, options);
         }
         catch (Exception e)
         {
