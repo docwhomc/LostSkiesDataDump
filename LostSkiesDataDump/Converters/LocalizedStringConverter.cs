@@ -23,7 +23,7 @@ using UnityEngine.Localization.Settings;
 
 namespace LostSkiesDataDump.Converters;
 
-public class CLocalizedString<T> : BaseConverter<T> where T : LocalizedString
+public class LocalizedStringConverter<T> : BaseConverter<T> where T : LocalizedString
 {
     public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {

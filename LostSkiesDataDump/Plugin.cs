@@ -146,11 +146,11 @@ public class Plugin : BasePlugin
     public static void AddConverters(JsonSerializerOptions options)
     {
         // Compendium
-        options.Converters.Add(new CICompendiumService<ICompendiumService>());
-        options.Converters.Add(new CCompendiumCategory<CompendiumCategory>());
-        options.Converters.Add(new CCompendiumEntry<CompendiumEntry>());
+        options.Converters.Add(new ICompendiumServiceConverter<ICompendiumService>());
+        options.Converters.Add(new CompendiumCategoryConverter<CompendiumCategory>());
+        options.Converters.Add(new CompendiumEntryConverter<CompendiumEntry>());
         // Miscellaneous
-        options.Converters.Add(new CLocalizedString<LocalizedString>());
+        options.Converters.Add(new LocalizedStringConverter<LocalizedString>());
         options.Converters.Add(new JsonStringEnumConverter());
     }
 }

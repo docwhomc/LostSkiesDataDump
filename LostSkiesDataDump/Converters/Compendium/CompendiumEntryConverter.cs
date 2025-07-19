@@ -20,7 +20,7 @@ using System.Text.Json;
 
 namespace LostSkiesDataDump.Converters.Compendium;
 
-public class CCompendiumEntry<T> : BaseConverter<T> where T : CompendiumEntry
+public class CompendiumEntryConverter<T> : BaseConverter<T> where T : CompendiumEntry
 {
     public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {

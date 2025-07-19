@@ -16,18 +16,19 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Linq;
 using System.Text.Json;
-using WildSkies.Service;
 
 namespace LostSkiesDataDump.Converters.Compendium;
 
-public class CICompendiumService<T> : BaseConverter<T> where T : ICompendiumService
+public class CompendiumCategoryConverter<T> : BaseConverter<T> where T : CompendiumCategory
 {
-    public CICompendiumService() : base(false) { }
-
     public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
-        WriteArray(writer, nameof(value.Categories), value.Categories.ToSystemEnumerable(), options);
-        WriteArray(writer, nameof(value.Entries), value.Entries.ToSystemEnumerable(), options);
+        writer.WriteString(EncodeName(nameof(value.Id), options), value.Id);
+        WriteProperty(writer, nameof(value.Name), value.Name, options);
+        writer.WriteBoolean(EncodeName(nameof(value.IsMainCategory), options), value.IsMainCategory);
+        writer.WriteNumber(EncodeName(nameof(value.PreferredIndex), options), value.PreferredIndex);
+        WriteArray(writer, nameof(value.SubCategories), value.SubCategories.Select(o => o.Id), options);
     }
 }
