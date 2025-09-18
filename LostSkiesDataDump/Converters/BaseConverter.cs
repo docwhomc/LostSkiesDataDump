@@ -26,6 +26,7 @@ public abstract partial class BaseConverter<T>(bool reference) : JsonConverter<T
 {
     public const string ID_KEY = "$id";
     public const string REFERENCE_KEY = "$ref";
+    public const string TYPE_KEY = "$type";
     public bool Reference = reference;
 
     public BaseConverter() : this(true) { }
@@ -70,7 +71,13 @@ public abstract partial class BaseConverter<T>(bool reference) : JsonConverter<T
         var reference = resolver.GetReference(value, out bool alreadyExists);
         if (reference is null)
             return false;
-        writer.WriteString(alreadyExists ? REFERENCE_KEY : ID_KEY, reference);
+        if (alreadyExists)
+            writer.WriteString(REFERENCE_KEY, reference);
+        else
+        {
+            writer.WriteString(ID_KEY, reference);
+            writer.WriteString(TYPE_KEY, typeof(V).ToString());
+        }
         return alreadyExists;
     }
 }
