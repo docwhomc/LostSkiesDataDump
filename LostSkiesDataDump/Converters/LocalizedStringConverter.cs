@@ -49,7 +49,11 @@ public class LocalizedStringConverter<T> : BaseConverter<T> where T : LocalizedS
             value.LocaleOverride = initialLocale;
         }
         else
-            Plugin.Log.LogWarning("Unable to serialize LocalizedString that does not specify a table collection");
+        {
+            var message = "Unable to serialize LocalizedString that does not specify a table collection";
+            writer.WriteCommentValue(message);
+            Plugin.Log.LogDebug(message);
+        }
     }
 
     public static bool HasTableReference(LocalizedString localizedString) => localizedString.TableReference is not null && (localizedString.TableReference.TableCollectionName is not null || localizedString.TableReference.TableCollectionNameGuid != Il2CppSystem.Guid.Empty);
