@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using icg = Il2CppSystem.Collections.Generic;
 
 namespace LostSkiesDataDump.Converters;
 
@@ -84,6 +85,11 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
             Plugin.Log.LogError(message);
             Plugin.Log.LogError(e);
         }
+    }
+
+    public static void WriteArray<V>(Utf8JsonWriter writer, icg.List<V> value, JsonSerializerOptions options, [CallerArgumentExpression(nameof(value))] string name = null)
+    {
+        WriteArray(writer, value.ToSystemEnumerable(), options, name);
     }
 
     [ObsoleteAttribute($"{nameof(WriteProperty)}<V>(Utf8JsonWriter, string, IEnumerable<V>, JsonSerializerOptions) is obsolete, use {nameof(WriteArray)}<V>(Utf8JsonWriter, IEnumerable<V>, JsonSerializerOptions, [string name = null]) instead.")]
