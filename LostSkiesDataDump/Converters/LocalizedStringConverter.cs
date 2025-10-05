@@ -39,7 +39,7 @@ public class LocalizedStringConverter<T> : BaseConverter<T> where T : LocalizedS
                     var encodedLocale = EncodeName(localeString, options);
                     value.LocaleOverride = locale;
                     var stringValue = value.GetLocalizedString();
-                    writer.WriteString(encodedLocale, stringValue);
+                    WriteProperty(writer, stringValue, options, localeString);
                 }
             }
             catch (Exception e)

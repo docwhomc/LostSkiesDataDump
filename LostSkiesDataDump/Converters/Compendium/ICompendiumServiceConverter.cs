@@ -27,7 +27,7 @@ public class ICompendiumServiceConverter<T> : BaseConverter<T> where T : ICompen
 
     public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
-        WriteArray(writer, nameof(value.Categories), value.Categories.ToSystemEnumerable(), options);
-        WriteArray(writer, nameof(value.Entries), value.Entries.ToSystemEnumerable(), options);
+        WriteArray(writer, value.Categories, options);
+        WriteArray(writer, value.Entries, options);
     }
 }

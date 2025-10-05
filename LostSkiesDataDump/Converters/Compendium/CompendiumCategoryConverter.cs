@@ -25,10 +25,10 @@ public class CompendiumCategoryConverter<T> : BaseConverter<T> where T : Compend
 {
     public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
-        writer.WriteString(EncodeName(nameof(value.Id), options), value.Id);
-        WriteProperty(writer, nameof(value.Name), value.Name, options);
-        writer.WriteBoolean(EncodeName(nameof(value.IsMainCategory), options), value.IsMainCategory);
-        writer.WriteNumber(EncodeName(nameof(value.PreferredIndex), options), value.PreferredIndex);
-        WriteArray(writer, nameof(value.SubCategories), value.SubCategories.Select(o => o.Id), options);
+        WriteProperty(writer, value.Id, options);
+        WriteProperty(writer, value.Name, options);
+        WriteProperty(writer, value.IsMainCategory, options);
+        WriteProperty(writer, value.PreferredIndex, options);
+        WriteArray(writer, value.SubCategories.Select(o => o.Id), options, nameof(value.SubCategories));
     }
 }

@@ -24,20 +24,20 @@ public class CompendiumEntryConverter<T> : BaseConverter<T> where T : Compendium
 {
     public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
-        writer.WriteString(EncodeName(nameof(value.entryId), options), value.entryId);
-        writer.WriteString(EncodeName(nameof(value.mainCategoryId), options), value.mainCategoryId);
-        writer.WriteString(EncodeName(nameof(value.subCategoryId), options), value.subCategoryId);
-        writer.WriteString(EncodeName(nameof(value.mainCategoryRawString), options), value.mainCategoryRawString);
-        writer.WriteString(EncodeName(nameof(value.entryTitleRawString), options), value.entryTitleRawString);
-        WriteProperty(writer, nameof(value.mainCategoryString), value.mainCategoryString, options);
-        WriteProperty(writer, nameof(value.subCategoryString), value.subCategoryString, options);
-        WriteProperty(writer, nameof(value.entryTitleString), value.entryTitleString, options);
-        WriteProperty(writer, nameof(value.bodyTextString), value.bodyTextString, options);
-        writer.WriteString(EncodeName(nameof(value.itemId), options), value.itemId);
-        writer.WriteString(EncodeName(nameof(value.entityId), options), value.entityId);
-        WriteArray(writer, nameof(value.unlockIds), value.unlockIds, options);
+        WriteProperty(writer, value.entryId, options);
+        WriteProperty(writer, value.mainCategoryId, options);
+        WriteProperty(writer, value.subCategoryId, options);
+        WriteProperty(writer, value.mainCategoryRawString, options);
+        WriteProperty(writer, value.entryTitleRawString, options);
+        WriteProperty(writer, value.mainCategoryString, options);
+        WriteProperty(writer, value.subCategoryString, options);
+        WriteProperty(writer, value.entryTitleString, options);
+        WriteProperty(writer, value.bodyTextString, options);
+        WriteProperty(writer, value.itemId, options);
+        WriteProperty(writer, value.entityId, options);
+        WriteArray(writer, value.unlockIds, options);
         // TODO: Sprite icon
-        writer.WriteString(EncodeName(nameof(value.videoName), options), value.videoName);
-        writer.WriteString(EncodeName(nameof(value.conversationHistoryId), options), value.conversationHistoryId);
+        WriteProperty(writer, value.videoName, options);
+        WriteProperty(writer, value.conversationHistoryId, options);
     }
 }
