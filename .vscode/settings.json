@@ -6,6 +6,7 @@
     "[csharp]": {
         "editor.defaultFormatter": "csharpier.csharpier-vscode",
         "editor.detectIndentation": false,
+        "editor.formatOnSave": true,
         "editor.indentSize": "tabSize",
         "editor.insertSpaces": true,
         "editor.tabSize": 4
