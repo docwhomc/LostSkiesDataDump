@@ -41,7 +41,6 @@ public class LocalizedStringConverter<T> : BaseConverter<T>
                 foreach (var locale in availableLocales.Locales)
                 {
                     var localeString = locale.Identifier.Code;
-                    var encodedLocale = EncodeName(localeString, options);
                     value.LocaleOverride = locale;
                     var stringValue = value.GetLocalizedString();
                     WriteProperty(writer, stringValue, options, localeString);
