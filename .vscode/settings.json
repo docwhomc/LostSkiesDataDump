@@ -4,6 +4,7 @@
     "files.trimFinalNewlines": true,
     "files.trimTrailingWhitespace": true,
     "[csharp]": {
+        "editor.defaultFormatter": "csharpier.csharpier-vscode",
         "editor.detectIndentation": false,
         "editor.indentSize": "tabSize",
         "editor.tabSize": 4
