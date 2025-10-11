@@ -17,7 +17,7 @@
 */
 
 using System.Text.Json;
-using global::WildSkies.Service;
+using WildSkies.Service;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Service;
 
