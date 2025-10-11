@@ -43,14 +43,22 @@ public class Plugin : BasePlugin
     private static ManualLogSource s_log = null;
     internal static new ManualLogSource Log
     {
-        get => s_log ?? throw new InvalidOperationException($"{MyPluginInfo.PLUGIN_GUID} not yet initialized");
+        get =>
+            s_log
+            ?? throw new InvalidOperationException(
+                $"{MyPluginInfo.PLUGIN_GUID} not yet initialized"
+            );
         private set => s_log = value;
     }
 
     private static ConfigEntry<string> s_configBaseOutputDirectory = null;
     protected static ConfigEntry<string> ConfigBaseOutputDirectory
     {
-        get => s_configBaseOutputDirectory ?? throw new InvalidOperationException($"{MyPluginInfo.PLUGIN_GUID} not yet initialized");
+        get =>
+            s_configBaseOutputDirectory
+            ?? throw new InvalidOperationException(
+                $"{MyPluginInfo.PLUGIN_GUID} not yet initialized"
+            );
         private set => s_configBaseOutputDirectory = value;
     }
     public static string BaseOutputDirectory => ConfigBaseOutputDirectory.Value;
@@ -58,18 +66,28 @@ public class Plugin : BasePlugin
     private static ConfigEntry<string> s_configIconOutputDirectory = null;
     protected static ConfigEntry<string> ConfigIconOutputDirectory
     {
-        get => s_configIconOutputDirectory ?? throw new InvalidOperationException($"{MyPluginInfo.PLUGIN_GUID} not yet initialized");
+        get =>
+            s_configIconOutputDirectory
+            ?? throw new InvalidOperationException(
+                $"{MyPluginInfo.PLUGIN_GUID} not yet initialized"
+            );
         private set => s_configIconOutputDirectory = value;
     }
-    public static string IconOutputDirectory => Path.Join(BaseOutputDirectory, ConfigIconOutputDirectory.Value);
+    public static string IconOutputDirectory =>
+        Path.Join(BaseOutputDirectory, ConfigIconOutputDirectory.Value);
 
     private static ConfigEntry<string> s_configTextOutputFile = null;
     protected static ConfigEntry<string> ConfigTextOutputFile
     {
-        get => s_configTextOutputFile ?? throw new InvalidOperationException($"{MyPluginInfo.PLUGIN_GUID} not yet initialized");
+        get =>
+            s_configTextOutputFile
+            ?? throw new InvalidOperationException(
+                $"{MyPluginInfo.PLUGIN_GUID} not yet initialized"
+            );
         private set => s_configTextOutputFile = value;
     }
-    public static string TextOutputFile => Path.Join(BaseOutputDirectory, ConfigTextOutputFile.Value);
+    public static string TextOutputFile =>
+        Path.Join(BaseOutputDirectory, ConfigTextOutputFile.Value);
 
     private static Harmony s_harmony = null;
 
@@ -79,8 +97,12 @@ public class Plugin : BasePlugin
     public override void Load()
     {
         Log = base.Log;
-        Log.LogInfo($"Loading plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION}...");
-        Log.LogInfo($"  - config file: {Config.ConfigFilePath}{(File.Exists(Config.ConfigFilePath) ? "" : " (does not exist)")}");
+        Log.LogInfo(
+            $"Loading plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION}..."
+        );
+        Log.LogInfo(
+            $"  - config file: {Config.ConfigFilePath}{(File.Exists(Config.ConfigFilePath) ? "" : " (does not exist)")}"
+        );
         ConfigBaseOutputDirectory = Config.Bind(
             "Output",
             "BaseDirectory",
@@ -104,14 +126,20 @@ public class Plugin : BasePlugin
         Log.LogInfo($"  - text output file: {TextOutputFile}");
         s_harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
         s_harmony.PatchAll(typeof(Patch));
-        Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} has loaded.");
+        Log.LogInfo(
+            $"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} has loaded."
+        );
     }
 
     public override bool Unload()
     {
-        Log.LogInfo($"Unloading plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION}...");
+        Log.LogInfo(
+            $"Unloading plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION}..."
+        );
         s_harmony?.UnpatchSelf();
-        Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} has unloaded.");
+        Log.LogInfo(
+            $"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} has unloaded."
+        );
         return base.Unload();
     }
 
@@ -128,7 +156,11 @@ public class Plugin : BasePlugin
             jsonSerializerOptions.ReferenceHandler = referenceHandler;
             try
             {
-                JsonSerializer.Serialize(textOutputStream, SerializationRoot, jsonSerializerOptions);
+                JsonSerializer.Serialize(
+                    textOutputStream,
+                    SerializationRoot,
+                    jsonSerializerOptions
+                );
             }
             finally
             {
@@ -157,7 +189,13 @@ public class Plugin : BasePlugin
         options.Converters.Add(new WorldRegionServiceConverter<WorldRegionService>());
         // WildSkies.WorldItems
         options.Converters.Add(new RegionIdentifierDataConverter<RegionIdentifierData>());
-        options.Converters.Add(new DictionaryConverter<Dictionary<int, RegionIdentifierData>, int, RegionIdentifierData>());
+        options.Converters.Add(
+            new DictionaryConverter<
+                Dictionary<int, RegionIdentifierData>,
+                int,
+                RegionIdentifierData
+            >()
+        );
         // Miscellaneous
         options.Converters.Add(new LocalizedStringConverter<LocalizedString>());
         options.Converters.Add(new JsonStringEnumConverter());

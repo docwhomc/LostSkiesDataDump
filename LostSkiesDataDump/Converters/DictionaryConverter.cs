@@ -21,9 +21,14 @@ using icg = Il2CppSystem.Collections.Generic;
 
 namespace LostSkiesDataDump.Converters;
 
-public class DictionaryConverter<T, K, V> : BaseConverter<T> where T : icg.Dictionary<K, V>
+public class DictionaryConverter<T, K, V> : BaseConverter<T>
+    where T : icg.Dictionary<K, V>
 {
-    public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    public override void WriteObjectBody(
+        Utf8JsonWriter writer,
+        T value,
+        JsonSerializerOptions options
+    )
     {
         WriteArray(writer, value.ToSystemEnumerable(), options, "__entries");
     }

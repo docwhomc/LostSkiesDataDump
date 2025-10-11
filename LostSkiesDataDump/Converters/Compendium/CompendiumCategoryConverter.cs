@@ -21,14 +21,24 @@ using System.Text.Json;
 
 namespace LostSkiesDataDump.Converters.Compendium;
 
-public class CompendiumCategoryConverter<T> : BaseConverter<T> where T : CompendiumCategory
+public class CompendiumCategoryConverter<T> : BaseConverter<T>
+    where T : CompendiumCategory
 {
-    public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    public override void WriteObjectBody(
+        Utf8JsonWriter writer,
+        T value,
+        JsonSerializerOptions options
+    )
     {
         WriteProperty(writer, value.Id, options);
         WriteProperty(writer, value.Name, options);
         WriteProperty(writer, value.IsMainCategory, options);
         WriteProperty(writer, value.PreferredIndex, options);
-        WriteArray(writer, value.SubCategories.Select(o => o.Id), options, nameof(value.SubCategories));
+        WriteArray(
+            writer,
+            value.SubCategories.Select(o => o.Id),
+            options,
+            nameof(value.SubCategories)
+        );
     }
 }

@@ -32,7 +32,11 @@ class Patch
     [HarmonyPrefix]
     public static void UIInputMediator_Update(UIInputMediator __instance)
     {
-        if (!__instance._ui.IsServiceReady || __instance._sceneService.AreWeLoadingOrInLobby() || __instance._ui.PanelManager.IsPanelShowing(UIPanelType.Popup))
+        if (
+            !__instance._ui.IsServiceReady
+            || __instance._sceneService.AreWeLoadingOrInLobby()
+            || __instance._ui.PanelManager.IsPanelShowing(UIPanelType.Popup)
+        )
         {
             return;
         }
@@ -45,7 +49,14 @@ class Patch
 
     [HarmonyPatch(typeof(CompendiumUiMediator), nameof(CompendiumUiMediator.Initialise))]
     [HarmonyPrefix]
-    public static void CompendiumUiMediator_Initialise(CompendiumUiMediator __instance, [DefaultParameterValue(null)] IUIService uiService, [DefaultParameterValue(null)] ICompendiumService compendiumService, [DefaultParameterValue(null)] IPlayerGuideService playerGuideService, [DefaultParameterValue(null)] IPlayerInventoryService playerInventoryService, [DefaultParameterValue(null)] ICraftingService craftingService)
+    public static void CompendiumUiMediator_Initialise(
+        CompendiumUiMediator __instance,
+        [DefaultParameterValue(null)] IUIService uiService,
+        [DefaultParameterValue(null)] ICompendiumService compendiumService,
+        [DefaultParameterValue(null)] IPlayerGuideService playerGuideService,
+        [DefaultParameterValue(null)] IPlayerInventoryService playerInventoryService,
+        [DefaultParameterValue(null)] ICraftingService craftingService
+    )
     {
         Plugin.Log.LogInfo("Patch.CompendiumUiMediator_Initialise(...)");
         Plugin.Log.LogDebug($"__instance: {__instance}");
@@ -59,7 +70,12 @@ class Patch
 
     [HarmonyPatch(typeof(WorldRegionService), nameof(WorldRegionService.Init))]
     [HarmonyPrefix]
-    public static void WorldRegionService_Init(WorldRegionService __instance, Map worldMap, WorldLoadingService worldLoadingService, SkyMapService skyMapService)
+    public static void WorldRegionService_Init(
+        WorldRegionService __instance,
+        Map worldMap,
+        WorldLoadingService worldLoadingService,
+        SkyMapService skyMapService
+    )
     {
         Plugin.Log.LogInfo("Patch.WorldRegionService_Init(...)");
         Plugin.Log.LogDebug($"__instance: {__instance}");

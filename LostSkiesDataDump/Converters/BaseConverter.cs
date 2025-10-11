@@ -29,9 +29,14 @@ public abstract partial class BaseConverter<T>(bool reference) : JsonConverter<T
     public const string TYPE_KEY = "$type";
     public bool Reference = reference;
 
-    public BaseConverter() : this(true) { }
+    public BaseConverter()
+        : this(true) { }
 
-    public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override T Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
     {
         throw new NotImplementedException();
     }
@@ -59,10 +64,18 @@ public abstract partial class BaseConverter<T>(bool reference) : JsonConverter<T
         writer.WriteEndObject();
     }
 
-    public abstract void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options);
+    public abstract void WriteObjectBody(
+        Utf8JsonWriter writer,
+        T value,
+        JsonSerializerOptions options
+    );
 
     // Returns true if REFERENCE_KEY is written, false if ID ID_KEY is written or if there is no reference.
-    public static bool WriteReference<V>(Utf8JsonWriter writer, V value, JsonSerializerOptions options)
+    public static bool WriteReference<V>(
+        Utf8JsonWriter writer,
+        V value,
+        JsonSerializerOptions options
+    )
     {
         if (value is null)
             return false;

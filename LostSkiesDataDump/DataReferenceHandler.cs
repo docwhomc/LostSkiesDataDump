@@ -25,7 +25,8 @@ public class DataReferenceHandler : ReferenceHandler
     private ReferenceResolver _rootedResolver = null;
 
     public DataReferenceHandler() => Reset();
-    public override ReferenceResolver CreateResolver() => _rootedResolver!;
-    public void Reset() => _rootedResolver = new DataReferenceResolver();
 
+    public override ReferenceResolver CreateResolver() => _rootedResolver!;
+
+    public void Reset() => _rootedResolver = new DataReferenceResolver();
 }

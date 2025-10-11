@@ -32,7 +32,9 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
         return JsonEncodedText.Encode(options.PropertyNamingPolicy?.ConvertName(name) ?? name);
     }
 
-    public static Action<Utf8JsonWriter, V, JsonSerializerOptions> GetSerializer<V>(JsonSerializerOptions options)
+    public static Action<Utf8JsonWriter, V, JsonSerializerOptions> GetSerializer<V>(
+        JsonSerializerOptions options
+    )
     {
         Type typeToConvert = typeof(V);
         if (typeToConvert == typeof(object))
@@ -62,13 +64,25 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
         return JsonSerializer.Serialize;
     }
 
-    [ObsoleteAttribute($"{nameof(WriteArray)}<V>(Utf8JsonWriter, string, IEnumerable<V>, JsonSerializerOptions) is obsolete, use {nameof(WriteArray)}<V>(Utf8JsonWriter, IEnumerable<V>, JsonSerializerOptions, [string name = null]) instead.")]
-    public static void WriteArray<V>(Utf8JsonWriter writer, string name, IEnumerable<V> value, JsonSerializerOptions options)
+    [ObsoleteAttribute(
+        $"{nameof(WriteArray)}<V>(Utf8JsonWriter, string, IEnumerable<V>, JsonSerializerOptions) is obsolete, use {nameof(WriteArray)}<V>(Utf8JsonWriter, IEnumerable<V>, JsonSerializerOptions, [string name = null]) instead."
+    )]
+    public static void WriteArray<V>(
+        Utf8JsonWriter writer,
+        string name,
+        IEnumerable<V> value,
+        JsonSerializerOptions options
+    )
     {
         WriteArray(writer, value, options, name);
     }
 
-    public static void WriteArray<V>(Utf8JsonWriter writer, IEnumerable<V> value, JsonSerializerOptions options, [CallerArgumentExpression(nameof(value))] string name = null)
+    public static void WriteArray<V>(
+        Utf8JsonWriter writer,
+        IEnumerable<V> value,
+        JsonSerializerOptions options,
+        [CallerArgumentExpression(nameof(value))] string name = null
+    )
     {
         var serializer = GetSerializer<V>(options);
         try
@@ -87,18 +101,35 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
         }
     }
 
-    public static void WriteArray<V>(Utf8JsonWriter writer, icg.List<V> value, JsonSerializerOptions options, [CallerArgumentExpression(nameof(value))] string name = null)
+    public static void WriteArray<V>(
+        Utf8JsonWriter writer,
+        icg.List<V> value,
+        JsonSerializerOptions options,
+        [CallerArgumentExpression(nameof(value))] string name = null
+    )
     {
         WriteArray(writer, value.ToSystemEnumerable(), options, name);
     }
 
-    [ObsoleteAttribute($"{nameof(WriteProperty)}<V>(Utf8JsonWriter, string, IEnumerable<V>, JsonSerializerOptions) is obsolete, use {nameof(WriteArray)}<V>(Utf8JsonWriter, IEnumerable<V>, JsonSerializerOptions, [string name = null]) instead.")]
-    public static void WriteProperty<V>(Utf8JsonWriter writer, string name, V value, JsonSerializerOptions options)
+    [ObsoleteAttribute(
+        $"{nameof(WriteProperty)}<V>(Utf8JsonWriter, string, IEnumerable<V>, JsonSerializerOptions) is obsolete, use {nameof(WriteArray)}<V>(Utf8JsonWriter, IEnumerable<V>, JsonSerializerOptions, [string name = null]) instead."
+    )]
+    public static void WriteProperty<V>(
+        Utf8JsonWriter writer,
+        string name,
+        V value,
+        JsonSerializerOptions options
+    )
     {
         WriteProperty(writer, value, options, name);
     }
 
-    public static void WriteProperty<V>(Utf8JsonWriter writer, V value, JsonSerializerOptions options, [CallerArgumentExpression(nameof(value))] string name = null)
+    public static void WriteProperty<V>(
+        Utf8JsonWriter writer,
+        V value,
+        JsonSerializerOptions options,
+        [CallerArgumentExpression(nameof(value))] string name = null
+    )
     {
         var serializer = GetSerializer<V>(options);
         try

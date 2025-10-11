@@ -21,9 +21,14 @@ using global::WildSkies.Service;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Service;
 
-public class WorldRegionServiceConverter<T> : BaseConverter<T> where T : WorldRegionService
+public class WorldRegionServiceConverter<T> : BaseConverter<T>
+    where T : WorldRegionService
 {
-    public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    public override void WriteObjectBody(
+        Utf8JsonWriter writer,
+        T value,
+        JsonSerializerOptions options
+    )
     {
         if (!value._initialised)
             Plugin.Log.LogWarning($"attempting to serialize {value}, which hasn't initialized");

@@ -16,8 +16,8 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using scg = System.Collections.Generic;
 using icg = Il2CppSystem.Collections.Generic;
+using scg = System.Collections.Generic;
 
 namespace LostSkiesDataDump;
 
@@ -31,7 +31,9 @@ public static class ToSystemEnumerableExtensions
         }
     }
 
-    public static scg.IEnumerable<scg.KeyValuePair<TKey, TValue>> ToSystemEnumerable<TKey, TValue>(this icg.Dictionary<TKey, TValue> entries)
+    public static scg.IEnumerable<scg.KeyValuePair<TKey, TValue>> ToSystemEnumerable<TKey, TValue>(
+        this icg.Dictionary<TKey, TValue> entries
+    )
     {
         foreach (var entry in entries)
         {

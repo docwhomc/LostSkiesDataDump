@@ -21,11 +21,17 @@ using WildSkies.Service;
 
 namespace LostSkiesDataDump.Converters.Compendium;
 
-public class ICompendiumServiceConverter<T> : BaseConverter<T> where T : ICompendiumService
+public class ICompendiumServiceConverter<T> : BaseConverter<T>
+    where T : ICompendiumService
 {
-    public ICompendiumServiceConverter() : base(false) { }
+    public ICompendiumServiceConverter()
+        : base(false) { }
 
-    public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    public override void WriteObjectBody(
+        Utf8JsonWriter writer,
+        T value,
+        JsonSerializerOptions options
+    )
     {
         WriteArray(writer, value.Categories, options);
         WriteArray(writer, value.Entries, options);

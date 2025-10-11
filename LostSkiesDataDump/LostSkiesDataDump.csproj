@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>LostSkiesDataDump</AssemblyName>
@@ -14,7 +13,6 @@
     </RestoreAdditionalProjectSources>
     <RootNamespace>LostSkiesDataDump</RootNamespace>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.*" IncludeAssets="compile" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
@@ -23,7 +21,5 @@
       <Private>false</Private>
     </Reference>
   </ItemGroup>
-
   <Import Project="$(SolutionRoot)/Config.Build.user.props" />
-
 </Project>

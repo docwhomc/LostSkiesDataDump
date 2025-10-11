@@ -21,9 +21,14 @@ using WildSkies.WorldItems;
 
 namespace LostSkiesDataDump.Converters.WildSkies.WorldItems;
 
-public class RegionIdentifierDataConverter<T> : BaseConverter<T> where T : RegionIdentifierData
+public class RegionIdentifierDataConverter<T> : BaseConverter<T>
+    where T : RegionIdentifierData
 {
-    public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    public override void WriteObjectBody(
+        Utf8JsonWriter writer,
+        T value,
+        JsonSerializerOptions options
+    )
     {
         WriteProperty(writer, value.RegionID, options);
         WriteProperty(writer, value.RegionName, options);
