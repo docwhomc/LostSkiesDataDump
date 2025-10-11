@@ -22,6 +22,7 @@ using UISystem;
 using UnityEngine.InputSystem;
 using WildSkies.Mediators;
 using WildSkies.Service;
+using WildSkies.WorldItems;
 
 namespace LostSkiesDataDump;
 
@@ -54,5 +55,17 @@ class Patch
         Plugin.Log.LogDebug($"playerGuideService: {playerGuideService}");
         Plugin.Log.LogDebug($"playerInventoryService: {playerInventoryService}");
         Plugin.Log.LogDebug($"craftingService: {craftingService}");
+    }
+
+    [HarmonyPatch(typeof(WorldRegionService), nameof(WorldRegionService.Init))]
+    [HarmonyPrefix]
+    public static void WorldRegionService_Init(WorldRegionService __instance, Map worldMap, WorldLoadingService worldLoadingService, SkyMapService skyMapService)
+    {
+        Plugin.Log.LogInfo("Patch.WorldRegionService_Init(...)");
+        Plugin.Log.LogDebug($"__instance: {__instance}");
+        Plugin.SerializationRoot.WorldRegionService = __instance;
+        Plugin.Log.LogDebug($"woldMap: {worldMap}");
+        Plugin.Log.LogDebug($"worldLoadingService: {worldLoadingService}");
+        Plugin.Log.LogDebug($"skyMapService: {skyMapService}");
     }
 }

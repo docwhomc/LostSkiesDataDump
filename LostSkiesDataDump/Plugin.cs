@@ -25,11 +25,15 @@ using BepInEx.Configuration;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
+using Il2CppSystem.Collections.Generic;
 using LostSkiesDataDump.Converters;
 using LostSkiesDataDump.Converters.Compendium;
+using LostSkiesDataDump.Converters.WildSkies.Service;
+using LostSkiesDataDump.Converters.WildSkies.WorldItems;
 using UnityEngine;
 using UnityEngine.Localization;
 using WildSkies.Service;
+using WildSkies.WorldItems;
 
 namespace LostSkiesDataDump;
 
@@ -149,6 +153,11 @@ public class Plugin : BasePlugin
         options.Converters.Add(new ICompendiumServiceConverter<ICompendiumService>());
         options.Converters.Add(new CompendiumCategoryConverter<CompendiumCategory>());
         options.Converters.Add(new CompendiumEntryConverter<CompendiumEntry>());
+        // WildSkies.Service
+        options.Converters.Add(new WorldRegionServiceConverter<WorldRegionService>());
+        // WildSkies.WorldItems
+        options.Converters.Add(new RegionIdentifierDataConverter<RegionIdentifierData>());
+        options.Converters.Add(new DictionaryConverter<Dictionary<int, RegionIdentifierData>, int, RegionIdentifierData>());
         // Miscellaneous
         options.Converters.Add(new LocalizedStringConverter<LocalizedString>());
         options.Converters.Add(new JsonStringEnumConverter());

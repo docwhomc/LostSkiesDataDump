@@ -16,20 +16,19 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
-using System.Text.Json.Serialization;
-using LostSkiesDataDump.Converters.Compendium;
-using LostSkiesDataDump.Converters.WildSkies.Service;
-using WildSkies.Service;
+using System.Text.Json;
+using WildSkies.WorldItems;
 
-namespace LostSkiesDataDump;
+namespace LostSkiesDataDump.Converters.WildSkies.WorldItems;
 
-[Serializable]
-public class SerializationRoot
+public class RegionIdentifierDataConverter<T> : BaseConverter<T> where T : RegionIdentifierData
 {
-    [JsonConverter(typeof(ICompendiumServiceConverter<ICompendiumService>))]
-    public ICompendiumService CompendiumService { get; set; }
-
-    [JsonConverter(typeof(WorldRegionServiceConverter<WorldRegionService>))]
-    public WorldRegionService WorldRegionService { get; set; }
+    public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    {
+        WriteProperty(writer, value.RegionID, options);
+        WriteProperty(writer, value.RegionName, options);
+        // public unsafe Region Region
+        WriteProperty(writer, value.WelcomeLocalizedString, options);
+        WriteProperty(writer, value.RegionNameLocalizedString, options);
+    }
 }
