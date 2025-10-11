@@ -32,7 +32,7 @@ public class RegionIdentifierDataConverter<T> : BaseConverter<T>
     {
         WriteProperty(writer, value.RegionID, options);
         WriteProperty(writer, value.RegionName, options);
-        // public unsafe Region Region
+        WriteProperty(writer, value.Region, options);
         WriteProperty(writer, value.WelcomeLocalizedString, options);
         WriteProperty(writer, value.RegionNameLocalizedString, options);
     }
