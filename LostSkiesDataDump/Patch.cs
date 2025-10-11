@@ -47,7 +47,12 @@ class Patch
     public static void CompendiumUiMediator_Initialise(CompendiumUiMediator __instance, [DefaultParameterValue(null)] IUIService uiService, [DefaultParameterValue(null)] ICompendiumService compendiumService, [DefaultParameterValue(null)] IPlayerGuideService playerGuideService, [DefaultParameterValue(null)] IPlayerInventoryService playerInventoryService, [DefaultParameterValue(null)] ICraftingService craftingService)
     {
         Plugin.Log.LogInfo("Patch.CompendiumUiMediator_Initialise(...)");
-        Plugin.Log.LogInfo($"compendiumService: {compendiumService}");
+        Plugin.Log.LogDebug($"__instance: {__instance}");
+        Plugin.Log.LogDebug($"uiService: {uiService}");
+        Plugin.Log.LogDebug($"compendiumService: {compendiumService}");
         Plugin.SerializationRoot.CompendiumService = compendiumService;
+        Plugin.Log.LogDebug($"playerGuideService: {playerGuideService}");
+        Plugin.Log.LogDebug($"playerInventoryService: {playerInventoryService}");
+        Plugin.Log.LogDebug($"craftingService: {craftingService}");
     }
 }
