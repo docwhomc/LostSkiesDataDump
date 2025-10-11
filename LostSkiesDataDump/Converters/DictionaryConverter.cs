@@ -16,26 +16,15 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using scg = System.Collections.Generic;
+using System.Text.Json;
 using icg = Il2CppSystem.Collections.Generic;
 
-namespace LostSkiesDataDump;
+namespace LostSkiesDataDump.Converters;
 
-public static class ToSystemEnumerableExtensions
+public class DictionaryConverter<T, K, V> : BaseConverter<T> where T : icg.Dictionary<K, V>
 {
-    public static scg.IEnumerable<T> ToSystemEnumerable<T>(this icg.List<T> values)
+    public override void WriteObjectBody(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
-        foreach (var value in values)
-        {
-            yield return value;
-        }
-    }
-
-    public static scg.IEnumerable<scg.KeyValuePair<TKey, TValue>> ToSystemEnumerable<TKey, TValue>(this icg.Dictionary<TKey, TValue> entries)
-    {
-        foreach (var entry in entries)
-        {
-            yield return new(entry.Key, entry.Value);
-        }
+        WriteArray(writer, value.ToSystemEnumerable(), options, "__entries");
     }
 }
