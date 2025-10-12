@@ -21,14 +21,41 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using icg = Il2CppSystem.Collections.Generic;
 
 namespace LostSkiesDataDump.Converters;
 
 public abstract partial class BaseConverter<T> : JsonConverter<T>
 {
+    private static readonly Regex s_nameCleaner = new(
+        "^(?:value\\.)?(.*?)(?:\\.(?:Select\\(.*\\)|ToSystemEnumerable\\(\\)))?$"
+    );
+    private static readonly Dictionary<string, string> s_nameCleanerCache = [];
+
+    public static void ClearNameCleanerCache()
+    {
+        s_nameCleanerCache.Clear();
+    }
+
+    public static string CleanName(string name)
+    {
+        if (s_nameCleanerCache.TryGetValue(name, out string cached))
+            return cached;
+        var match = s_nameCleaner.Match(name);
+        var cacheKey = name;
+        if (match.Success)
+            name = match.Groups[1].Value;
+        else
+            Plugin.Log.LogWarning($"name `{name}` didn't match pattern");
+        Plugin.Log.LogDebug($"Adding name cleaner cache entry: `{cacheKey}` -> `{name}`");
+        s_nameCleanerCache.Add(cacheKey, name);
+        return name;
+    }
+
     public static JsonEncodedText EncodeName(string name, JsonSerializerOptions options)
     {
+        name = CleanName(name);
         return JsonEncodedText.Encode(options.PropertyNamingPolicy?.ConvertName(name) ?? name);
     }
 
