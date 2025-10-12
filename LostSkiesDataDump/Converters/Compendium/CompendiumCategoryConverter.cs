@@ -34,11 +34,6 @@ public class CompendiumCategoryConverter<T> : BaseConverter<T>
         WriteProperty(writer, value.Name, options);
         WriteProperty(writer, value.IsMainCategory, options);
         WriteProperty(writer, value.PreferredIndex, options);
-        WriteArray(
-            writer,
-            value.SubCategories.Select(o => o.Id),
-            options,
-            nameof(value.SubCategories)
-        );
+        WriteArray(writer, value.SubCategories.Select(o => o.Id), options);
     }
 }
