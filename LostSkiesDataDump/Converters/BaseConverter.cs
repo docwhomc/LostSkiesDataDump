@@ -22,16 +22,47 @@ using System.Text.Json.Serialization;
 
 namespace LostSkiesDataDump.Converters;
 
+/// <summary>
+/// Converts an object or value to or from JSON.
+/// </summary>
+/// <typeparam name="T">The type of object or value handled by the converter.</typeparam>
+/// <param name="reference">Whether or not the new converter should use references.  The value is assigned to <see cref="Reference"/>.</param>
 public abstract partial class BaseConverter<T>(bool reference) : JsonConverter<T>
 {
+    /// <summary>
+    /// <c>ID_KEY</c> is a JSON name whose corresponding value is the reference identifier of the object containing the name/value pair.
+    /// </summary>
     public const string ID_KEY = "$id";
+
+    /// <summary>
+    /// <c>REFERENCE_KEY</c> is a JSON name whose corresponding value is a reference identifier used to resolve the object containing the name/value pair to another JSON object.
+    /// </summary>
     public const string REFERENCE_KEY = "$ref";
+
+    /// <summary>
+    /// <c>TYPE_KEY</c> is a JSON name whose corresponding value indicates the type of the serialized object.
+    /// </summary>
     public const string TYPE_KEY = "$type";
+
+    /// <value>
+    /// <c>Reference</c> indicates whether or not this converter should use references to avoid duplicating objects.  If true, this converter will use a reference when it encounters an object it has already serialized.  Otherwise, this converter will serialize objects it has encountered before.
+    /// </value>
     public bool Reference { get; set; } = reference;
 
+    /// <summary>
+    /// This constructor initializes the converter with <see cref="Reference"/> set to true.
+    /// </summary>
     public BaseConverter()
         : this(true) { }
 
+    /// <summary>
+    /// Reads and converts the JSON to type <typeparamref name="T"/>.
+    /// </summary>
+    /// <param name="reader">The reader.</param>
+    /// <param name="typeToConvert">The type to convert.</param>
+    /// <param name="options"> An object that specifies serialization options to use.</param>
+    /// <returns>The converted value.</returns>
+    /// <exception cref="NotImplementedException">Will always be raised because deserialization has not been implemented.</exception>
     public override T Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
@@ -41,6 +72,12 @@ public abstract partial class BaseConverter<T>(bool reference) : JsonConverter<T
         throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Writes a specified value as JSON.
+    /// </summary>
+    /// <param name="writer">The writer to write to.</param>
+    /// <param name="value">The value to convert to JSON.</param>
+    /// <param name="options">An object that specifies serialization options to use.</param>
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
         if (value is null)
@@ -67,13 +104,30 @@ public abstract partial class BaseConverter<T>(bool reference) : JsonConverter<T
         writer.WriteEndObject();
     }
 
+    /// <summary>
+    /// Writes the key/value pairs of the specified value as JSON.
+    /// </summary>
+    /// <param name="writer">The writer to write to.</param>
+    /// <param name="value">The value to convert to JSON.</param>
+    /// <param name="options">An object that specifies serialization options to use.</param>
     public abstract void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,
         JsonSerializerOptions options
     );
 
-    // Returns true if REFERENCE_KEY is written, false if ID ID_KEY is written or if there is no reference.
+    /// <summary>
+    /// Attempts to write a specified value as a reference.
+    /// <para>
+    /// If there is a reference resolver and the value was previously written, writes a reference for the value and returns true.  If there is a reference resolver, but the value was not written previously, assigns the value a reference identifier using the resolver, writes the id, and returns false.  Otherwise, returns false without writing anything.
+    /// </para>
+    /// </summary>
+    /// <seealso cref="REFERENCE_KEY"/>
+    /// <seealso cref="ID_KEY"/>
+    /// <param name="writer">The writer to write to.</param>
+    /// <param name="value">The value to attempt to write as a reference.</param>
+    /// <param name="options">An object that specifies serialization options to use.</param>
+    /// <returns>True if the value was written as a reference; otherwise, false.</returns>
     public static bool WriteReference(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
         if (value is null)

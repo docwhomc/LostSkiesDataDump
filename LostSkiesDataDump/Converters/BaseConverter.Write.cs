@@ -28,16 +28,37 @@ namespace LostSkiesDataDump.Converters;
 
 public abstract partial class BaseConverter<T> : JsonConverter<T>
 {
+    /// <summary>
+    /// <c>s_nameCleaner</c> is a regular expression used by <see cref="CleanName"/>.
+    /// </summary>
     private static readonly Regex s_nameCleaner = new(
         "^(?:value\\.)?(.*?)(?:\\.(?:Select\\(.*\\)|ToSystemEnumerable\\(\\)))?$"
     );
+
+    /// <summary>
+    /// <c>s_nameCleanerCache</c> is a cache of cleaned names used by <see cref="CleanName"/>.
+    /// </summary>
     private static readonly Dictionary<string, string> s_nameCleanerCache = [];
 
+    /// <summary>
+    /// Clears the cleaned name cache used by <see cref="CleanName"/>.
+    /// </summary>
     public static void ClearNameCleanerCache()
     {
         s_nameCleanerCache.Clear();
     }
 
+    /// <summary>
+    /// Cleans a specified name.
+    /// <para>
+    /// If present, strips a prefix <c>value.</c>.  If present, strips a suffix beginning with <c>.Select(</c> or a suffix <c>.ToSystemEnumerable()</c>.
+    /// </para>
+    /// <para>
+    /// Results are cached in a dictionary.  The cache dictionary can be cleared by calling <see cref="ClearNameCleanerCache"/>.
+    /// </para>
+    /// </summary>
+    /// <param name="name">The name to be cleaned.</param>
+    /// <returns>The cleaned name.</returns>
     public static string CleanName(string name)
     {
         if (s_nameCleanerCache.TryGetValue(name, out string cached))
@@ -53,12 +74,25 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
         return name;
     }
 
+    /// <summary>
+    /// Cleans a specified name, formats it according to <paramref name="options"/>, and encodes it as JSON string.
+    /// </summary>
+    /// <seealso cref="CleanName"/>
+    /// <param name="name">The name to clean and convert to JSON encoded text.</param>
+    /// <param name="options">An object that specifies serialization options to use.</param>
+    /// <returns>The encoded JSON text.</returns>
     public static JsonEncodedText EncodeName(string name, JsonSerializerOptions options)
     {
         name = CleanName(name);
         return JsonEncodedText.Encode(options.PropertyNamingPolicy?.ConvertName(name) ?? name);
     }
 
+    /// <summary>
+    /// Gets a serializer for type <typeparamref name="V"/>.
+    /// </summary>
+    /// <typeparam name="V">The type to return a converter for.</typeparam>
+    /// <param name="options">An object that specifies serialization options to use.</param>
+    /// <returns>The <see cref="Write"/> method of the first converter that supports the given type, or <see cref="JsonSerializer.Serialize"/> if there is no converter.</returns>
     public static Action<Utf8JsonWriter, V, JsonSerializerOptions> GetSerializer<V>(
         JsonSerializerOptions options
     )
@@ -91,6 +125,14 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
         return JsonSerializer.Serialize;
     }
 
+    /// <summary>
+    ///   Writes a property name specified as a string and an array value as part of a name/value pair of a JSON object.
+    /// </summary>
+    /// <typeparam name="V">The type of the elements of the array value to convert to JSON.</typeparam>
+    /// <param name="writer">The writer to write to.</param>
+    /// <param name="value">The array value to written as a JSON array as part of a name/value pair.</param>
+    /// <param name="options">An object that specifies serialization options to use.</param>
+    /// <param name="name">The UTF-16 encoded property name of the JSON object to be processed by <see cref="EncodeName"/> written as UTF-8.  If null (the default value), the expression for <paramref name="value"/> is used.</param>
     public static void WriteArray<V>(
         Utf8JsonWriter writer,
         IEnumerable<V> value,
@@ -102,6 +144,15 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
         WriteArray(writer, value, options, serializer, name);
     }
 
+    /// <summary>
+    ///   Writes a property name specified as a string and an array value as part of a name/value pair of a JSON object.
+    /// </summary>
+    /// <typeparam name="V">The type of the elements of the array value to convert to JSON.</typeparam>
+    /// <param name="writer">The writer to write to.</param>
+    /// <param name="value">The array value to written as a JSON array as part of a name/value pair.</param>
+    /// <param name="options">An object that specifies serialization options to use.</param>
+    /// <param name="serializer">A serializer for type <typeparamref name="V"/>.</param>
+    /// <param name="name">The UTF-16 encoded property name of the JSON object to be processed by <see cref="EncodeName"/> written as UTF-8.  If null (the default value), the expression for <paramref name="value"/> is used.</param>
     public static void WriteArray<V>(
         Utf8JsonWriter writer,
         IEnumerable<V> value,
@@ -141,6 +192,14 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
         }
     }
 
+    /// <summary>
+    ///   Writes a property name specified as a string and an list value as part of a name/value pair of a JSON object.
+    /// </summary>
+    /// <typeparam name="V">The type of the elements of the array value to convert to JSON.</typeparam>
+    /// <param name="writer">The writer to write to.</param>
+    /// <param name="value">The list value to written as a JSON array as part of a name/value pair.</param>
+    /// <param name="options">An object that specifies serialization options to use.</param>
+    /// <param name="name">The UTF-16 encoded property name of the JSON object to be processed by <see cref="EncodeName"/> written as UTF-8.  If null (the default value), the expression for <paramref name="value"/> is used.</param>
     public static void WriteArray<V>(
         Utf8JsonWriter writer,
         icg.List<V> value,
@@ -151,6 +210,14 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
         WriteArray(writer, value.ToSystemEnumerable(), options, name);
     }
 
+    /// <summary>
+    ///   Writes a property name specified as a string and a value as part of a name/value pair of a JSON object.
+    /// </summary>
+    /// <typeparam name="V">The type of the value to convert to JSON.</typeparam>
+    /// <param name="writer">The writer to write to.</param>
+    /// <param name="value">The value to written as an appropriate JSON type as part of a name/value pair.</param>
+    /// <param name="options">An object that specifies serialization options to use.</param>
+    /// <param name="name">The UTF-16 encoded property name of the JSON object to be processed by <see cref="EncodeName"/> written as UTF-8.  If null (the default value), the expression for <paramref name="value"/> is used.</param>
     public static void WriteProperty<V>(
         Utf8JsonWriter writer,
         V value,
@@ -173,6 +240,21 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
         }
     }
 
+    /// <summary>
+    ///   Writes a <typeparamref name="V"/> value (as an appropriate
+    ///   JSON type) as an element of a JSON array.
+    /// </summary>
+    /// <typeparam name="V">
+    ///   The type of the value to convert to JSON.
+    /// </typeparam>
+    /// <param name="writer">The writer to write to.</param>
+    /// <param name="value">
+    ///   The value to written as an appropriate JSON type as an element
+    ///   of a JSON array.
+    /// </param>
+    /// <param name="options">
+    ///   An object that specifies serialization options to use.
+    /// </param>
     public static void WriteValue<V>(Utf8JsonWriter writer, V value, JsonSerializerOptions options)
     {
         var serializer = GetSerializer<V>(options);
