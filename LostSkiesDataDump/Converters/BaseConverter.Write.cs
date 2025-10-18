@@ -112,6 +112,17 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
     )
     {
         var serializer = GetSerializer<V>(options);
+        WriteArray(writer, value, options, serializer, name);
+    }
+
+    public static void WriteArray<V>(
+        Utf8JsonWriter writer,
+        IEnumerable<V> value,
+        JsonSerializerOptions options,
+        Action<Utf8JsonWriter, V, JsonSerializerOptions> serializer,
+        [CallerArgumentExpression(nameof(value))] string name = null
+    )
+    {
         try
         {
             writer.WriteStartArray(EncodeName(name, options));
