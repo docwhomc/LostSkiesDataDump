@@ -126,8 +126,23 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
         try
         {
             writer.WriteStartArray(EncodeName(name, options));
+            int index = 0;
             foreach (var element in value)
-                serializer(writer, element, options);
+            {
+                try
+                {
+                    serializer(writer, element, options);
+                }
+                catch (Exception e)
+                {
+                    var message =
+                        $"Error serializing element {index} ({element}) of array {name} ({value})";
+                    writer.WriteCommentValue(message);
+                    Plugin.Log.LogError(message);
+                    Plugin.Log.LogError(e);
+                }
+                index++;
+            }
             writer.WriteEndArray();
         }
         catch (Exception e)
