@@ -74,11 +74,7 @@ public abstract partial class BaseConverter<T>(bool reference) : JsonConverter<T
     );
 
     // Returns true if REFERENCE_KEY is written, false if ID ID_KEY is written or if there is no reference.
-    public static bool WriteReference<V>(
-        Utf8JsonWriter writer,
-        V value,
-        JsonSerializerOptions options
-    )
+    public static bool WriteReference(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
         if (value is null)
             return false;
