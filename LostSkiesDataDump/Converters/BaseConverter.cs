@@ -52,7 +52,10 @@ public abstract partial class BaseConverter<T>(bool reference) : JsonConverter<T
         try
         {
             if (!Reference || !WriteReference(writer, value, options))
+            {
+                writer.WriteString(TYPE_KEY, typeof(T).ToString());
                 WriteObjectBody(writer, value, options);
+            }
         }
         catch (Exception e)
         {
@@ -87,10 +90,7 @@ public abstract partial class BaseConverter<T>(bool reference) : JsonConverter<T
         if (alreadyExists)
             writer.WriteString(REFERENCE_KEY, reference);
         else
-        {
             writer.WriteString(ID_KEY, reference);
-            writer.WriteString(TYPE_KEY, typeof(V).ToString());
-        }
         return alreadyExists;
     }
 }
