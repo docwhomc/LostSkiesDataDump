@@ -132,7 +132,7 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
         }
         catch (Exception e)
         {
-            var message = $"Error writing array {name} with value {value}";
+            var message = $"Error serializing array {name} ({value})";
             writer.WriteCommentValue(message);
             Plugin.Log.LogError(message);
             Plugin.Log.LogError(e);
@@ -164,7 +164,7 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
         }
         catch (Exception e)
         {
-            var message = $"Error writing property {name} with value {value}";
+            var message = $"Error serializing property {name} ({value})";
             writer.WriteCommentValue(message);
             Plugin.Log.LogError(message);
             Plugin.Log.LogError(e);
@@ -180,7 +180,7 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
         }
         catch (Exception e)
         {
-            var message = $"Error writing value {value}";
+            var message = $"Error serializing value {value}";
             writer.WriteCommentValue(message);
             Plugin.Log.LogError(message);
             Plugin.Log.LogError(e);
