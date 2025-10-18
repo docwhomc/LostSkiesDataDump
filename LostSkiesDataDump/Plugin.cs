@@ -24,15 +24,26 @@ using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
+using Bossa.Dynamika.Utilities;
 using HarmonyLib;
 using Il2CppSystem.Collections.Generic;
 using LostSkiesDataDump.Converters;
 using LostSkiesDataDump.Converters.Compendium;
+using LostSkiesDataDump.Converters.Crafting;
+using LostSkiesDataDump.Converters.Item;
+using LostSkiesDataDump.Converters.Item.Component;
+using LostSkiesDataDump.Converters.Item.Level;
+using LostSkiesDataDump.Converters.Item.Profile;
+using LostSkiesDataDump.Converters.Item.Utility;
 using LostSkiesDataDump.Converters.WildSkies.Service;
 using LostSkiesDataDump.Converters.WildSkies.WorldItems;
 using UnityEngine;
 using UnityEngine.Localization;
+using Utilities.Weapons;
+using WildSkies.Gameplay.Crafting;
+using WildSkies.Gameplay.Items;
 using WildSkies.Service;
+using WildSkies.Weapon;
 using WildSkies.WorldItems;
 
 namespace LostSkiesDataDump;
@@ -199,8 +210,39 @@ public class Plugin : BasePlugin
                 RegionIdentifierData
             >()
         );
+        // Crafting
+        options.Converters.Add(new RandomStatsDefinitionConverter<RandomStatsDefinition>());
+        // Items
+        options.Converters.Add(new IItemServiceConverter<IItemService>());
+        options.Converters.Add(new ItemDefinitionConverter<ItemDefinition>());
+        options.Converters.Add(new ItemDefinitionConverter<ItemDefinition>());
+        // Items: Item Components
+        options.Converters.Add(new ItemAccessoryComponentConverter<ItemAccessoryComponent>());
+        options.Converters.Add(new ItemAmmoComponentConverter<ItemAmmoComponent>());
+        options.Converters.Add(
+            new ItemCustomisationComponentConverter<ItemCustomisationComponent>()
+        );
+        options.Converters.Add(new ItemKnowledgeComponentConverter<ItemKnowledgeComponent>());
+        options.Converters.Add(new ItemThrowableComponentConverter<ItemThrowableComponent>());
+        options.Converters.Add(new ItemWeaponComponentConverter<ItemWeaponComponent>());
+        options.Converters.Add(new ItemWorldComponentConverter<ItemWorldComponent>());
+        options.Converters.Add(new BaseItemComponentConverter<BaseItemComponent>());
+        // Item: Profile
+        options.Converters.Add(new WeaponProfileConverter<WeaponProfile>());
+        options.Converters.Add(new ItemProfileConverter<ItemProfile>());
+        // Item: Level
+        options.Converters.Add(new WeaponLevelsConverter<WeaponLevels>());
+        options.Converters.Add(new ItemLevelConverter<ItemLevel>());
+        options.Converters.Add(new ItemLevelsConverter<ItemLevels>());
+        // Item: Utility
+        options.Converters.Add(new WeaponBaseConverter<WeaponBase>());
+        options.Converters.Add(new UtilityItemConverter<UtilityItem>());
         // Miscellaneous
         options.Converters.Add(new LocalizedStringConverter<LocalizedString>());
+        options.Converters.Add(new QuaternionConverter());
+        options.Converters.Add(new Vector2Converter());
+        options.Converters.Add(new Vector2IntConverter());
+        options.Converters.Add(new Vector3Converter());
         options.Converters.Add(new JsonStringEnumConverter());
     }
 }

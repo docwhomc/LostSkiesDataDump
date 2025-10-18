@@ -16,24 +16,24 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
-using System.Text.Json.Serialization;
-using LostSkiesDataDump.Converters.Compendium;
-using LostSkiesDataDump.Converters.Item;
-using LostSkiesDataDump.Converters.WildSkies.Service;
+using System.Text.Json;
 using WildSkies.Service;
 
-namespace LostSkiesDataDump;
+namespace LostSkiesDataDump.Converters.Item;
 
-[Serializable]
-public class SerializationRoot
+public class IItemServiceConverter<T> : BaseConverter<T>
+    where T : IItemService
 {
-    [JsonConverter(typeof(ICompendiumServiceConverter<ICompendiumService>))]
-    public ICompendiumService CompendiumService { get; set; }
+    public IItemServiceConverter()
+        : base(false) { }
 
-    [JsonConverter(typeof(IItemServiceConverter<IItemService>))]
-    public IItemService ItemService { get; set; }
-
-    [JsonConverter(typeof(WorldRegionServiceConverter<WorldRegionService>))]
-    public WorldRegionService WorldRegionService { get; set; }
+    public override void WriteObjectBody(
+        Utf8JsonWriter writer,
+        T value,
+        JsonSerializerOptions options
+    )
+    {
+        WriteProperty(writer, value.AddressableLocationKey, options);
+        WriteArray(writer, value.FetchAllItems().ToSystemEnumerable(), options);
+    }
 }

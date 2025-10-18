@@ -84,4 +84,18 @@ class Patch
         Plugin.Log.LogDebug($"worldLoadingService: {worldLoadingService}");
         Plugin.Log.LogDebug($"skyMapService: {skyMapService}");
     }
+
+    [HarmonyPatch(typeof(ItemInventoryMediator), nameof(ItemInventoryMediator.Initialise))]
+    [HarmonyPrefix]
+    public static void ItemInventoryMediator_Initialise(
+        [DefaultParameterValue(null)] IItemService itemService,
+        [DefaultParameterValue(null)] IPlayerInventoryService playerInventoryService,
+        [DefaultParameterValue(null)] IUIService uiService,
+        [DefaultParameterValue(null)] LocalisationService localisationService
+    )
+    {
+        Plugin.Log.LogInfo("Patch.ItemInventoryMediator_Initialise(...)");
+        Plugin.Log.LogInfo($"itemService: {itemService}");
+        Plugin.SerializationRoot.ItemService = itemService;
+    }
 }
