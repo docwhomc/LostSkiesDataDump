@@ -27,7 +27,7 @@ public abstract partial class BaseConverter<T>(bool reference) : JsonConverter<T
     public const string ID_KEY = "$id";
     public const string REFERENCE_KEY = "$ref";
     public const string TYPE_KEY = "$type";
-    public bool Reference = reference;
+    public bool Reference { get; set; } = reference;
 
     public BaseConverter()
         : this(true) { }
