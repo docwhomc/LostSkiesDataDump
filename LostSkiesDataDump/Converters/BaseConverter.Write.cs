@@ -138,19 +138,6 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
         WriteArray(writer, value.ToSystemEnumerable(), options, name);
     }
 
-    [ObsoleteAttribute(
-        $"{nameof(WriteProperty)}<V>(Utf8JsonWriter, string, IEnumerable<V>, JsonSerializerOptions) is obsolete, use {nameof(WriteProperty)}<V>(Utf8JsonWriter, V, JsonSerializerOptions, [string name = null]) instead."
-    )]
-    public static void WriteProperty<V>(
-        Utf8JsonWriter writer,
-        string name,
-        V value,
-        JsonSerializerOptions options
-    )
-    {
-        WriteProperty(writer, value, options, name);
-    }
-
     public static void WriteProperty<V>(
         Utf8JsonWriter writer,
         V value,
