@@ -150,10 +150,13 @@ public class Plugin : BasePlugin
         {
             Log.LogInfo(Directory.CreateDirectory(BaseOutputDirectory));
             using FileStream textOutputStream = File.Create(TextOutputFile);
-            JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
-            AddConverters(jsonSerializerOptions);
             var referenceHandler = new DataReferenceHandler();
-            jsonSerializerOptions.ReferenceHandler = referenceHandler;
+            JsonSerializerOptions jsonSerializerOptions = new()
+            {
+                WriteIndented = true,
+                ReferenceHandler = referenceHandler,
+            };
+            AddConverters(jsonSerializerOptions);
             try
             {
                 JsonSerializer.Serialize(
