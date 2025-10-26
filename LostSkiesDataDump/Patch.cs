@@ -58,14 +58,14 @@ class Patch
         [DefaultParameterValue(null)] ICraftingService craftingService
     )
     {
-        Plugin.Log.LogInfo("Patch.CompendiumUiMediator_Initialise(...)");
-        Plugin.Log.LogDebug($"__instance: {__instance}");
-        Plugin.Log.LogDebug($"uiService: {uiService}");
-        Plugin.Log.LogDebug($"compendiumService: {compendiumService}");
+        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(CompendiumUiMediator_Initialise)}(...)");
+        Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
+        Plugin.Log.LogDebug($"{nameof(uiService)}: {uiService}");
+        Plugin.Log.LogDebug($"{nameof(compendiumService)}: {compendiumService}");
         Plugin.SerializationRoot.CompendiumService = compendiumService;
-        Plugin.Log.LogDebug($"playerGuideService: {playerGuideService}");
-        Plugin.Log.LogDebug($"playerInventoryService: {playerInventoryService}");
-        Plugin.Log.LogDebug($"craftingService: {craftingService}");
+        Plugin.Log.LogDebug($"{nameof(playerGuideService)}: {playerGuideService}");
+        Plugin.Log.LogDebug($"{nameof(playerInventoryService)}: {playerInventoryService}");
+        Plugin.Log.LogDebug($"{nameof(craftingService)}: {craftingService}");
     }
 
     [HarmonyPatch(typeof(WorldRegionService), nameof(WorldRegionService.Init))]
@@ -77,25 +77,74 @@ class Patch
         SkyMapService skyMapService
     )
     {
-        Plugin.Log.LogInfo("Patch.WorldRegionService_Init(...)");
-        Plugin.Log.LogDebug($"__instance: {__instance}");
+        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(WorldRegionService_Init)}(...)");
+        Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
         Plugin.SerializationRoot.WorldRegionService = __instance;
-        Plugin.Log.LogDebug($"woldMap: {worldMap}");
-        Plugin.Log.LogDebug($"worldLoadingService: {worldLoadingService}");
-        Plugin.Log.LogDebug($"skyMapService: {skyMapService}");
+        Plugin.Log.LogDebug($"{nameof(worldMap)}: {worldMap}");
+        Plugin.Log.LogDebug($"{nameof(worldLoadingService)}: {worldLoadingService}");
+        Plugin.Log.LogDebug($"{nameof(skyMapService)}: {skyMapService}");
     }
 
     [HarmonyPatch(typeof(ItemInventoryMediator), nameof(ItemInventoryMediator.Initialise))]
     [HarmonyPrefix]
     public static void ItemInventoryMediator_Initialise(
+        ItemInventoryMediator __instance,
         [DefaultParameterValue(null)] IItemService itemService,
         [DefaultParameterValue(null)] IPlayerInventoryService playerInventoryService,
         [DefaultParameterValue(null)] IUIService uiService,
         [DefaultParameterValue(null)] LocalisationService localisationService
     )
     {
-        Plugin.Log.LogInfo("Patch.ItemInventoryMediator_Initialise(...)");
-        Plugin.Log.LogInfo($"itemService: {itemService}");
+        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(ItemInventoryMediator_Initialise)}(...)");
+        Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
+        Plugin.Log.LogInfo($"{nameof(itemService)}: {itemService}");
         Plugin.SerializationRoot.ItemService = itemService;
+        Plugin.Log.LogInfo($"{nameof(playerInventoryService)}: {playerInventoryService}");
+        Plugin.Log.LogInfo($"{nameof(uiService)}: {uiService}");
+        Plugin.Log.LogInfo($"{nameof(localisationService)}: {localisationService}");
+    }
+
+    [HarmonyPatch(typeof(SteamPlatform), nameof(SteamPlatform.Initialise))]
+    [HarmonyPrefix]
+    public static void SteamPlatform_Initialise(SteamPlatform __instance)
+    {
+        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(SteamPlatform_Initialise)}(...)");
+        Plugin.Log.LogInfo($"{nameof(__instance)}: {__instance}");
+        Plugin.SerializationRoot.GameVersionInfo.SteamPlatform = __instance;
+        // Plugin.SerializationRoot.LogSteamPlatformData();
+    }
+
+    [HarmonyPatch(typeof(SteamPlatform), nameof(SteamPlatform.OwnsApplication))]
+    [HarmonyPostfix]
+    public static void SteamPlatform_OwnsApplication(
+        SteamPlatform __instance,
+        ref bool __result,
+        int targetAppID
+    )
+    {
+        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(SteamPlatform_OwnsApplication)}(...)");
+        Plugin.Log.LogInfo($"{nameof(__instance)}: {__instance}");
+        Plugin.Log.LogInfo($"{nameof(__result)}: {__result}");
+        Plugin.Log.LogInfo($"{nameof(targetAppID)}: {targetAppID}");
+        Plugin.Log.LogInfo(
+            $"{__instance}.{nameof(SteamPlatform.OwnsApplication)}({targetAppID}) => {__result}"
+        );
+    }
+
+    [HarmonyPatch(typeof(SteamPlatform), nameof(SteamPlatform.HasAccessToDLC))]
+    [HarmonyPostfix]
+    public static void SteamPlatform_HasAccessToDLC(
+        SteamPlatform __instance,
+        ref bool __result,
+        int dlcID
+    )
+    {
+        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(SteamPlatform_HasAccessToDLC)}(...)");
+        Plugin.Log.LogInfo($"{nameof(__instance)}: {__instance}");
+        Plugin.Log.LogInfo($"{nameof(__result)}: {__result}");
+        Plugin.Log.LogInfo($"{nameof(dlcID)}: {dlcID}");
+        Plugin.Log.LogInfo(
+            $"{__instance}.{nameof(SteamPlatform.HasAccessToDLC)}({dlcID}) => {__result}"
+        );
     }
 }

@@ -21,7 +21,6 @@ using System.Text.Json.Serialization;
 using LostSkiesDataDump.Converters.Compendium;
 using LostSkiesDataDump.Converters.Item;
 using LostSkiesDataDump.Converters.WildSkies.Service;
-using UnityEngine;
 using WildSkies.Service;
 
 namespace LostSkiesDataDump;
@@ -29,10 +28,9 @@ namespace LostSkiesDataDump;
 [Serializable]
 public class SerializationRoot
 {
-#pragma warning disable CA1822 // Mark members as static
-    public string Version => Application.version;
-    public string UnityVersion => Application.unityVersion;
-#pragma warning restore CA1822 // Mark members as static
+    public SerializationRoot() => GameVersionInfo = new();
+
+    public GameVersionInfo GameVersionInfo { get; }
 
     [JsonConverter(typeof(ICompendiumServiceConverter<ICompendiumService>))]
     public ICompendiumService CompendiumService { get; set; }
