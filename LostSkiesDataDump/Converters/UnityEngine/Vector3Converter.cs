@@ -16,26 +16,21 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
-using System.Text.Json.Serialization;
-using LostSkiesDataDump.Converters.WildSkies.Service;
-using WildSkies.Service;
+using System.Text.Json;
+using UnityEngine;
 
-namespace LostSkiesDataDump;
+namespace LostSkiesDataDump.Converters.UnityEngine;
 
-[Serializable]
-public class SerializationRoot
+public class Vector3Converter : BaseConverter<Vector3>
 {
-    public SerializationRoot() => GameVersionInfo = new();
-
-    public GameVersionInfo GameVersionInfo { get; }
-
-    [JsonConverter(typeof(ICompendiumServiceConverter<ICompendiumService>))]
-    public ICompendiumService CompendiumService { get; set; }
-
-    [JsonConverter(typeof(IItemServiceConverter<IItemService>))]
-    public IItemService ItemService { get; set; }
-
-    [JsonConverter(typeof(WorldRegionServiceConverter<WorldRegionService>))]
-    public WorldRegionService WorldRegionService { get; set; }
+    public override void WriteObjectBody(
+        Utf8JsonWriter writer,
+        Vector3 value,
+        JsonSerializerOptions options
+    )
+    {
+        WriteProperty(writer, value.x, options);
+        WriteProperty(writer, value.y, options);
+        WriteProperty(writer, value.z, options);
+    }
 }

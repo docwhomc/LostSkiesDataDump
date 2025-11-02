@@ -16,26 +16,27 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
-using System.Text.Json.Serialization;
-using LostSkiesDataDump.Converters.WildSkies.Service;
+using System.Text.Json;
 using WildSkies.Service;
 
-namespace LostSkiesDataDump;
+namespace LostSkiesDataDump.Converters.WildSkies.Service;
 
-[Serializable]
-public class SerializationRoot
+public class ICompendiumServiceConverter<T> : BaseConverter<T>
+    where T : ICompendiumService
 {
-    public SerializationRoot() => GameVersionInfo = new();
+    public ICompendiumServiceConverter()
+        : base(false) { }
 
-    public GameVersionInfo GameVersionInfo { get; }
-
-    [JsonConverter(typeof(ICompendiumServiceConverter<ICompendiumService>))]
-    public ICompendiumService CompendiumService { get; set; }
-
-    [JsonConverter(typeof(IItemServiceConverter<IItemService>))]
-    public IItemService ItemService { get; set; }
-
-    [JsonConverter(typeof(WorldRegionServiceConverter<WorldRegionService>))]
-    public WorldRegionService WorldRegionService { get; set; }
+    public override void WriteObjectBody(
+        Utf8JsonWriter writer,
+        T value,
+        JsonSerializerOptions options
+    )
+    {
+        WriteArray(writer, value.Categories, options);
+        WriteArray(writer, value.Entries, options);
+        // TODO: video clips via
+        //     - `public unsafe virtual VideoClip LoadedTutorialVideo`
+        //     - `public unsafe virtual Task<bool> LoadTutorialVideo([DefaultParameterValue(null)] string videoName)`
+    }
 }
