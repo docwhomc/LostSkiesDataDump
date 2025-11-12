@@ -26,9 +26,14 @@ namespace LostSkiesDataDump;
 [Serializable]
 public class SerializationRoot
 {
-    public SerializationRoot() => GameVersionInfo = new();
+    public SerializationRoot()
+    {
+        GameVersionInfo = new();
+        PluginVersionInfo = new();
+    }
 
     public GameVersionInfo GameVersionInfo { get; }
+    public PluginVersionInfo PluginVersionInfo { get; }
 
     [JsonConverter(typeof(ICompendiumServiceConverter<ICompendiumService>))]
     public ICompendiumService CompendiumService { get; set; }
