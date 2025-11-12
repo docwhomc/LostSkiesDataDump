@@ -200,7 +200,11 @@ public class Plugin : BasePlugin
         options.Converters.Add(new ICompendiumServiceConverter<ICompendiumService>());
         options.Converters.Add(new CompendiumCategoryConverter<CompendiumCategory>());
         options.Converters.Add(new CompendiumEntryConverter<CompendiumEntry>());
+        // WildSkies.Gameplay.Crafting
+        options.Converters.Add(new CraftingComponentConverter<CraftingComponent>());
+        options.Converters.Add(new CraftableItemBlueprintConverter<CraftableItemBlueprint>());
         // WildSkies.Service
+        options.Converters.Add(new ICraftingServiceConverter<ICraftingService>());
         options.Converters.Add(new WorldRegionServiceConverter<WorldRegionService>());
         // WildSkies.WorldItems
         options.Converters.Add(new RegionIdentifierDataConverter<RegionIdentifierData>());

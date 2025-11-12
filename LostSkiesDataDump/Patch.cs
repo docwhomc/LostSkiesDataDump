@@ -66,6 +66,7 @@ class Patch
         Plugin.Log.LogDebug($"{nameof(playerGuideService)}: {playerGuideService}");
         Plugin.Log.LogDebug($"{nameof(playerInventoryService)}: {playerInventoryService}");
         Plugin.Log.LogDebug($"{nameof(craftingService)}: {craftingService}");
+        Plugin.SerializationRoot.CraftingService = craftingService;
     }
 
     [HarmonyPatch(typeof(WorldRegionService), nameof(WorldRegionService.Init))]

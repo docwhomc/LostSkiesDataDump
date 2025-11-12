@@ -35,6 +35,9 @@ public class SerializationRoot
     public GameVersionInfo GameVersionInfo { get; }
     public PluginVersionInfo PluginVersionInfo { get; }
 
+    [JsonConverter(typeof(ICraftingServiceConverter<ICraftingService>))]
+    public ICraftingService CraftingService { get; set; }
+
     [JsonConverter(typeof(ICompendiumServiceConverter<ICompendiumService>))]
     public ICompendiumService CompendiumService { get; set; }
 
