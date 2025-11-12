@@ -35,7 +35,7 @@ public class ItemProfileConverter<T> : BaseConverter<T>
     {
         WriteArray(
             writer,
-            value.GetItemParameters().ToSystemEnumerable(),
+            value.GetItemParameters()?.ToSystemEnumerable(),
             options,
             WriteItemParameter
         );
