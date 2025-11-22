@@ -4,7 +4,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <GameDir>$(appdata)/com.kesomannen.gale/lost-skies/profiles/Default</GameDir>
+    <GameDir>$(appdata)/com.kesomannen.gale/lost-skies/profiles/Dev</GameDir>
     <InterOpDir>$(GameDir)/BepInEx/interop</InterOpDir>
     <PluginsDir>$(GameDir)/BepInEx/plugins</PluginsDir>
     <FinalAssemblyName>$(AssemblyName).dll</FinalAssemblyName>

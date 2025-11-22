@@ -29,7 +29,7 @@
             "label": "Open Log File",
             "command": "code",
             "args": [
-                "$env:APPDATA${/}com.kesomannen.gale${/}lost-skies${/}profiles${/}30Day${/}BepInEx${/}LogOutput.log"
+                "$env:APPDATA${/}com.kesomannen.gale${/}lost-skies${/}profiles${/}Dev${/}BepInEx${/}LogOutput.log"
             ],
             "problemMatcher": []
         },
@@ -38,7 +38,7 @@
             "label": "Open Error Log File",
             "command": "code",
             "args": [
-                "$env:APPDATA${/}com.kesomannen.gale${/}lost-skies${/}profiles${/}30Day${/}BepInEx${/}ErrorLog.log"
+                "$env:APPDATA${/}com.kesomannen.gale${/}lost-skies${/}profiles${/}Dev${/}BepInEx${/}ErrorLog.log"
             ],
             "problemMatcher": []
         }
