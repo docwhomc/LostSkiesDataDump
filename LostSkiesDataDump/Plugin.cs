@@ -208,13 +208,6 @@ public class Plugin : BasePlugin
         options.Converters.Add(new WorldRegionServiceConverter<WorldRegionService>());
         // WildSkies.WorldItems
         options.Converters.Add(new RegionIdentifierDataConverter<RegionIdentifierData>());
-        options.Converters.Add(
-            new DictionaryConverter<
-                Dictionary<int, RegionIdentifierData>,
-                int,
-                RegionIdentifierData
-            >()
-        );
         // Crafting
         options.Converters.Add(new RandomStatsDefinitionConverter<RandomStatsDefinition>());
         // Items
@@ -249,5 +242,6 @@ public class Plugin : BasePlugin
         options.Converters.Add(new Vector2IntConverter());
         options.Converters.Add(new Vector3Converter());
         options.Converters.Add(new JsonStringEnumConverter());
+        options.Converters.Add(new DictionaryConverterFactory());
     }
 }
