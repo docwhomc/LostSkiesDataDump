@@ -22,7 +22,7 @@ using WildSkies.Gameplay.Items;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Items;
 
-public class ItemStatsDefinitionConverter<T> : BaseConverter<T>
+public class ItemStatDefinitionConverter<T> : BaseConverter<T>
     where T : ItemStatDefinition
 {
     public override void WriteObjectBody(
