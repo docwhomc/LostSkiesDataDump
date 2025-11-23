@@ -243,5 +243,6 @@ public class Plugin : BasePlugin
         options.Converters.Add(new Vector3Converter());
         options.Converters.Add(new JsonStringEnumConverter());
         options.Converters.Add(new DictionaryConverterFactory());
+        options.Converters.Add(new ListConverterFactory());
     }
 }
