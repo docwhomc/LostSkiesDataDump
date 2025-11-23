@@ -41,8 +41,17 @@ public class SerializationRoot
     [JsonConverter(typeof(ICompendiumServiceConverter<ICompendiumService>))]
     public ICompendiumService CompendiumService { get; set; }
 
+    [JsonConverter(typeof(ContainerServiceConverter<ContainerService>))]
+    public ContainerService ContainerService { get; set; }
+
     [JsonConverter(typeof(IItemServiceConverter<IItemService>))]
     public IItemService ItemService { get; set; }
+
+    [JsonConverter(typeof(LootPoolServiceConverter<LootPoolService>))]
+    public LootPoolService LootPoolService { get; set; }
+
+    [JsonConverter(typeof(LootTableServiceConverter<LootTableService>))]
+    public LootTableService LootTableService { get; set; }
 
     [JsonConverter(typeof(WorldRegionServiceConverter<WorldRegionService>))]
     public WorldRegionService WorldRegionService { get; set; }

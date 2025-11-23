@@ -69,6 +69,15 @@ class Patch
         Plugin.SerializationRoot.CraftingService = craftingService;
     }
 
+    [HarmonyPatch(typeof(ContainerService), nameof(ContainerService.Initialise))]
+    [HarmonyPrefix]
+    public static void ContainerService_Initialise(ContainerService __instance)
+    {
+        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(ContainerService_Initialise)}(...)");
+        Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
+        Plugin.SerializationRoot.ContainerService = __instance;
+    }
+
     [HarmonyPatch(typeof(WorldRegionService), nameof(WorldRegionService.Init))]
     [HarmonyPrefix]
     public static void WorldRegionService_Init(
@@ -103,6 +112,24 @@ class Patch
         Plugin.Log.LogInfo($"{nameof(playerInventoryService)}: {playerInventoryService}");
         Plugin.Log.LogInfo($"{nameof(uiService)}: {uiService}");
         Plugin.Log.LogInfo($"{nameof(localisationService)}: {localisationService}");
+    }
+
+    [HarmonyPatch(typeof(LootPoolService), nameof(LootPoolService.Initialise))]
+    [HarmonyPrefix]
+    public static void LootPoolService_Initialise(LootPoolService __instance)
+    {
+        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(LootPoolService_Initialise)}(...)");
+        Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
+        Plugin.SerializationRoot.LootPoolService = __instance;
+    }
+
+    [HarmonyPatch(typeof(LootTableService), nameof(LootTableService.Initialise))]
+    [HarmonyPrefix]
+    public static void LootTableService_Initialise(LootTableService __instance)
+    {
+        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(LootTableService_Initialise)}(...)");
+        Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
+        Plugin.SerializationRoot.LootTableService = __instance;
     }
 
     [HarmonyPatch(typeof(SteamPlatform), nameof(SteamPlatform.Initialise))]

@@ -26,23 +26,27 @@ using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using Bossa.Dynamika.Utilities;
 using HarmonyLib;
-using Il2CppSystem.Collections.Generic;
 using LostSkiesDataDump.Converters.Bossa.Dynamika.Utilities;
 using LostSkiesDataDump.Converters.Global;
 using LostSkiesDataDump.Converters.Il2CppSystem.Collections.Generic;
+using LostSkiesDataDump.Converters.System;
 using LostSkiesDataDump.Converters.UnityEngine;
 using LostSkiesDataDump.Converters.UnityEngine.Localization;
 using LostSkiesDataDump.Converters.Utilities.Weapons;
+using LostSkiesDataDump.Converters.WildSkies.Gameplay.Container;
 using LostSkiesDataDump.Converters.WildSkies.Gameplay.Crafting;
 using LostSkiesDataDump.Converters.WildSkies.Gameplay.Items;
+using LostSkiesDataDump.Converters.WildSkies.Gameplay.Loot;
 using LostSkiesDataDump.Converters.WildSkies.Service;
 using LostSkiesDataDump.Converters.WildSkies.Weapon;
 using LostSkiesDataDump.Converters.WildSkies.WorldItems;
 using UnityEngine;
 using UnityEngine.Localization;
 using Utilities.Weapons;
+using WildSkies.Gameplay.Container;
 using WildSkies.Gameplay.Crafting;
 using WildSkies.Gameplay.Items;
+using WildSkies.Gameplay.Loot;
 using WildSkies.Service;
 using WildSkies.Weapon;
 using WildSkies.WorldItems;
@@ -200,13 +204,29 @@ public class Plugin : BasePlugin
         options.Converters.Add(new ICompendiumServiceConverter<ICompendiumService>());
         options.Converters.Add(new CompendiumCategoryConverter<CompendiumCategory>());
         options.Converters.Add(new CompendiumEntryConverter<CompendiumEntry>());
+        // Global
+        options.Converters.Add(new LootPoolFrequencyConverter());
+        options.Converters.Add(new LootTableDataConverter<LootTableData>());
         // System
         options.Converters.Add(new IntPtrConverter());
+        // WildSkies.Gameplay.Container
+        options.Converters.Add(new ContainerDefinitionConverter<ContainerDefinition>());
+        options.Converters.Add(
+            new ContainerDefinitionConverter<ContainerDefinition>.PoolSlotConverter<ContainerDefinition.PoolSlot>()
+        );
+        options.Converters.Add(new ContainerDropRatesConverter<ContainerDropRates>());
         // WildSkies.Gameplay.Crafting
         options.Converters.Add(new CraftingComponentConverter<CraftingComponent>());
         options.Converters.Add(new CraftableItemBlueprintConverter<CraftableItemBlueprint>());
+        // WildSkies.Gameplay.Loot
+        options.Converters.Add(new LootPoolDefinitionConverter<LootPoolDefinition>());
+        options.Converters.Add(new LootPoolDropRatesConverter<LootPoolDropRates>());
         // WildSkies.Service
+        options.Converters.Add(new ContainerServiceConverter<ContainerService>());
         options.Converters.Add(new ICraftingServiceConverter<ICraftingService>());
+        options.Converters.Add(new LootPoolServiceConverter<LootPoolService>());
+        options.Converters.Add(new LootTableConverter<LootTable>());
+        options.Converters.Add(new LootTableServiceConverter<LootTableService>());
         options.Converters.Add(new WorldRegionServiceConverter<WorldRegionService>());
         // WildSkies.WorldItems
         options.Converters.Add(new RegionIdentifierDataConverter<RegionIdentifierData>());
