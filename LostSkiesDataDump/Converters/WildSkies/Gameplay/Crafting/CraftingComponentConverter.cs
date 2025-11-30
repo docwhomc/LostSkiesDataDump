@@ -33,11 +33,6 @@ public class CraftingComponentConverter<T>
     public static JsonConverter Default { get; } =
         new CraftingComponentConverter<CraftingComponent>();
 
-    // static CraftingComponentConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new CraftingComponentConverter<CraftingComponent>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

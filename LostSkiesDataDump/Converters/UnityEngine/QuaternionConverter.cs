@@ -29,11 +29,6 @@ public class QuaternionConverter : BaseConverter<Quaternion>, IConverterDefault<
 {
     public static JsonConverter Default { get; } = new QuaternionConverter();
 
-    // static QuaternionConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new QuaternionConverter());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         Quaternion value,

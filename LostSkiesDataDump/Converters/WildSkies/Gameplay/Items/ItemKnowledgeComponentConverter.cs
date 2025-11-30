@@ -33,13 +33,6 @@ public class ItemKnowledgeComponentConverter<T>
     public static new JsonConverter Default { get; } =
         new ItemKnowledgeComponentConverter<ItemKnowledgeComponent>();
 
-    // static ItemKnowledgeComponentConverter()
-    // {
-    //     SortedConverterSet.Default.Add(
-    //         new ItemKnowledgeComponentConverter<ItemKnowledgeComponent>()
-    //     );
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

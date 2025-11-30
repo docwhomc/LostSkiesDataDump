@@ -32,11 +32,6 @@ public class LootPoolServiceConverter<T>
 {
     public static JsonConverter Default { get; } = new LootPoolServiceConverter<LootPoolService>();
 
-    // static LootPoolServiceConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new LootPoolServiceConverter<LootPoolService>());
-    // }
-
     public LootPoolServiceConverter()
         : base(false) { }
 

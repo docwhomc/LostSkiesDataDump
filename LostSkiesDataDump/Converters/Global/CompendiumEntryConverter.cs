@@ -31,11 +31,6 @@ public class CompendiumEntryConverter<T>
 {
     public static JsonConverter Default { get; } = new CompendiumEntryConverter<CompendiumEntry>();
 
-    // static CompendiumEntryConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new CompendiumEntryConverter<CompendiumEntry>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

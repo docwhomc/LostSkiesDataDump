@@ -29,11 +29,6 @@ public class Vector3Converter : BaseConverter<Vector3>, IConverterDefault<Vector
 {
     public static JsonConverter Default { get; } = new Vector3Converter();
 
-    // static Vector3Converter()
-    // {
-    //     SortedConverterSet.Default.Add(new Vector3Converter());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         Vector3 value,

@@ -31,11 +31,6 @@ public class LootTableDataConverter<T>
 {
     public static JsonConverter Default { get; } = new LootTableDataConverter<LootTableData>();
 
-    // static LootTableDataConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new LootTableDataConverter<LootTableData>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

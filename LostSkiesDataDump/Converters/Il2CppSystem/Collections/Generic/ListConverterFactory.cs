@@ -31,11 +31,6 @@ public class ListConverterFactory : BaseConverterFactory, IConverterDefault<List
 {
     public static JsonConverter Default { get; } = new ListConverterFactory();
 
-    // static ListConverterFactory()
-    // {
-    //     SortedConverterSet.Default.Add(new ListConverterFactory());
-    // }
-
     internal class ListConverter<TType, TValue>(bool reference) : FactoryConverter<TType>(reference)
         where TType : icg.List<TValue>
     {

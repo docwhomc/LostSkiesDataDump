@@ -33,11 +33,6 @@ public class DictionaryConverterFactory
 {
     public static JsonConverter Default { get; } = new DictionaryConverterFactory();
 
-    // static DictionaryConverterFactory()
-    // {
-    //     SortedConverterSet.Default.Add(new DictionaryConverterFactory());
-    // }
-
     internal class DictionaryConverter<TType, TKey, TValue>(bool reference)
         : FactoryConverter<TType>(reference)
         where TType : icg.Dictionary<TKey, TValue>

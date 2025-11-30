@@ -33,11 +33,6 @@ public class RegionIdentifierDataConverter<T>
     public static JsonConverter Default { get; } =
         new RegionIdentifierDataConverter<RegionIdentifierData>();
 
-    // static RegionIdentifierDataConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new RegionIdentifierDataConverter<RegionIdentifierData>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

@@ -33,11 +33,6 @@ public class ItemWeaponComponentConverter<T>
     public static new JsonConverter Default { get; } =
         new ItemWeaponComponentConverter<ItemWeaponComponent>();
 
-    // static ItemWeaponComponentConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new ItemWeaponComponentConverter<ItemWeaponComponent>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

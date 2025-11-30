@@ -33,11 +33,6 @@ public class BaseItemComponentConverter<T>
     public static JsonConverter Default { get; } =
         new BaseItemComponentConverter<BaseItemComponent>();
 
-    // static BaseItemComponentConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new BaseItemComponentConverter<BaseItemComponent>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

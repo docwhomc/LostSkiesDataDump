@@ -33,11 +33,6 @@ public class RandomStatsDefinitionConverter<T>
     public static JsonConverter Default { get; } =
         new RandomStatsDefinitionConverter<RandomStatsDefinition>();
 
-    // static RandomStatsDefinitionConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new RandomStatsDefinitionConverter<RandomStatsDefinition>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

@@ -37,11 +37,6 @@ public class LootPoolDefinitionConverter<T>
     public static JsonConverter Default { get; } =
         new LootPoolDefinitionConverter<LootPoolDefinition>();
 
-    // static LootPoolDefinitionConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new LootPoolDefinitionConverter<LootPoolDefinition>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

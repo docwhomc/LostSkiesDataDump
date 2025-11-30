@@ -30,11 +30,6 @@ public class LootPoolFrequencyConverter
 {
     public static JsonConverter Default { get; } = new LootPoolFrequencyConverter();
 
-    // static LootPoolFrequencyConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new LootPoolFrequencyConverter());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         LootPoolFrequency value,

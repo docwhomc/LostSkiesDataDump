@@ -32,11 +32,6 @@ public class ItemDefinitionConverter<T>
 {
     public static JsonConverter Default { get; } = new ItemDefinitionConverter<ItemDefinition>();
 
-    // static ItemDefinitionConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new ItemDefinitionConverter<ItemDefinition>());
-    // }
-
     public ItemDefinitionConverter()
         : base(false) { }
 

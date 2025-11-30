@@ -33,13 +33,6 @@ public class ItemThrowableComponentConverter<T>
     public static new JsonConverter Default { get; } =
         new ItemThrowableComponentConverter<ItemThrowableComponent>();
 
-    // static ItemThrowableComponentConverter()
-    // {
-    //     SortedConverterSet.Default.Add(
-    //         new ItemThrowableComponentConverter<ItemThrowableComponent>()
-    //     );
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

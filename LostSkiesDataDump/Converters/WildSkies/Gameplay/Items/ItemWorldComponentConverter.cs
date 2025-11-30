@@ -33,11 +33,6 @@ public class ItemWorldComponentConverter<T>
     public static new JsonConverter Default { get; } =
         new ItemWorldComponentConverter<ItemWorldComponent>();
 
-    // static ItemWorldComponentConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new ItemWorldComponentConverter<ItemWorldComponent>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

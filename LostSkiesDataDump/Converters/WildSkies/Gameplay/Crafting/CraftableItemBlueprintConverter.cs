@@ -33,13 +33,6 @@ public class CraftableItemBlueprintConverter<T>
     public static JsonConverter Default { get; } =
         new CraftableItemBlueprintConverter<CraftableItemBlueprint>();
 
-    // static CraftableItemBlueprintConverter()
-    // {
-    //     SortedConverterSet.Default.Add(
-    //         new CraftableItemBlueprintConverter<CraftableItemBlueprint>()
-    //     );
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

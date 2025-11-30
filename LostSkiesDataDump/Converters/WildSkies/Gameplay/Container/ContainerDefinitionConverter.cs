@@ -33,11 +33,6 @@ public class ContainerDefinitionConverter<T>
     public static JsonConverter Default { get; } =
         new ContainerDefinitionConverter<ContainerDefinition>();
 
-    // static ContainerDefinitionConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new ContainerDefinitionConverter<ContainerDefinition>());
-    // }
-
     public class PoolSlotConverter<TP> : BaseConverter<TP>
         where TP : ContainerDefinition.PoolSlot
     {

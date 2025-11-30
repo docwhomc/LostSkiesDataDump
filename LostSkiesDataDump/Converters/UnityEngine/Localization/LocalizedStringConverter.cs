@@ -35,11 +35,6 @@ public class LocalizedStringConverter<T>
 {
     public static JsonConverter Default { get; } = new LocalizedStringConverter<LocalizedString>();
 
-    // static LocalizedStringConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new LocalizedStringConverter<LocalizedString>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

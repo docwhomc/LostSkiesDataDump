@@ -33,11 +33,6 @@ public class WorldRegionServiceConverter<T>
     public static JsonConverter Default { get; } =
         new WorldRegionServiceConverter<WorldRegionService>();
 
-    // static WorldRegionServiceConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new WorldRegionServiceConverter<WorldRegionService>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

@@ -32,11 +32,6 @@ public class IItemServiceConverter<T>
 {
     public static JsonConverter Default { get; } = new IItemServiceConverter<IItemService>();
 
-    // static IItemServiceConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new IItemServiceConverter<IItemService>());
-    // }
-
     public IItemServiceConverter()
         : base(false) { }
 

@@ -33,13 +33,6 @@ public class ItemCustomisationComponentConverter<T>
     public static new JsonConverter Default { get; } =
         new ItemCustomisationComponentConverter<ItemCustomisationComponent>();
 
-    // static ItemCustomisationComponentConverter()
-    // {
-    //     SortedConverterSet.Default.Add(
-    //         new ItemCustomisationComponentConverter<ItemCustomisationComponent>()
-    //     );
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

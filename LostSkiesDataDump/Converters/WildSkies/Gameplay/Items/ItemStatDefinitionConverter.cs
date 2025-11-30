@@ -34,11 +34,6 @@ public class ItemStatDefinitionConverter<T>
     public static JsonConverter Default { get; } =
         new ItemStatDefinitionConverter<ItemStatDefinition>();
 
-    // static ItemStatDefinitionConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new ItemStatDefinitionConverter<ItemStatDefinition>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

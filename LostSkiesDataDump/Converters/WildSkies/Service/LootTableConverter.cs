@@ -30,11 +30,6 @@ public class LootTableConverter<T> : BaseConverter<T>, IConverterDefault<LootTab
 {
     public static JsonConverter Default { get; } = new LootTableConverter<LootTable>();
 
-    // static LootTableConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new LootTableConverter<LootTable>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

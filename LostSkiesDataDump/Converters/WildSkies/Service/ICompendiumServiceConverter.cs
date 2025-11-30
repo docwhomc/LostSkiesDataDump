@@ -33,11 +33,6 @@ public class ICompendiumServiceConverter<T>
     public static JsonConverter Default { get; } =
         new ICompendiumServiceConverter<ICompendiumService>();
 
-    // static ICompendiumServiceConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new ICompendiumServiceConverter<ICompendiumService>());
-    // }
-
     public ICompendiumServiceConverter()
         : base(false) { }
 

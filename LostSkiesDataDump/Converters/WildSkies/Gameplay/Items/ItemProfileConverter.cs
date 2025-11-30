@@ -33,11 +33,6 @@ public class ItemProfileConverter<T> : BaseConverter<T>, IConverterDefault<ItemP
 {
     public static JsonConverter Default { get; } = new ItemProfileConverter<ItemProfile>();
 
-    // static ItemProfileConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new ItemProfileConverter<ItemProfile>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

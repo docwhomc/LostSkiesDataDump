@@ -33,11 +33,6 @@ public class ContainerDropRatesConverter<T>
     public static JsonConverter Default { get; } =
         new ContainerDropRatesConverter<ContainerDropRates>();
 
-    // static ContainerDropRatesConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new ContainerDropRatesConverter<ContainerDropRates>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

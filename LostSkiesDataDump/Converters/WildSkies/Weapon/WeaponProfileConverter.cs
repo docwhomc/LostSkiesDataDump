@@ -33,11 +33,6 @@ public class WeaponProfileConverter<T>
 {
     public static new JsonConverter Default { get; } = new WeaponProfileConverter<WeaponProfile>();
 
-    // static WeaponProfileConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new WeaponProfileConverter<WeaponProfile>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

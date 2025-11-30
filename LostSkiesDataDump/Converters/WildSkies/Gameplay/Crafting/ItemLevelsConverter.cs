@@ -30,11 +30,6 @@ public class ItemLevelsConverter<T> : BaseConverter<T>, IConverterDefault<ItemLe
 {
     public static JsonConverter Default { get; } = new ItemLevelsConverter<ItemLevels>();
 
-    // static ItemLevelsConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new ItemLevelsConverter<ItemLevels>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

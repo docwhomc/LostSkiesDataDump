@@ -33,11 +33,6 @@ public class ContainerServiceConverter<T>
     public static JsonConverter Default { get; } =
         new ContainerServiceConverter<ContainerService>();
 
-    // static ContainerServiceConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new ContainerServiceConverter<ContainerService>());
-    // }
-
     public ContainerServiceConverter()
         : base(false) { }
 

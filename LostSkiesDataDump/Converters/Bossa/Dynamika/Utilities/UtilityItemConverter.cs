@@ -30,17 +30,6 @@ public class UtilityItemConverter<T> : BaseConverter<T>, IConverterDefault<Utili
 {
     public static JsonConverter Default { get; } = new UtilityItemConverter<UtilityItem>();
 
-    // static UtilityItemConverter()
-    // {
-    //     UtilityItemConverter<UtilityItem> instance = new();
-    //     Plugin.Log.LogError($"UtilityItemConverter<UtilityItem> instance = {instance}");
-    //     Plugin.Log.LogError($"SortedConverterSet.Default = {SortedConverterSet.Default}");
-    //     Plugin.Log.LogError(
-    //         $"SortedConverterSet.Default is null = {SortedConverterSet.Default is null}"
-    //     );
-    //     SortedConverterSet.Default.Add(instance);
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

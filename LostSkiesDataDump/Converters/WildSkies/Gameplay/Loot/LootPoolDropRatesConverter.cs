@@ -33,11 +33,6 @@ public class LootPoolDropRatesConverter<T>
     public static JsonConverter Default { get; } =
         new LootPoolDropRatesConverter<LootPoolDropRates>();
 
-    // static LootPoolDropRatesConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new LootPoolDropRatesConverter<LootPoolDropRates>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

@@ -36,11 +36,6 @@ public class WeaponBaseConverter<T>
 {
     public static new JsonConverter Default { get; } = new WeaponBaseConverter<WeaponBase>();
 
-    // static WeaponBaseConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new WeaponBaseConverter<WeaponBase>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

@@ -29,11 +29,6 @@ public class IntPtrConverter : BaseConverter<IntPtr>, IConverterDefault<IntPtrCo
 {
     public static JsonConverter Default { get; } = new IntPtrConverter();
 
-    // static IntPtrConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new IntPtrConverter());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         IntPtr value,

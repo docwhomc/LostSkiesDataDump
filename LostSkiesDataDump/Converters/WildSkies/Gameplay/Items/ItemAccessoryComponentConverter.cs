@@ -33,13 +33,6 @@ public class ItemAccessoryComponentConverter<T>
     public static new JsonConverter Default { get; } =
         new ItemAccessoryComponentConverter<ItemAccessoryComponent>();
 
-    // static ItemAccessoryComponentConverter()
-    // {
-    //     SortedConverterSet.Default.Add(
-    //         new ItemAccessoryComponentConverter<ItemAccessoryComponent>()
-    //     );
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

@@ -36,11 +36,6 @@ public class WeaponLevelsConverter<T>
 {
     public static new JsonConverter Default { get; } = new WeaponLevelsConverter<WeaponLevels>();
 
-    // static WeaponLevelsConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new WeaponLevelsConverter<WeaponLevels>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

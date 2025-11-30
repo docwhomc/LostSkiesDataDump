@@ -33,11 +33,6 @@ public class LootTableServiceConverter<T>
     public static JsonConverter Default { get; } =
         new LootTableServiceConverter<LootTableService>();
 
-    // static LootTableServiceConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new LootTableServiceConverter<LootTableService>());
-    // }
-
     public LootTableServiceConverter()
         : base(false) { }
 

@@ -33,11 +33,6 @@ public class CompendiumCategoryConverter<T>
     public static JsonConverter Default { get; } =
         new CompendiumCategoryConverter<CompendiumCategory>();
 
-    // static CompendiumCategoryConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new CompendiumCategoryConverter<CompendiumCategory>());
-    // }
-
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

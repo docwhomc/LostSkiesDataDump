@@ -35,11 +35,6 @@ public class ICraftingServiceConverter<T>
     public static JsonConverter Default { get; } =
         new ICraftingServiceConverter<ICraftingService>();
 
-    // static ICraftingServiceConverter()
-    // {
-    //     SortedConverterSet.Default.Add(new ICraftingServiceConverter<ICraftingService>());
-    // }
-
     public ICraftingServiceConverter()
         : base(false) { }
 
