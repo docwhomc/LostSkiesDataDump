@@ -16,14 +16,28 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 using WildSkies.Gameplay.Container;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Container;
 
-public class ContainerDefinitionConverter<T> : BaseConverter<T>
+[RequiresPreviewFeatures]
+public class ContainerDefinitionConverter<T>
+    : BaseConverter<T>,
+        IConverterDefault<ContainerDefinitionConverter<T>>
     where T : ContainerDefinition
 {
+    public static JsonConverter Default { get; } =
+        new ContainerDefinitionConverter<ContainerDefinition>();
+
+    // static ContainerDefinitionConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new ContainerDefinitionConverter<ContainerDefinition>());
+    // }
+
     public class PoolSlotConverter<TP> : BaseConverter<TP>
         where TP : ContainerDefinition.PoolSlot
     {

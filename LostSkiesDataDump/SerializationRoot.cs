@@ -17,12 +17,14 @@
 */
 
 using System;
+using System.Runtime.Versioning;
 using System.Text.Json.Serialization;
 using LostSkiesDataDump.Converters.WildSkies.Service;
 using WildSkies.Service;
 
 namespace LostSkiesDataDump;
 
+[RequiresPreviewFeatures]
 [Serializable]
 public class SerializationRoot
 {

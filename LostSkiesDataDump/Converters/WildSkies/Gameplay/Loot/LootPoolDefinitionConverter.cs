@@ -18,16 +18,30 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 using WildSkies.Gameplay.Loot;
 using WildSkies.IslandExport;
 using Island = WildSkies.WorldItems.Island;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Loot;
 
-public class LootPoolDefinitionConverter<T> : BaseConverter<T>
+[RequiresPreviewFeatures]
+public class LootPoolDefinitionConverter<T>
+    : BaseConverter<T>,
+        IConverterDefault<LootPoolDefinitionConverter<T>>
     where T : LootPoolDefinition
 {
+    public static JsonConverter Default { get; } =
+        new LootPoolDefinitionConverter<LootPoolDefinition>();
+
+    // static LootPoolDefinitionConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new LootPoolDefinitionConverter<LootPoolDefinition>());
+    // }
+
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

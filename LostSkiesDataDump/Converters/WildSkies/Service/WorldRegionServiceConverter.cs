@@ -16,14 +16,28 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 using WildSkies.Service;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Service;
 
-public class WorldRegionServiceConverter<T> : BaseConverter<T>
+[RequiresPreviewFeatures]
+public class WorldRegionServiceConverter<T>
+    : BaseConverter<T>,
+        IConverterDefault<WorldRegionServiceConverter<T>>
     where T : WorldRegionService
 {
+    public static JsonConverter Default { get; } =
+        new WorldRegionServiceConverter<WorldRegionService>();
+
+    // static WorldRegionServiceConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new WorldRegionServiceConverter<WorldRegionService>());
+    // }
+
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

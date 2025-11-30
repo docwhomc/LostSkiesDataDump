@@ -17,6 +17,7 @@
 */
 
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using HarmonyLib;
 using UISystem;
 using UnityEngine.InputSystem;
@@ -26,6 +27,7 @@ using WildSkies.WorldItems;
 
 namespace LostSkiesDataDump;
 
+[RequiresPreviewFeatures]
 class Patch
 {
     [HarmonyPatch(typeof(UIInputMediator), nameof(UIInputMediator.Update))]

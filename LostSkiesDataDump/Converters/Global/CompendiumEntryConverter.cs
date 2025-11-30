@@ -16,13 +16,26 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 
 namespace LostSkiesDataDump.Converters.Global;
 
-public class CompendiumEntryConverter<T> : BaseConverter<T>
+[RequiresPreviewFeatures]
+public class CompendiumEntryConverter<T>
+    : BaseConverter<T>,
+        IConverterDefault<CompendiumEntryConverter<T>>
     where T : CompendiumEntry
 {
+    public static JsonConverter Default { get; } = new CompendiumEntryConverter<CompendiumEntry>();
+
+    // static CompendiumEntryConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new CompendiumEntryConverter<CompendiumEntry>());
+    // }
+
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

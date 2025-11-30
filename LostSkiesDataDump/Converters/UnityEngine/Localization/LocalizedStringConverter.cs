@@ -17,16 +17,29 @@
 */
 
 using System;
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using ics = Il2CppSystem;
 
 namespace LostSkiesDataDump.Converters.UnityEngine.Localization;
 
-public class LocalizedStringConverter<T> : BaseConverter<T>
+[RequiresPreviewFeatures]
+public class LocalizedStringConverter<T>
+    : BaseConverter<T>,
+        IConverterDefault<LocalizedStringConverter<T>>
     where T : LocalizedString
 {
+    public static JsonConverter Default { get; } = new LocalizedStringConverter<LocalizedString>();
+
+    // static LocalizedStringConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new LocalizedStringConverter<LocalizedString>());
+    // }
+
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

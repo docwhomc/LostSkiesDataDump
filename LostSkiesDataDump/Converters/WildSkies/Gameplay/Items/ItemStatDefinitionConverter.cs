@@ -17,14 +17,28 @@
 */
 
 using System;
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 using WildSkies.Gameplay.Items;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Items;
 
-public class ItemStatDefinitionConverter<T> : BaseConverter<T>
+[RequiresPreviewFeatures]
+public class ItemStatDefinitionConverter<T>
+    : BaseConverter<T>,
+        IConverterDefault<ItemStatDefinitionConverter<T>>
     where T : ItemStatDefinition
 {
+    public static JsonConverter Default { get; } =
+        new ItemStatDefinitionConverter<ItemStatDefinition>();
+
+    // static ItemStatDefinitionConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new ItemStatDefinitionConverter<ItemStatDefinition>());
+    // }
+
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

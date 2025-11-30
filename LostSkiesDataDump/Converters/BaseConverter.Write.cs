@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
@@ -26,6 +27,7 @@ using icg = Il2CppSystem.Collections.Generic;
 
 namespace LostSkiesDataDump.Converters;
 
+[RequiresPreviewFeatures]
 public abstract partial class BaseConverter<T> : JsonConverter<T>
 {
     /// <summary>

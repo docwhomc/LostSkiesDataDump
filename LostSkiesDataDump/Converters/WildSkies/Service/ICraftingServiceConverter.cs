@@ -16,16 +16,30 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Il2CppSystem.Collections.Generic;
+using LostSkiesDataDump.Converters.Interfaces;
 using WildSkies.Gameplay.Crafting;
 using WildSkies.Service;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Service;
 
-public class ICraftingServiceConverter<T> : BaseConverter<T>
+[RequiresPreviewFeatures]
+public class ICraftingServiceConverter<T>
+    : BaseConverter<T>,
+        IConverterDefault<ICraftingServiceConverter<T>>
     where T : ICraftingService
 {
+    public static JsonConverter Default { get; } =
+        new ICraftingServiceConverter<ICraftingService>();
+
+    // static ICraftingServiceConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new ICraftingServiceConverter<ICraftingService>());
+    // }
+
     public ICraftingServiceConverter()
         : base(false) { }
 

@@ -17,13 +17,27 @@
 */
 
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 
 namespace LostSkiesDataDump.Converters.Global;
 
-public class CompendiumCategoryConverter<T> : BaseConverter<T>
+[RequiresPreviewFeatures]
+public class CompendiumCategoryConverter<T>
+    : BaseConverter<T>,
+        IConverterDefault<CompendiumCategoryConverter<T>>
     where T : CompendiumCategory
 {
+    public static JsonConverter Default { get; } =
+        new CompendiumCategoryConverter<CompendiumCategory>();
+
+    // static CompendiumCategoryConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new CompendiumCategoryConverter<CompendiumCategory>());
+    // }
+
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

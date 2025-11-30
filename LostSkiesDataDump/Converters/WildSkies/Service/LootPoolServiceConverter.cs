@@ -16,14 +16,27 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 using WildSkies.Service;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Service;
 
-public class LootPoolServiceConverter<T> : BaseConverter<T>
+[RequiresPreviewFeatures]
+public class LootPoolServiceConverter<T>
+    : BaseConverter<T>,
+        IConverterDefault<LootPoolServiceConverter<T>>
     where T : LootPoolService
 {
+    public static JsonConverter Default { get; } = new LootPoolServiceConverter<LootPoolService>();
+
+    // static LootPoolServiceConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new LootPoolServiceConverter<LootPoolService>());
+    // }
+
     public LootPoolServiceConverter()
         : base(false) { }
 

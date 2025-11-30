@@ -18,16 +18,29 @@
 
 using System;
 using System.Reflection;
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using LostSkiesDataDump.Converters.Bossa.Dynamika.Utilities;
+using LostSkiesDataDump.Converters.Interfaces;
 using UnityEngine;
 using Utilities.Weapons;
 
 namespace LostSkiesDataDump.Converters.Utilities.Weapons;
 
-public class WeaponBaseConverter<T> : UtilityItemConverter<T>
+[RequiresPreviewFeatures]
+public class WeaponBaseConverter<T>
+    : UtilityItemConverter<T>,
+        IConverterDefault<WeaponBaseConverter<T>>
     where T : WeaponBase
 {
+    public static new JsonConverter Default { get; } = new WeaponBaseConverter<WeaponBase>();
+
+    // static WeaponBaseConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new WeaponBaseConverter<WeaponBase>());
+    // }
+
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

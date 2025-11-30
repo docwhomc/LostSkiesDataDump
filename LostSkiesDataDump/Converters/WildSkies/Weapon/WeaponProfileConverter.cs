@@ -16,15 +16,28 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 using LostSkiesDataDump.Converters.WildSkies.Gameplay.Items;
 using WildSkies.Weapon;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Weapon;
 
-public class WeaponProfileConverter<T> : ItemProfileConverter<T>
+[RequiresPreviewFeatures]
+public class WeaponProfileConverter<T>
+    : ItemProfileConverter<T>,
+        IConverterDefault<WeaponProfileConverter<T>>
     where T : WeaponProfile
 {
+    public static new JsonConverter Default { get; } = new WeaponProfileConverter<WeaponProfile>();
+
+    // static WeaponProfileConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new WeaponProfileConverter<WeaponProfile>());
+    // }
+
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

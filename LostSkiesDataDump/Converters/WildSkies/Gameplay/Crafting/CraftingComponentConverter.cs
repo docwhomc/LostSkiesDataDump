@@ -16,14 +16,28 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 using WildSkies.Gameplay.Crafting;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Crafting;
 
-public class CraftingComponentConverter<T> : BaseConverter<T>
+[RequiresPreviewFeatures]
+public class CraftingComponentConverter<T>
+    : BaseConverter<T>,
+        IConverterDefault<CraftingComponentConverter<T>>
     where T : CraftingComponent
 {
+    public static JsonConverter Default { get; } =
+        new CraftingComponentConverter<CraftingComponent>();
+
+    // static CraftingComponentConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new CraftingComponentConverter<CraftingComponent>());
+    // }
+
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

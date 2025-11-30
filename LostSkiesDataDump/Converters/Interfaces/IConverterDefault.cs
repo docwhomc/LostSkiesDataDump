@@ -17,30 +17,13 @@
 */
 
 using System.Runtime.Versioning;
-using System.Text.Json;
 using System.Text.Json.Serialization;
-using LostSkiesDataDump.Converters.Interfaces;
-using UnityEngine;
 
-namespace LostSkiesDataDump.Converters.UnityEngine;
+namespace LostSkiesDataDump.Converters.Interfaces;
 
 [RequiresPreviewFeatures]
-public class Vector2Converter : BaseConverter<Vector2>, IConverterDefault<Vector2Converter>
+public interface IConverterDefault<T>
+    where T : JsonConverter
 {
-    public static JsonConverter Default { get; } = new Vector2Converter();
-
-    // static Vector2Converter()
-    // {
-    //     SortedConverterSet.Default.Add(new Vector2Converter());
-    // }
-
-    public override void WriteObjectBody(
-        Utf8JsonWriter writer,
-        Vector2 value,
-        JsonSerializerOptions options
-    )
-    {
-        WriteProperty(writer, value.x, options);
-        WriteProperty(writer, value.y, options);
-    }
+    public static abstract JsonConverter Default { get; }
 }

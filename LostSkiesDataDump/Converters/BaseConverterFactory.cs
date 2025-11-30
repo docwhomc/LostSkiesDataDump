@@ -19,11 +19,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.Versioning;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace LostSkiesDataDump.Converters;
 
+[RequiresPreviewFeatures]
 public abstract class BaseConverterFactory(bool reference = true) : JsonConverterFactory
 {
     public bool Reference { get; set; } = reference;

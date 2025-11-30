@@ -18,42 +18,21 @@
 
 using System;
 using System.IO;
+using System.Runtime.Versioning;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
-using Bossa.Dynamika.Utilities;
 using HarmonyLib;
-using LostSkiesDataDump.Converters.Bossa.Dynamika.Utilities;
-using LostSkiesDataDump.Converters.Global;
-using LostSkiesDataDump.Converters.Il2CppSystem.Collections.Generic;
-using LostSkiesDataDump.Converters.System;
-using LostSkiesDataDump.Converters.UnityEngine;
-using LostSkiesDataDump.Converters.UnityEngine.Localization;
-using LostSkiesDataDump.Converters.Utilities.Weapons;
-using LostSkiesDataDump.Converters.WildSkies.Gameplay.Container;
-using LostSkiesDataDump.Converters.WildSkies.Gameplay.Crafting;
-using LostSkiesDataDump.Converters.WildSkies.Gameplay.Items;
-using LostSkiesDataDump.Converters.WildSkies.Gameplay.Loot;
-using LostSkiesDataDump.Converters.WildSkies.Service;
-using LostSkiesDataDump.Converters.WildSkies.Weapon;
-using LostSkiesDataDump.Converters.WildSkies.WorldItems;
+using LostSkiesDataDump.Converters;
 using UnityEngine;
-using UnityEngine.Localization;
-using Utilities.Weapons;
-using WildSkies.Gameplay.Container;
-using WildSkies.Gameplay.Crafting;
-using WildSkies.Gameplay.Items;
-using WildSkies.Gameplay.Loot;
-using WildSkies.Service;
-using WildSkies.Weapon;
-using WildSkies.WorldItems;
 
 namespace LostSkiesDataDump;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[RequiresPreviewFeatures]
 public class Plugin : BasePlugin
 {
     private static ManualLogSource s_log = null;
@@ -142,6 +121,12 @@ public class Plugin : BasePlugin
         Log.LogInfo($"  - text output file: {TextOutputFile}");
         s_harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
         s_harmony.PatchAll(typeof(Patch));
+        int index = 0;
+        foreach (JsonConverter converter in SortedConverterSet.Default)
+        {
+            Log.LogDebug($"  Converter {index}: {converter}");
+            index++;
+        }
         Log.LogInfo(
             $"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} has loaded."
         );
@@ -172,7 +157,8 @@ public class Plugin : BasePlugin
                 WriteIndented = true,
                 ReferenceHandler = referenceHandler,
             };
-            AddConverters(jsonSerializerOptions);
+            foreach (JsonConverter converter in SortedConverterSet.Default)
+                jsonSerializerOptions.Converters.Add(converter);
             try
             {
                 JsonSerializer.Serialize(
@@ -196,75 +182,5 @@ public class Plugin : BasePlugin
         {
             Log.LogInfo("Data dump complete");
         }
-    }
-
-    public static void AddConverters(JsonSerializerOptions options)
-    {
-        // Compendium
-        options.Converters.Add(new ICompendiumServiceConverter<ICompendiumService>());
-        options.Converters.Add(new CompendiumCategoryConverter<CompendiumCategory>());
-        options.Converters.Add(new CompendiumEntryConverter<CompendiumEntry>());
-        // Global
-        options.Converters.Add(new LootPoolFrequencyConverter());
-        options.Converters.Add(new LootTableDataConverter<LootTableData>());
-        // System
-        options.Converters.Add(new IntPtrConverter());
-        // WildSkies.Gameplay.Container
-        options.Converters.Add(new ContainerDefinitionConverter<ContainerDefinition>());
-        options.Converters.Add(
-            new ContainerDefinitionConverter<ContainerDefinition>.PoolSlotConverter<ContainerDefinition.PoolSlot>()
-        );
-        options.Converters.Add(new ContainerDropRatesConverter<ContainerDropRates>());
-        // WildSkies.Gameplay.Crafting
-        options.Converters.Add(new CraftingComponentConverter<CraftingComponent>());
-        options.Converters.Add(new CraftableItemBlueprintConverter<CraftableItemBlueprint>());
-        // WildSkies.Gameplay.Loot
-        options.Converters.Add(new LootPoolDefinitionConverter<LootPoolDefinition>());
-        options.Converters.Add(new LootPoolDropRatesConverter<LootPoolDropRates>());
-        // WildSkies.Service
-        options.Converters.Add(new ContainerServiceConverter<ContainerService>());
-        options.Converters.Add(new ICraftingServiceConverter<ICraftingService>());
-        options.Converters.Add(new LootPoolServiceConverter<LootPoolService>());
-        options.Converters.Add(new LootTableConverter<LootTable>());
-        options.Converters.Add(new LootTableServiceConverter<LootTableService>());
-        options.Converters.Add(new WorldRegionServiceConverter<WorldRegionService>());
-        // WildSkies.WorldItems
-        options.Converters.Add(new RegionIdentifierDataConverter<RegionIdentifierData>());
-        // Crafting
-        options.Converters.Add(new RandomStatsDefinitionConverter<RandomStatsDefinition>());
-        // Items
-        options.Converters.Add(new IItemServiceConverter<IItemService>());
-        options.Converters.Add(new ItemDefinitionConverter<ItemDefinition>());
-        options.Converters.Add(new ItemDefinitionConverter<ItemDefinition>());
-        // Items: Item Components
-        options.Converters.Add(new ItemAccessoryComponentConverter<ItemAccessoryComponent>());
-        options.Converters.Add(new ItemAmmoComponentConverter<ItemAmmoComponent>());
-        options.Converters.Add(
-            new ItemCustomisationComponentConverter<ItemCustomisationComponent>()
-        );
-        options.Converters.Add(new ItemKnowledgeComponentConverter<ItemKnowledgeComponent>());
-        options.Converters.Add(new ItemThrowableComponentConverter<ItemThrowableComponent>());
-        options.Converters.Add(new ItemWeaponComponentConverter<ItemWeaponComponent>());
-        options.Converters.Add(new ItemWorldComponentConverter<ItemWorldComponent>());
-        options.Converters.Add(new BaseItemComponentConverter<BaseItemComponent>());
-        // Item: Profile
-        options.Converters.Add(new WeaponProfileConverter<WeaponProfile>());
-        options.Converters.Add(new ItemProfileConverter<ItemProfile>());
-        // Item: Level
-        options.Converters.Add(new WeaponLevelsConverter<WeaponLevels>());
-        options.Converters.Add(new ItemLevelConverter<ItemLevel>());
-        options.Converters.Add(new ItemLevelsConverter<ItemLevels>());
-        // Item: Utility
-        options.Converters.Add(new WeaponBaseConverter<WeaponBase>());
-        options.Converters.Add(new UtilityItemConverter<UtilityItem>());
-        // Miscellaneous
-        options.Converters.Add(new LocalizedStringConverter<LocalizedString>());
-        options.Converters.Add(new QuaternionConverter());
-        options.Converters.Add(new Vector2Converter());
-        options.Converters.Add(new Vector2IntConverter());
-        options.Converters.Add(new Vector3Converter());
-        options.Converters.Add(new JsonStringEnumConverter());
-        options.Converters.Add(new DictionaryConverterFactory());
-        options.Converters.Add(new ListConverterFactory());
     }
 }

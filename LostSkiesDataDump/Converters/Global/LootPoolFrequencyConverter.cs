@@ -16,12 +16,25 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 
 namespace LostSkiesDataDump.Converters.Global;
 
-public class LootPoolFrequencyConverter : BaseConverter<LootPoolFrequency>
+[RequiresPreviewFeatures]
+public class LootPoolFrequencyConverter
+    : BaseConverter<LootPoolFrequency>,
+        IConverterDefault<LootPoolFrequencyConverter>
 {
+    public static JsonConverter Default { get; } = new LootPoolFrequencyConverter();
+
+    // static LootPoolFrequencyConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new LootPoolFrequencyConverter());
+    // }
+
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         LootPoolFrequency value,

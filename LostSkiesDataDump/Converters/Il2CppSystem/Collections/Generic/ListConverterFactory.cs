@@ -18,14 +18,24 @@
 
 using System;
 using System.Reflection;
+using System.Runtime.Versioning;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 using icg = Il2CppSystem.Collections.Generic;
 
 namespace LostSkiesDataDump.Converters.Il2CppSystem.Collections.Generic;
 
-public class ListConverterFactory : BaseConverterFactory
+[RequiresPreviewFeatures]
+public class ListConverterFactory : BaseConverterFactory, IConverterDefault<ListConverterFactory>
 {
+    public static JsonConverter Default { get; } = new ListConverterFactory();
+
+    // static ListConverterFactory()
+    // {
+    //     SortedConverterSet.Default.Add(new ListConverterFactory());
+    // }
+
     internal class ListConverter<TType, TValue>(bool reference) : FactoryConverter<TType>(reference)
         where TType : icg.List<TValue>
     {

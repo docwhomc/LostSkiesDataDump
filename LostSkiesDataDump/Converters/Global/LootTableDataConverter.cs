@@ -16,13 +16,26 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 
 namespace LostSkiesDataDump.Converters.Global;
 
-public class LootTableDataConverter<T> : BaseConverter<T>
+[RequiresPreviewFeatures]
+public class LootTableDataConverter<T>
+    : BaseConverter<T>,
+        IConverterDefault<LootTableDataConverter<T>>
     where T : LootTableData
 {
+    public static JsonConverter Default { get; } = new LootTableDataConverter<LootTableData>();
+
+    // static LootTableDataConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new LootTableDataConverter<LootTableData>());
+    // }
+
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

@@ -17,16 +17,27 @@
 */
 
 using System;
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 using UnityEngine.Localization;
 using WildSkies.Gameplay.Items;
 using ics = Il2CppSystem;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Items;
 
-public class ItemProfileConverter<T> : BaseConverter<T>
+[RequiresPreviewFeatures]
+public class ItemProfileConverter<T> : BaseConverter<T>, IConverterDefault<ItemProfileConverter<T>>
     where T : ItemProfile
 {
+    public static JsonConverter Default { get; } = new ItemProfileConverter<ItemProfile>();
+
+    // static ItemProfileConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new ItemProfileConverter<ItemProfile>());
+    // }
+
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

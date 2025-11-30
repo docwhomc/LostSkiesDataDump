@@ -16,14 +16,28 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 using WildSkies.Service;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Service;
 
-public class ContainerServiceConverter<T> : BaseConverter<T>
+[RequiresPreviewFeatures]
+public class ContainerServiceConverter<T>
+    : BaseConverter<T>,
+        IConverterDefault<ContainerServiceConverter<T>>
     where T : ContainerService
 {
+    public static JsonConverter Default { get; } =
+        new ContainerServiceConverter<ContainerService>();
+
+    // static ContainerServiceConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new ContainerServiceConverter<ContainerService>());
+    // }
+
     public ContainerServiceConverter()
         : base(false) { }
 

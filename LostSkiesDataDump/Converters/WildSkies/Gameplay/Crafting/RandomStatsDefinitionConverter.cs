@@ -16,15 +16,28 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 using WildSkies.Gameplay.Crafting;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Crafting;
 
-public class RandomStatsDefinitionConverter<T> : BaseConverter<T>
+[RequiresPreviewFeatures]
+public class RandomStatsDefinitionConverter<T>
+    : BaseConverter<T>,
+        IConverterDefault<RandomStatsDefinitionConverter<T>>
     where T : RandomStatsDefinition
 {
+    public static JsonConverter Default { get; } =
+        new RandomStatsDefinitionConverter<RandomStatsDefinition>();
+
+    // static RandomStatsDefinitionConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new RandomStatsDefinitionConverter<RandomStatsDefinition>());
+    // }
+
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

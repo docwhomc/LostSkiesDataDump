@@ -16,13 +16,24 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 using UnityEngine;
 
 namespace LostSkiesDataDump.Converters.UnityEngine;
 
-public class Vector3Converter : BaseConverter<Vector3>
+[RequiresPreviewFeatures]
+public class Vector3Converter : BaseConverter<Vector3>, IConverterDefault<Vector3Converter>
 {
+    public static JsonConverter Default { get; } = new Vector3Converter();
+
+    // static Vector3Converter()
+    // {
+    //     SortedConverterSet.Default.Add(new Vector3Converter());
+    // }
+
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         Vector3 value,

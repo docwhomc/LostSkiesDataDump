@@ -17,12 +17,23 @@
 */
 
 using System;
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 
 namespace LostSkiesDataDump.Converters.System;
 
-public class IntPtrConverter : BaseConverter<IntPtr>
+[RequiresPreviewFeatures]
+public class IntPtrConverter : BaseConverter<IntPtr>, IConverterDefault<IntPtrConverter>
 {
+    public static JsonConverter Default { get; } = new IntPtrConverter();
+
+    // static IntPtrConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new IntPtrConverter());
+    // }
+
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         IntPtr value,

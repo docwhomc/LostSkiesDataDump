@@ -16,13 +16,24 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Interfaces;
 using UnityEngine;
 
 namespace LostSkiesDataDump.Converters.UnityEngine;
 
-public class QuaternionConverter : BaseConverter<Quaternion>
+[RequiresPreviewFeatures]
+public class QuaternionConverter : BaseConverter<Quaternion>, IConverterDefault<QuaternionConverter>
 {
+    public static JsonConverter Default { get; } = new QuaternionConverter();
+
+    // static QuaternionConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new QuaternionConverter());
+    // }
+
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         Quaternion value,

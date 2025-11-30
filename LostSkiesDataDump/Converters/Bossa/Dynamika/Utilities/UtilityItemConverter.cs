@@ -16,14 +16,31 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Bossa.Dynamika.Utilities;
+using LostSkiesDataDump.Converters.Interfaces;
 
 namespace LostSkiesDataDump.Converters.Bossa.Dynamika.Utilities;
 
-public class UtilityItemConverter<T> : BaseConverter<T>
+[RequiresPreviewFeatures]
+public class UtilityItemConverter<T> : BaseConverter<T>, IConverterDefault<UtilityItemConverter<T>>
     where T : UtilityItem
 {
+    public static JsonConverter Default { get; } = new UtilityItemConverter<UtilityItem>();
+
+    // static UtilityItemConverter()
+    // {
+    //     UtilityItemConverter<UtilityItem> instance = new();
+    //     Plugin.Log.LogError($"UtilityItemConverter<UtilityItem> instance = {instance}");
+    //     Plugin.Log.LogError($"SortedConverterSet.Default = {SortedConverterSet.Default}");
+    //     Plugin.Log.LogError(
+    //         $"SortedConverterSet.Default is null = {SortedConverterSet.Default is null}"
+    //     );
+    //     SortedConverterSet.Default.Add(instance);
+    // }
+
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,

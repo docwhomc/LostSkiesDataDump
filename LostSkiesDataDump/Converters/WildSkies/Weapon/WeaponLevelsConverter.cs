@@ -18,16 +18,29 @@
 
 using System;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Il2CppSystem.Linq;
+using LostSkiesDataDump.Converters.Interfaces;
 using LostSkiesDataDump.Converters.WildSkies.Gameplay.Crafting;
 using WildSkies.Weapon;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Weapon;
 
-public class WeaponLevelsConverter<T> : ItemLevelsConverter<T>
+[RequiresPreviewFeatures]
+public class WeaponLevelsConverter<T>
+    : ItemLevelsConverter<T>,
+        IConverterDefault<WeaponLevelsConverter<T>>
     where T : WeaponLevels
 {
+    public static new JsonConverter Default { get; } = new WeaponLevelsConverter<WeaponLevels>();
+
+    // static WeaponLevelsConverter()
+    // {
+    //     SortedConverterSet.Default.Add(new WeaponLevelsConverter<WeaponLevels>());
+    // }
+
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
         T value,
