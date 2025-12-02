@@ -27,11 +27,11 @@ using WildSkies.WorldItems;
 
 namespace LostSkiesDataDump;
 
-[RequiresPreviewFeatures]
 class Patch
 {
     [HarmonyPatch(typeof(UIInputMediator), nameof(UIInputMediator.Update))]
     [HarmonyPrefix]
+    [RequiresPreviewFeatures]
     public static void UIInputMediator_Update(UIInputMediator __instance)
     {
         if (
@@ -51,6 +51,7 @@ class Patch
 
     [HarmonyPatch(typeof(CompendiumUiMediator), nameof(CompendiumUiMediator.Initialise))]
     [HarmonyPrefix]
+    [RequiresPreviewFeatures]
     public static void CompendiumUiMediator_Initialise(
         CompendiumUiMediator __instance,
         [DefaultParameterValue(null)] IUIService uiService,
@@ -73,6 +74,7 @@ class Patch
 
     [HarmonyPatch(typeof(ContainerService), nameof(ContainerService.Initialise))]
     [HarmonyPrefix]
+    [RequiresPreviewFeatures]
     public static void ContainerService_Initialise(ContainerService __instance)
     {
         Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(ContainerService_Initialise)}(...)");
@@ -82,6 +84,7 @@ class Patch
 
     [HarmonyPatch(typeof(WorldRegionService), nameof(WorldRegionService.Init))]
     [HarmonyPrefix]
+    [RequiresPreviewFeatures]
     public static void WorldRegionService_Init(
         WorldRegionService __instance,
         Map worldMap,
@@ -99,6 +102,7 @@ class Patch
 
     [HarmonyPatch(typeof(ItemInventoryMediator), nameof(ItemInventoryMediator.Initialise))]
     [HarmonyPrefix]
+    [RequiresPreviewFeatures]
     public static void ItemInventoryMediator_Initialise(
         ItemInventoryMediator __instance,
         [DefaultParameterValue(null)] IItemService itemService,
@@ -118,6 +122,7 @@ class Patch
 
     [HarmonyPatch(typeof(LootPoolService), nameof(LootPoolService.Initialise))]
     [HarmonyPrefix]
+    [RequiresPreviewFeatures]
     public static void LootPoolService_Initialise(LootPoolService __instance)
     {
         Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(LootPoolService_Initialise)}(...)");
@@ -127,6 +132,7 @@ class Patch
 
     [HarmonyPatch(typeof(LootTableService), nameof(LootTableService.Initialise))]
     [HarmonyPrefix]
+    [RequiresPreviewFeatures]
     public static void LootTableService_Initialise(LootTableService __instance)
     {
         Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(LootTableService_Initialise)}(...)");
@@ -136,6 +142,7 @@ class Patch
 
     [HarmonyPatch(typeof(SteamPlatform), nameof(SteamPlatform.Initialise))]
     [HarmonyPrefix]
+    [RequiresPreviewFeatures]
     public static void SteamPlatform_Initialise(SteamPlatform __instance)
     {
         Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(SteamPlatform_Initialise)}(...)");

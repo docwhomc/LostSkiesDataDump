@@ -32,7 +32,6 @@ using UnityEngine;
 namespace LostSkiesDataDump;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
-[RequiresPreviewFeatures]
 public class Plugin : BasePlugin
 {
     private static ManualLogSource s_log = null;
@@ -86,9 +85,13 @@ public class Plugin : BasePlugin
 
     private static Harmony s_harmony = null;
 
-    private static SerializationRoot s_serializationRoot = null;
-    public static SerializationRoot SerializationRoot => s_serializationRoot ??= new();
+    public static SerializationRoot SerializationRoot
+    {
+        [RequiresPreviewFeatures]
+        get => field ??= new();
+    } = null;
 
+    [RequiresPreviewFeatures]
     public override void Load()
     {
         Log = base.Log;
@@ -144,6 +147,7 @@ public class Plugin : BasePlugin
         return base.Unload();
     }
 
+    [RequiresPreviewFeatures]
     public static void DumpData()
     {
         Log.LogInfo("Dumping data");

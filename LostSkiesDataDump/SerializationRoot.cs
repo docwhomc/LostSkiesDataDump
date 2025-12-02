@@ -24,7 +24,6 @@ using WildSkies.Service;
 
 namespace LostSkiesDataDump;
 
-[RequiresPreviewFeatures]
 [Serializable]
 public class SerializationRoot
 {
@@ -37,24 +36,31 @@ public class SerializationRoot
     public GameVersionInfo GameVersionInfo { get; }
     public PluginVersionInfo PluginVersionInfo { get; }
 
+    [RequiresPreviewFeatures]
     [JsonConverter(typeof(ICraftingServiceConverter<ICraftingService>))]
     public ICraftingService CraftingService { get; set; }
 
+    [RequiresPreviewFeatures]
     [JsonConverter(typeof(ICompendiumServiceConverter<ICompendiumService>))]
     public ICompendiumService CompendiumService { get; set; }
 
+    [RequiresPreviewFeatures]
     [JsonConverter(typeof(ContainerServiceConverter<ContainerService>))]
     public ContainerService ContainerService { get; set; }
 
+    [RequiresPreviewFeatures]
     [JsonConverter(typeof(IItemServiceConverter<IItemService>))]
     public IItemService ItemService { get; set; }
 
+    [RequiresPreviewFeatures]
     [JsonConverter(typeof(LootPoolServiceConverter<LootPoolService>))]
     public LootPoolService LootPoolService { get; set; }
 
+    [RequiresPreviewFeatures]
     [JsonConverter(typeof(LootTableServiceConverter<LootTableService>))]
     public LootTableService LootTableService { get; set; }
 
+    [RequiresPreviewFeatures]
     [JsonConverter(typeof(WorldRegionServiceConverter<WorldRegionService>))]
     public WorldRegionService WorldRegionService { get; set; }
 }
