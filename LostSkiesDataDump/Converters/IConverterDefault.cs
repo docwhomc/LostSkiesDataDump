@@ -19,7 +19,7 @@
 using System.Runtime.Versioning;
 using System.Text.Json.Serialization;
 
-namespace LostSkiesDataDump.Converters.Interfaces;
+namespace LostSkiesDataDump.Converters;
 
 [RequiresPreviewFeatures]
 public interface IConverterDefault<T>

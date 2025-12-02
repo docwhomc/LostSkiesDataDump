@@ -20,7 +20,6 @@ using System.Runtime.Versioning;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Il2CppSystem.Collections.Generic;
-using LostSkiesDataDump.Converters.Interfaces;
 using WildSkies.Gameplay.Crafting;
 using WildSkies.Service;
 

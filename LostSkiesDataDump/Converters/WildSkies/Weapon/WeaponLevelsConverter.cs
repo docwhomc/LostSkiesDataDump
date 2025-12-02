@@ -22,7 +22,6 @@ using System.Runtime.Versioning;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Il2CppSystem.Linq;
-using LostSkiesDataDump.Converters.Interfaces;
 using LostSkiesDataDump.Converters.WildSkies.Gameplay.Crafting;
 using WildSkies.Weapon;
 

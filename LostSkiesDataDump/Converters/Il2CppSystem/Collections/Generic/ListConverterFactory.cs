@@ -21,7 +21,6 @@ using System.Reflection;
 using System.Runtime.Versioning;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using LostSkiesDataDump.Converters.Interfaces;
 using icg = Il2CppSystem.Collections.Generic;
 
 namespace LostSkiesDataDump.Converters.Il2CppSystem.Collections.Generic;

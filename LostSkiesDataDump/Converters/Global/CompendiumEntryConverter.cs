@@ -19,7 +19,6 @@
 using System.Runtime.Versioning;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using LostSkiesDataDump.Converters.Interfaces;
 
 namespace LostSkiesDataDump.Converters.Global;
 

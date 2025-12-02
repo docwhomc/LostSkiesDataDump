@@ -20,7 +20,6 @@ using System.Runtime.Versioning;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Bossa.Dynamika.Utilities;
-using LostSkiesDataDump.Converters.Interfaces;
 
 namespace LostSkiesDataDump.Converters.Bossa.Dynamika.Utilities;
 
