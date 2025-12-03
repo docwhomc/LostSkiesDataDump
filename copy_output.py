@@ -8,7 +8,8 @@ from pathlib import Path
 from typing import assert_never
 
 SRC_FILE = Path(
-    "C:/Program Files (x86)/Steam/steamapps/common/Wild Skies/LostSkies_Data/LostSkiesDataDump/data.json"
+    "C:/Program Files (x86)/Steam/steamapps/common/Wild Skies/LostSkies_Data/"
+    "LostSkiesDataDump/data.json"
 )
 DST_DIR = Path("output")
 GITIGNORE_FILENAME = ".gitignore"
@@ -54,12 +55,16 @@ def make_dest_name(src_path: Path) -> str:
     game_version = get_game_version(data)
     plugin_version = get_plugin_version(data)
     suffix = src_path.suffix
-    return f"{timestamp}_{GAME_PREFIX}-{game_version}_{PLUGIN_PREFIX}-{plugin_version}{suffix}"
+    return f"""{timestamp}_{GAME_PREFIX}-{game_version}_{PLUGIN_PREFIX}-{
+        plugin_version
+    }{suffix}"""
 
 
 def get_timestamp(src_path: Path) -> str:
     file_stat = src_path.stat()
-    dt = datetime.datetime.fromtimestamp(timestamp=file_stat.st_mtime, tz=datetime.UTC)
+    dt = datetime.datetime.fromtimestamp(
+        timestamp=file_stat.st_mtime, tz=datetime.UTC
+    )
     return dt.strftime("%Y-%m-%d_%H-%M-%S")
 
 
