@@ -41,6 +41,24 @@
                 "$env:APPDATA${/}com.kesomannen.gale${/}lost-skies${/}profiles${/}Dev${/}BepInEx${/}ErrorLog.log"
             ],
             "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "Copy Output",
+            "command": "python",
+            "args": [
+                "copy_output.py"
+            ],
+            "problemMatcher": ["$python"]
+        },
+        {
+            "type": "shell",
+            "label": "Diff Output",
+            "command": "python",
+            "args": [
+                "diff_output.py"
+            ],
+            "problemMatcher": ["$python"]
         }
     ]
 }
