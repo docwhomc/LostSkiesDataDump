@@ -90,14 +90,28 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
     }
 
     /// <summary>
+    /// Encapsulates a serialization method that has three parameters and does not return a value.
+    /// <remarks>
+    /// Writes the JSON representation of a type specified by a generic type parameter to the provided writer.
+    /// </remarks>
+    /// </summary>
+    /// <typeparam name="V">The type of the second (<paramref name="value"/>) parameter of the method that this delegate encapsulates.</typeparam>
+    /// <param name="writer">A JSON writer to write to.</param>
+    /// <param name="value">The value to convert.</param>
+    /// <param name="options">Options to control serialization behavior.</param>
+    public delegate void Serializer<in V>(
+        Utf8JsonWriter writer,
+        V value,
+        JsonSerializerOptions options
+    );
+
+    /// <summary>
     /// Gets a serializer for type <typeparamref name="V"/>.
     /// </summary>
     /// <typeparam name="V">The type to return a converter for.</typeparam>
     /// <param name="options">An object that specifies serialization options to use.</param>
     /// <returns>The <see cref="Write"/> method of the first converter that supports the given type, or <see cref="JsonSerializer.Serialize"/> if there is no converter.</returns>
-    public static Action<Utf8JsonWriter, V, JsonSerializerOptions> GetSerializer<V>(
-        JsonSerializerOptions options
-    )
+    public static Serializer<V> GetSerializer<V>(JsonSerializerOptions options)
     {
         Type typeToConvert = typeof(V);
         if (typeToConvert == typeof(object))
@@ -159,7 +173,7 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
         Utf8JsonWriter writer,
         IEnumerable<V> value,
         JsonSerializerOptions options,
-        Action<Utf8JsonWriter, V, JsonSerializerOptions> serializer,
+        Serializer<V> serializer,
         [CallerArgumentExpression(nameof(value))] string name = null
     )
     {
