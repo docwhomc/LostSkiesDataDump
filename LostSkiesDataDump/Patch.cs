@@ -20,22 +20,51 @@ using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using HarmonyLib;
 using UISystem;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using WildSkies.Mediators;
 using WildSkies.Service;
+using WildSkies.World;
 using WildSkies.WorldItems;
 
 namespace LostSkiesDataDump;
 
 class Patch
 {
+    [HarmonyPatch(typeof(HostControl), nameof(HostControl.OnWorldLoadingComplete))]
+    [HarmonyPostfix]
+    [RequiresPreviewFeatures]
+    public static void HostControl_OnWorldLoadingComplete(
+        HostControl __instance,
+        string worldName,
+        int succesfulIslandLoads,
+        int failedIslandLoads
+    )
+    {
+        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(HostControl_OnWorldLoadingComplete)}(...)");
+        Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
+        Plugin.Log.LogDebug($"{nameof(worldName)}: {worldName}");
+        Plugin.Log.LogDebug($"{nameof(succesfulIslandLoads)}: {succesfulIslandLoads}");
+        Plugin.Log.LogDebug($"{nameof(failedIslandLoads)}: {failedIslandLoads}");
+        Plugin.Log.LogInfo(
+            $"{nameof(Application)}.{nameof(Application.isBatchMode)}: {Application.isBatchMode}"
+        );
+        if (Application.isBatchMode)
+        {
+            Plugin.DumpData();
+            Plugin.Log.LogInfo($"Quitting application after data dump.");
+            Application.Quit(0);
+        }
+    }
+
     [HarmonyPatch(typeof(UIInputMediator), nameof(UIInputMediator.Update))]
     [HarmonyPrefix]
     [RequiresPreviewFeatures]
     public static void UIInputMediator_Update(UIInputMediator __instance)
     {
         if (
-            !__instance._ui.IsServiceReady
+            Application.isBatchMode
+            || !__instance._ui.IsServiceReady
             || __instance._sceneService.AreWeLoadingOrInLobby()
             || __instance._ui.PanelManager.IsPanelShowing(UIPanelType.Popup)
         )
@@ -118,6 +147,15 @@ class Patch
         Plugin.Log.LogInfo($"{nameof(playerInventoryService)}: {playerInventoryService}");
         Plugin.Log.LogInfo($"{nameof(uiService)}: {uiService}");
         Plugin.Log.LogInfo($"{nameof(localisationService)}: {localisationService}");
+    }
+
+    [HarmonyPatch(typeof(ItemService), nameof(ItemService.Initialise))]
+    [HarmonyPrefix]
+    [RequiresPreviewFeatures]
+    public static void ItemService_Initialise(ItemInventoryMediator __instance)
+    {
+        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(ItemService_Initialise)}(...)");
+        Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
     }
 
     [HarmonyPatch(typeof(LootPoolService), nameof(LootPoolService.Initialise))]
