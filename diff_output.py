@@ -37,6 +37,7 @@ PARSER.add_argument(
 class LineNumbers(TypedDict):
     from_start: int
     from_stop: NotRequired[int]
+    type: str
     to_start: int
     to_stop: NotRequired[int]
 
@@ -51,7 +52,7 @@ RE_LINE_NUMS = re.compile(
     r"""
     (?P<from_start>\d+)
     (?:,(?P<from_stop>\d+))?
-    c
+    (?P<type>[acd])
     (?P<to_start>\d+)
     (?:,(?P<to_stop>\d+))?
     """,
@@ -74,7 +75,7 @@ def main() -> int:
         parts = [str(line_nums["from_start"])]
         if (from_stop := line_nums.get("from_stop")) is not None:
             parts.append(f",{from_stop}")
-        parts.extend(f"c{line_nums['to_start']}")
+        parts.extend(f"{line_nums['type']}{line_nums['to_start']}")
         if (to_stop := line_nums.get("to_stop")) is not None:
             parts.append(f",{to_stop}")
         print("".join(parts))
@@ -140,9 +141,9 @@ def parse_diff(text: str) -> list[SubDiff]:
                 else:
                     part["from_lines"].append(line[2:])
             case "> ":
-                assert reached_sep and part is not None, (
-                    f"{part=}; line {num}: {line!r}"
-                )
+                assert part is not None and (
+                    reached_sep or part["line_numbers"]["type"] == "a"
+                ), f"{part=}; line {num}: {line!r}"
                 if "to_lines" not in part:
                     part["to_lines"] = [line[2:]]
                 else:
@@ -164,7 +165,9 @@ def parse_diff_line_numbers(num: int, line: str) -> LineNumbers:
     if (m := RE_LINE_NUMS.fullmatch(line)) is None:
         raise ValueError(f"could not parse line {num}: {line!r}")
     parts = LineNumbers(
-        from_start=int(m["from_start"]), to_start=int(m["to_start"])
+        from_start=int(m["from_start"]),
+        type=m["type"],
+        to_start=int(m["to_start"]),
     )
     if m["from_stop"] is not None:
         parts["from_stop"] = int(m["from_stop"])
@@ -194,6 +197,8 @@ def should_ignore_sub_diff(sub_diff: SubDiff) -> bool:
         return False
     line_nums = sub_diff["line_numbers"]
     from_start = line_nums["from_start"]
+    if line_nums["type"] != "c":
+        return False
     if (from_stop := line_nums.get("from_stop")) is None:
         return False
     to_start = line_nums["to_start"]
