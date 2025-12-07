@@ -30,14 +30,4 @@ public static class ToSystemEnumerableExtensions
             yield return value;
         }
     }
-
-    public static scg.IEnumerable<scg.KeyValuePair<TKey, TValue>> ToSystemEnumerable<TKey, TValue>(
-        this icg.Dictionary<TKey, TValue> entries
-    )
-    {
-        foreach (var entry in entries)
-        {
-            yield return new(entry.Key, entry.Value);
-        }
-    }
 }

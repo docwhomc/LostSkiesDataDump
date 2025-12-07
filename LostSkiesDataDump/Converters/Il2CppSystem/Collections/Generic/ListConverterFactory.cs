@@ -17,6 +17,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Versioning;
 using System.Text.Json;
@@ -30,16 +31,25 @@ public class ListConverterFactory : BaseConverterFactory, IConverterDefault<List
 {
     public static JsonConverter Default { get; } = new ListConverterFactory();
 
-    internal class ListConverter<TType, TValue>(bool reference) : FactoryConverter<TType>(reference)
-        where TType : icg.List<TValue>
+    internal class ListConverter<TType, TItem>(bool reference, JsonSerializerOptions options)
+        : FactoryConverter<TType>(reference)
+        where TType : icg.List<TItem>
     {
+        private readonly Serializer<TItem> _valueConverter = GetSerializer<TItem>(options);
+
         public override void WriteObjectBody(
             Utf8JsonWriter writer,
             TType value,
             JsonSerializerOptions options
         )
         {
-            WriteArray(writer, value, options);
+            WriteArray(writer, GetItems(value), options, _valueConverter, "value");
+        }
+
+        public static IEnumerable<TItem> GetItems(TType entries)
+        {
+            foreach (var entry in entries)
+                yield return entry;
         }
     }
 
@@ -53,13 +63,13 @@ public class ListConverterFactory : BaseConverterFactory, IConverterDefault<List
     )
     {
         Type[] typeArguments = typeToConvert.GetGenericArguments();
-        Type valueType = typeArguments[0];
+        Type itemType = typeArguments[0];
         JsonConverter converter = (JsonConverter)
             Activator.CreateInstance(
-                typeof(ListConverter<,>).MakeGenericType([typeToConvert, valueType]),
+                typeof(ListConverter<,>).MakeGenericType([typeToConvert, itemType]),
                 BindingFlags.Instance | BindingFlags.Public,
                 binder: null,
-                args: [Reference],
+                args: [Reference, options],
                 culture: null
             );
         return converter;

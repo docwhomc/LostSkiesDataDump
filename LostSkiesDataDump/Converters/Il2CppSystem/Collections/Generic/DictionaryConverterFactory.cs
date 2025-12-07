@@ -17,6 +17,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Versioning;
 using System.Text.Json;
@@ -32,17 +33,52 @@ public class DictionaryConverterFactory
 {
     public static JsonConverter Default { get; } = new DictionaryConverterFactory();
 
-    internal class DictionaryConverter<TType, TKey, TValue>(bool reference)
-        : FactoryConverter<TType>(reference)
+    internal class DictionaryConverter<TType, TKey, TValue>(
+        bool reference,
+        JsonSerializerOptions options
+    ) : FactoryConverter<TType>(reference)
         where TType : icg.Dictionary<TKey, TValue>
     {
+        private readonly Serializer<TKey> _keyConverter = GetSerializer<TKey>(options);
+        private readonly Serializer<TValue> _valueConverter = GetSerializer<TValue>(options);
+
         public override void WriteObjectBody(
             Utf8JsonWriter writer,
             TType value,
             JsonSerializerOptions options
         )
         {
-            WriteArray(writer, value.ToSystemEnumerable(), options, "__entries");
+            WriteArray(writer, GetKeyValuePairs(value), options, WriteEntry, "__entries");
+        }
+
+        public static IEnumerable<icg.KeyValuePair<TKey, TValue>> GetKeyValuePairs(TType entries)
+        {
+            foreach (var entry in entries)
+                yield return entry;
+        }
+
+        public void WriteEntry(
+            Utf8JsonWriter writer,
+            icg.KeyValuePair<TKey, TValue> entry,
+            JsonSerializerOptions options
+        )
+        {
+            try
+            {
+                writer.WriteStartObject();
+                writer.WritePropertyName(EncodeName("Key", options));
+                _keyConverter(writer, entry.Key, options);
+                writer.WritePropertyName(EncodeName("Value", options));
+                _valueConverter(writer, entry.Value, options);
+                writer.WriteEndObject();
+            }
+            catch (Exception e)
+            {
+                var message = $"Error serializing dictionary entry {entry}";
+                writer.WriteCommentValue(message);
+                Plugin.Log.LogError(message);
+                Plugin.Log.LogError(e);
+            }
         }
     }
 
@@ -65,7 +101,7 @@ public class DictionaryConverterFactory
                 ),
                 BindingFlags.Instance | BindingFlags.Public,
                 binder: null,
-                args: [Reference],
+                args: [Reference, options],
                 culture: null
             );
         return converter;
