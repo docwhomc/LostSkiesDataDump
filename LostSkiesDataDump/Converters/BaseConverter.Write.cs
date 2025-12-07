@@ -177,9 +177,9 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
         [CallerArgumentExpression(nameof(value))] string name = null
     )
     {
+        writer.WriteStartArray(EncodeName(name, options));
         try
         {
-            writer.WriteStartArray(EncodeName(name, options));
             if (value is not null)
             {
                 int index = 0;
@@ -200,7 +200,6 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
                     index++;
                 }
             }
-            writer.WriteEndArray();
         }
         catch (Exception e)
         {
@@ -209,6 +208,7 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
             Plugin.Log.LogError(message);
             Plugin.Log.LogError(e);
         }
+        writer.WriteEndArray();
     }
 
     /// <summary>
