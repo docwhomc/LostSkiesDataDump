@@ -16,7 +16,6 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using HarmonyLib;
 using UISystem;
@@ -25,11 +24,10 @@ using UnityEngine.InputSystem;
 using WildSkies.Mediators;
 using WildSkies.Service;
 using WildSkies.World;
-using WildSkies.WorldItems;
 
 namespace LostSkiesDataDump;
 
-class Patch
+partial class Patch
 {
     [HarmonyPatch(typeof(HostControl), nameof(HostControl.OnWorldLoadingComplete))]
     [HarmonyPostfix]
@@ -76,117 +74,6 @@ class Patch
             Plugin.Log.LogInfo("ALT + HOME");
             Plugin.DumpData();
         }
-    }
-
-    [HarmonyPatch(typeof(CompendiumUiMediator), nameof(CompendiumUiMediator.Initialise))]
-    [HarmonyPrefix]
-    [RequiresPreviewFeatures]
-    public static void CompendiumUiMediator_Initialise(
-        CompendiumUiMediator __instance,
-        [DefaultParameterValue(null)] IUIService uiService,
-        [DefaultParameterValue(null)] ICompendiumService compendiumService,
-        [DefaultParameterValue(null)] IPlayerGuideService playerGuideService,
-        [DefaultParameterValue(null)] IPlayerInventoryService playerInventoryService,
-        [DefaultParameterValue(null)] ICraftingService craftingService
-    )
-    {
-        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(CompendiumUiMediator_Initialise)}(...)");
-        Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
-        Plugin.Log.LogDebug($"{nameof(uiService)}: {uiService}");
-        Plugin.Log.LogDebug($"{nameof(compendiumService)}: {compendiumService}");
-        Plugin.SerializationRoot.CompendiumService = compendiumService;
-        Plugin.Log.LogDebug($"{nameof(playerGuideService)}: {playerGuideService}");
-        Plugin.Log.LogDebug($"{nameof(playerInventoryService)}: {playerInventoryService}");
-        Plugin.Log.LogDebug($"{nameof(craftingService)}: {craftingService}");
-        Plugin.SerializationRoot.CraftingService = craftingService;
-    }
-
-    [HarmonyPatch(typeof(ContainerService), nameof(ContainerService.Initialise))]
-    [HarmonyPrefix]
-    [RequiresPreviewFeatures]
-    public static void ContainerService_Initialise(ContainerService __instance)
-    {
-        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(ContainerService_Initialise)}(...)");
-        Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
-        Plugin.SerializationRoot.ContainerService = __instance;
-    }
-
-    [HarmonyPatch(typeof(WorldRegionService), nameof(WorldRegionService.Init))]
-    [HarmonyPrefix]
-    [RequiresPreviewFeatures]
-    public static void WorldRegionService_Init(
-        WorldRegionService __instance,
-        Map worldMap,
-        WorldLoadingService worldLoadingService,
-        SkyMapService skyMapService
-    )
-    {
-        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(WorldRegionService_Init)}(...)");
-        Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
-        Plugin.SerializationRoot.WorldRegionService = __instance;
-        Plugin.Log.LogDebug($"{nameof(worldMap)}: {worldMap}");
-        Plugin.Log.LogDebug($"{nameof(worldLoadingService)}: {worldLoadingService}");
-        Plugin.Log.LogDebug($"{nameof(skyMapService)}: {skyMapService}");
-    }
-
-    [HarmonyPatch(typeof(ItemInventoryMediator), nameof(ItemInventoryMediator.Initialise))]
-    [HarmonyPrefix]
-    [RequiresPreviewFeatures]
-    public static void ItemInventoryMediator_Initialise(
-        ItemInventoryMediator __instance,
-        [DefaultParameterValue(null)] IItemService itemService,
-        [DefaultParameterValue(null)] IPlayerInventoryService playerInventoryService,
-        [DefaultParameterValue(null)] IUIService uiService,
-        [DefaultParameterValue(null)] LocalisationService localisationService
-    )
-    {
-        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(ItemInventoryMediator_Initialise)}(...)");
-        Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
-        Plugin.Log.LogInfo($"{nameof(itemService)}: {itemService}");
-        Plugin.SerializationRoot.ItemService = itemService;
-        Plugin.Log.LogInfo($"{nameof(playerInventoryService)}: {playerInventoryService}");
-        Plugin.Log.LogInfo($"{nameof(uiService)}: {uiService}");
-        Plugin.Log.LogInfo($"{nameof(localisationService)}: {localisationService}");
-    }
-
-    [HarmonyPatch(typeof(ItemService), nameof(ItemService.Initialise))]
-    [HarmonyPrefix]
-    [RequiresPreviewFeatures]
-    public static void ItemService_Initialise(ItemInventoryMediator __instance)
-    {
-        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(ItemService_Initialise)}(...)");
-        Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
-    }
-
-    [HarmonyPatch(typeof(LootPoolService), nameof(LootPoolService.Initialise))]
-    [HarmonyPrefix]
-    [RequiresPreviewFeatures]
-    public static void LootPoolService_Initialise(LootPoolService __instance)
-    {
-        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(LootPoolService_Initialise)}(...)");
-        Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
-        Plugin.SerializationRoot.LootPoolService = __instance;
-    }
-
-    [HarmonyPatch(typeof(LootTableService), nameof(LootTableService.Initialise))]
-    [HarmonyPrefix]
-    [RequiresPreviewFeatures]
-    public static void LootTableService_Initialise(LootTableService __instance)
-    {
-        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(LootTableService_Initialise)}(...)");
-        Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
-        Plugin.SerializationRoot.LootTableService = __instance;
-    }
-
-    [HarmonyPatch(typeof(SteamPlatform), nameof(SteamPlatform.Initialise))]
-    [HarmonyPrefix]
-    [RequiresPreviewFeatures]
-    public static void SteamPlatform_Initialise(SteamPlatform __instance)
-    {
-        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(SteamPlatform_Initialise)}(...)");
-        Plugin.Log.LogInfo($"{nameof(__instance)}: {__instance}");
-        Plugin.SerializationRoot.GameVersionInfo.SteamPlatform = __instance;
-        // Plugin.SerializationRoot.LogSteamPlatformData();
     }
 
     [HarmonyPatch(typeof(SteamPlatform), nameof(SteamPlatform.OwnsApplication))]
