@@ -58,7 +58,9 @@
             "args": [
                 "copy_output.py"
             ],
-            "problemMatcher": ["$python"]
+            "problemMatcher": [
+                "$python"
+            ]
         },
         {
             "type": "shell",
@@ -67,7 +69,9 @@
             "args": [
                 "diff_output.py"
             ],
-            "problemMatcher": ["$python"]
+            "problemMatcher": [
+                "$python"
+            ]
         }
     ]
 }
