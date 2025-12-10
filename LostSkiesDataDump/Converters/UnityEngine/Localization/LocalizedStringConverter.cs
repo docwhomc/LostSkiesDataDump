@@ -63,9 +63,10 @@ public class LocalizedStringConverter<T>
         else
         {
             var message =
-                "Unable to serialize LocalizedString that does not specify a table collection";
+                $"Unable to serialize {nameof(LocalizedString)} that does not specify a table reference or collection";
             writer.WriteCommentValue(message);
-            Plugin.Log.LogDebug(message);
+            if (Plugin.LogBadLocalizedString)
+                Plugin.Log.LogDebug(message);
         }
     }
 

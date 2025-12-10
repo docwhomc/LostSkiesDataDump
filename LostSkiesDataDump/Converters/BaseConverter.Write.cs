@@ -71,7 +71,8 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
             name = match.Groups[1].Value;
         else
             Plugin.Log.LogWarning($"name `{name}` didn't match pattern");
-        Plugin.Log.LogDebug($"Adding name cleaner cache entry: `{cacheKey}` -> `{name}`");
+        if (Plugin.LogCleanerCacheEntry)
+            Plugin.Log.LogDebug($"Adding name cleaner cache entry: `{cacheKey}` -> `{name}`");
         s_nameCleanerCache.Add(cacheKey, name);
         return name;
     }

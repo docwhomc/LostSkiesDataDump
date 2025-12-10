@@ -19,7 +19,10 @@
 using System.IO;
 using BepInEx.Configuration;
 using BepInEx.Unity.IL2CPP;
+using LostSkiesDataDump.Converters;
+using LostSkiesDataDump.Converters.UnityEngine.Localization;
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace LostSkiesDataDump;
 
@@ -50,6 +53,29 @@ public partial class Plugin : BasePlugin
     public static string TextOutputFile =>
         Path.Join(BaseOutputDirectory, ConfigTextOutputFile.Value);
 
+    private const string VerbositySection = "Verbosity";
+
+    protected static ConfigEntry<bool> ConfigLogBadLocalizedString
+    {
+        get => PropertyGetHelper(field);
+        private set => field = value;
+    } = null;
+    public static bool LogBadLocalizedString => ConfigLogBadLocalizedString.Value;
+
+    protected static ConfigEntry<bool> ConfigLogCleanerCacheEntry
+    {
+        get => PropertyGetHelper(field);
+        private set => field = value;
+    } = null;
+    public static bool LogCleanerCacheEntry => ConfigLogCleanerCacheEntry.Value;
+
+    protected static ConfigEntry<bool> ConfigLogFactoryCreateConverter
+    {
+        get => PropertyGetHelper(field);
+        private set => field = value;
+    } = null;
+    public static bool LogFactoryCreateConverter => ConfigLogFactoryCreateConverter.Value;
+
     private void ConfigBind()
     {
         ConfigBaseOutputDirectory = Config.Bind(
@@ -69,6 +95,24 @@ public partial class Plugin : BasePlugin
             "TextFile",
             "data.json",
             $"The file that this plugin saves text output to.  Its path is relative to that of the base output directory ({ConfigBaseOutputDirectory.Definition})."
+        );
+        ConfigLogBadLocalizedString = Config.Bind(
+            VerbositySection,
+            "LogBadLocalizedString",
+            false,
+            $"If true, log when a {nameof(LocalizedStringConverter<>)} attempts to serialize a {nameof(LocalizedString)} that does not specify a table reference or collection. Otherwise, do not log such messages."
+        );
+        ConfigLogCleanerCacheEntry = Config.Bind(
+            VerbositySection,
+            "LogCleanerCacheEntry",
+            false,
+            $"If true, log when a {nameof(BaseConverter<>)}.{nameof(BaseConverter<>.CleanName)}() adds an entry to the name cleaner cache. Otherwise, do not log such messages."
+        );
+        ConfigLogFactoryCreateConverter = Config.Bind(
+            VerbositySection,
+            "LogFactoryCreateConverter",
+            false,
+            $"If true, log when a {nameof(BaseConverterFactory)}.{nameof(BaseConverterFactory.CreateConverter)}() creates and caches a new converter. Otherwise, do not log such messages."
         );
     }
 }

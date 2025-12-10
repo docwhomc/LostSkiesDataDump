@@ -48,9 +48,11 @@ public abstract class BaseConverterFactory(bool reference = true) : JsonConverte
             );
         else
         {
-            Plugin.Log.LogDebug($"{this} doesn't have a converter cached for {typeToConvert}");
+            if (Plugin.LogFactoryCreateConverter)
+                Plugin.Log.LogDebug($"{this} doesn't have a converter cached for {typeToConvert}");
             converter = CreateNewConverter(typeToConvert, options);
-            Plugin.Log.LogDebug($"{this} created converter {converter} for {typeToConvert}");
+            if (Plugin.LogFactoryCreateConverter)
+                Plugin.Log.LogDebug($"{this} created converter {converter} for {typeToConvert}");
             TryCacheConverter(typeToConvert, converter);
         }
         return converter;
@@ -62,7 +64,10 @@ public abstract class BaseConverterFactory(bool reference = true) : JsonConverte
     {
         bool success = ConverterCache.TryAdd(typeToConvert, converter);
         if (success)
-            Plugin.Log.LogDebug($"{this} cached converter {converter} for {typeToConvert}");
+        {
+            if (Plugin.LogFactoryCreateConverter)
+                Plugin.Log.LogDebug($"{this} cached converter {converter} for {typeToConvert}");
+        }
         else if (ConverterCache.ContainsKey(typeToConvert))
         {
             bool getSuccess = ConverterCache.TryGetValue(
