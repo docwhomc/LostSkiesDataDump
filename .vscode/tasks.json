@@ -72,6 +72,31 @@
             "problemMatcher": [
                 "$python"
             ]
+        },
+        {
+            "type": "shell",
+            "label": "Run",
+            "command": "'C:${/}Program Files (x86)${/}Steam${/}steam.exe'",
+            "args": [
+                "-applaunch",
+                "1931180",
+                "--doorstop-enabled",
+                "true",
+                "--doorstop-target-assembly",
+                "'${userHome}${/}AppData${/}Roaming${/}com.kesomannen.gale${/}lost-skies${/}profiles${/}Dev${/}BepInEx${/}core${/}BepInEx.Unity.IL2CPP.dll'",
+                "-batchmode",
+                "-nographics",
+                "-player",
+                "Test",
+                "-world",
+                "Test",
+                "-maxPlayers",
+                "1"
+            ],
+            "problemMatcher": [],
+            "dependsOn": [
+                "dotnet: Build and Deploy Plugin"
+            ]
         }
     ]
 }
