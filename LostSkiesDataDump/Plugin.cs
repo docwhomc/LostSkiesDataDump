@@ -18,6 +18,7 @@
 
 using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.Versioning;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -34,25 +35,23 @@ namespace LostSkiesDataDump;
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 public class Plugin : BasePlugin
 {
+    private static T PropertyGetHelper<T>(T value, [CallerMemberName] string name = null) =>
+        value
+        ?? throw new InvalidOperationException(
+            $"{MyPluginInfo.PLUGIN_GUID}'s {name} property has not been initialized"
+        );
+
     private static ManualLogSource s_log = null;
     internal static new ManualLogSource Log
     {
-        get =>
-            s_log
-            ?? throw new InvalidOperationException(
-                $"{MyPluginInfo.PLUGIN_GUID} not yet initialized"
-            );
+        get => PropertyGetHelper(s_log);
         private set => s_log = value;
     }
 
     private static ConfigEntry<string> s_configBaseOutputDirectory = null;
     protected static ConfigEntry<string> ConfigBaseOutputDirectory
     {
-        get =>
-            s_configBaseOutputDirectory
-            ?? throw new InvalidOperationException(
-                $"{MyPluginInfo.PLUGIN_GUID} not yet initialized"
-            );
+        get => PropertyGetHelper(s_configBaseOutputDirectory);
         private set => s_configBaseOutputDirectory = value;
     }
     public static string BaseOutputDirectory => ConfigBaseOutputDirectory.Value;
@@ -60,11 +59,7 @@ public class Plugin : BasePlugin
     private static ConfigEntry<string> s_configIconOutputDirectory = null;
     protected static ConfigEntry<string> ConfigIconOutputDirectory
     {
-        get =>
-            s_configIconOutputDirectory
-            ?? throw new InvalidOperationException(
-                $"{MyPluginInfo.PLUGIN_GUID} not yet initialized"
-            );
+        get => PropertyGetHelper(s_configIconOutputDirectory);
         private set => s_configIconOutputDirectory = value;
     }
     public static string IconOutputDirectory =>
@@ -73,11 +68,7 @@ public class Plugin : BasePlugin
     private static ConfigEntry<string> s_configTextOutputFile = null;
     protected static ConfigEntry<string> ConfigTextOutputFile
     {
-        get =>
-            s_configTextOutputFile
-            ?? throw new InvalidOperationException(
-                $"{MyPluginInfo.PLUGIN_GUID} not yet initialized"
-            );
+        get => PropertyGetHelper(s_configTextOutputFile);
         private set => s_configTextOutputFile = value;
     }
     public static string TextOutputFile =>
