@@ -23,17 +23,15 @@ using System.Runtime.Versioning;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using BepInEx;
-using BepInEx.Configuration;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using LostSkiesDataDump.Converters;
-using UnityEngine;
 
 namespace LostSkiesDataDump;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
-public class Plugin : BasePlugin
+public partial class Plugin : BasePlugin
 {
     private static T PropertyGetHelper<T>(T value, [CallerMemberName] string name = null) =>
         value
@@ -46,30 +44,6 @@ public class Plugin : BasePlugin
         get => PropertyGetHelper(field);
         private set => field = value;
     } = null;
-
-    protected static ConfigEntry<string> ConfigBaseOutputDirectory
-    {
-        get => PropertyGetHelper(field);
-        private set => field = value;
-    } = null;
-    public static string BaseOutputDirectory => ConfigBaseOutputDirectory.Value;
-
-    protected static ConfigEntry<string> ConfigIconOutputDirectory
-    {
-        get => PropertyGetHelper(field);
-        private set => field = value;
-    } = null;
-    public static string IconOutputDirectory =>
-        Path.Join(BaseOutputDirectory, ConfigIconOutputDirectory.Value);
-
-    protected static ConfigEntry<string> ConfigTextOutputFile
-    {
-        get => PropertyGetHelper(field);
-        private set => field = value;
-    } = null;
-    public static string TextOutputFile =>
-        Path.Join(BaseOutputDirectory, ConfigTextOutputFile.Value);
-
     private static Harmony s_harmony = null;
 
     public static SerializationRoot SerializationRoot
@@ -85,29 +59,12 @@ public class Plugin : BasePlugin
         Log.LogInfo(
             $"Loading plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION}..."
         );
+        ConfigBind();
         Log.LogInfo(
             $"  - config file: {Config.ConfigFilePath}{(File.Exists(Config.ConfigFilePath) ? "" : " (does not exist)")}"
         );
-        ConfigBaseOutputDirectory = Config.Bind(
-            "Output",
-            "BaseDirectory",
-            Path.Join(Application.dataPath, MyPluginInfo.PLUGIN_GUID),
-            "The (base) directory that this plugin saves its output to."
-        );
         Log.LogInfo($"  - base output directory: {BaseOutputDirectory}");
-        ConfigIconOutputDirectory = Config.Bind(
-            "Output",
-            "IconDirectory",
-            "icons",
-            $"The directory that this plugin saves icons files to.  Its path is relative to that of the base output directory ({ConfigBaseOutputDirectory.Definition.Section}.{ConfigBaseOutputDirectory.Definition.Key})."
-        );
         Log.LogInfo($"  - icon output directory: {IconOutputDirectory}");
-        ConfigTextOutputFile = Config.Bind(
-            "Output",
-            "TextFile",
-            "data.json",
-            $"The file that this plugin saves text output to.  Its path is relative to that of the base output directory ({ConfigBaseOutputDirectory.Definition.Section}.{ConfigBaseOutputDirectory.Definition.Key})."
-        );
         Log.LogInfo($"  - text output file: {TextOutputFile}");
         s_harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
         s_harmony.PatchAll(typeof(Patch));
