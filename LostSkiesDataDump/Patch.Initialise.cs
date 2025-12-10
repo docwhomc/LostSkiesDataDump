@@ -29,7 +29,7 @@ namespace LostSkiesDataDump;
 partial class Patch
 {
     [HarmonyPatch(typeof(CompendiumUiMediator), nameof(CompendiumUiMediator.Initialise))]
-    [HarmonyPrefix]
+    [HarmonyPostfix]
     [RequiresPreviewFeatures]
     public static void CompendiumUiMediator_Initialise(
         CompendiumUiMediator __instance,
@@ -52,17 +52,18 @@ partial class Patch
     }
 
     [HarmonyPatch(typeof(ContainerService), nameof(ContainerService.Initialise))]
-    [HarmonyPrefix]
+    [HarmonyPostfix]
     [RequiresPreviewFeatures]
-    public static void ContainerService_Initialise(ContainerService __instance)
+    public static void ContainerService_Initialise(ContainerService __instance, int __result)
     {
         Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(ContainerService_Initialise)}(...)");
         Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
+        Plugin.Log.LogDebug($"{nameof(__result)}: {__result}");
         Plugin.SerializationRoot.ContainerService = __instance;
     }
 
     [HarmonyPatch(typeof(ItemInventoryMediator), nameof(ItemInventoryMediator.Initialise))]
-    [HarmonyPrefix]
+    [HarmonyPostfix]
     [RequiresPreviewFeatures]
     public static void ItemInventoryMediator_Initialise(
         ItemInventoryMediator __instance,
@@ -82,47 +83,51 @@ partial class Patch
     }
 
     [HarmonyPatch(typeof(ItemService), nameof(ItemService.Initialise))]
-    [HarmonyPrefix]
+    [HarmonyPostfix]
     [RequiresPreviewFeatures]
-    public static void ItemService_Initialise(ItemInventoryMediator __instance)
+    public static void ItemService_Initialise(ItemInventoryMediator __instance, int __result)
     {
         Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(ItemService_Initialise)}(...)");
         Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
+        Plugin.Log.LogDebug($"{nameof(__result)}: {__result}");
     }
 
     [HarmonyPatch(typeof(LootPoolService), nameof(LootPoolService.Initialise))]
-    [HarmonyPrefix]
+    [HarmonyPostfix]
     [RequiresPreviewFeatures]
-    public static void LootPoolService_Initialise(LootPoolService __instance)
+    public static void LootPoolService_Initialise(LootPoolService __instance, int __result)
     {
         Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(LootPoolService_Initialise)}(...)");
         Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
         Plugin.SerializationRoot.LootPoolService = __instance;
+        Plugin.Log.LogDebug($"{nameof(__result)}: {__result}");
     }
 
     [HarmonyPatch(typeof(LootTableService), nameof(LootTableService.Initialise))]
-    [HarmonyPrefix]
+    [HarmonyPostfix]
     [RequiresPreviewFeatures]
-    public static void LootTableService_Initialise(LootTableService __instance)
+    public static void LootTableService_Initialise(LootTableService __instance, int __result)
     {
         Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(LootTableService_Initialise)}(...)");
         Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
         Plugin.SerializationRoot.LootTableService = __instance;
+        Plugin.Log.LogDebug($"{nameof(__result)}: {__result}");
     }
 
     [HarmonyPatch(typeof(SteamPlatform), nameof(SteamPlatform.Initialise))]
-    [HarmonyPrefix]
+    [HarmonyPostfix]
     [RequiresPreviewFeatures]
-    public static void SteamPlatform_Initialise(SteamPlatform __instance)
+    public static void SteamPlatform_Initialise(SteamPlatform __instance, int __result)
     {
         Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(SteamPlatform_Initialise)}(...)");
         Plugin.Log.LogInfo($"{nameof(__instance)}: {__instance}");
         Plugin.SerializationRoot.GameVersionInfo.SteamPlatform = __instance;
+        Plugin.Log.LogDebug($"{nameof(__result)}: {__result}");
         // Plugin.SerializationRoot.LogSteamPlatformData();
     }
 
     [HarmonyPatch(typeof(WorldRegionService), nameof(WorldRegionService.Init))]
-    [HarmonyPrefix]
+    [HarmonyPostfix]
     [RequiresPreviewFeatures]
     public static void WorldRegionService_Init(
         WorldRegionService __instance,
