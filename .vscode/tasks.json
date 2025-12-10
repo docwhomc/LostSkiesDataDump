@@ -20,7 +20,7 @@
             "label": "Open Data File",
             "command": "code",
             "args": [
-                "C:/Program Files (x86)/Steam/steamapps/common/Wild Skies/LostSkies_Data/LostSkiesDataDump/data.json"
+                "'C:/Program Files (x86)/Steam/steamapps/common/Wild Skies/LostSkies_Data/LostSkiesDataDump/data.json'"
             ],
             "problemMatcher": []
         },
@@ -29,7 +29,7 @@
             "label": "Open Log File",
             "command": "code",
             "args": [
-                "$env:APPDATA${/}com.kesomannen.gale${/}lost-skies${/}profiles${/}Dev${/}BepInEx${/}LogOutput.log"
+                "'${userHome}${/}AppData${/}Roaming${/}com.kesomannen.gale${/}lost-skies${/}profiles${/}Dev${/}BepInEx${/}LogOutput.log'"
             ],
             "problemMatcher": []
         },
@@ -38,7 +38,7 @@
             "label": "Open Error Log File",
             "command": "code",
             "args": [
-                "$env:APPDATA${/}com.kesomannen.gale${/}lost-skies${/}profiles${/}Dev${/}BepInEx${/}ErrorLog.log"
+                "'${userHome}${/}AppData${/}Roaming${/}com.kesomannen.gale${/}lost-skies${/}profiles${/}Dev${/}BepInEx${/}ErrorLog.log'"
             ],
             "problemMatcher": []
         },
