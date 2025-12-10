@@ -41,36 +41,32 @@ public class Plugin : BasePlugin
             $"{MyPluginInfo.PLUGIN_GUID}'s {name} property has not been initialized"
         );
 
-    private static ManualLogSource s_log = null;
     internal static new ManualLogSource Log
     {
-        get => PropertyGetHelper(s_log);
-        private set => s_log = value;
-    }
+        get => PropertyGetHelper(field);
+        private set => field = value;
+    } = null;
 
-    private static ConfigEntry<string> s_configBaseOutputDirectory = null;
     protected static ConfigEntry<string> ConfigBaseOutputDirectory
     {
-        get => PropertyGetHelper(s_configBaseOutputDirectory);
-        private set => s_configBaseOutputDirectory = value;
-    }
+        get => PropertyGetHelper(field);
+        private set => field = value;
+    } = null;
     public static string BaseOutputDirectory => ConfigBaseOutputDirectory.Value;
 
-    private static ConfigEntry<string> s_configIconOutputDirectory = null;
     protected static ConfigEntry<string> ConfigIconOutputDirectory
     {
-        get => PropertyGetHelper(s_configIconOutputDirectory);
-        private set => s_configIconOutputDirectory = value;
-    }
+        get => PropertyGetHelper(field);
+        private set => field = value;
+    } = null;
     public static string IconOutputDirectory =>
         Path.Join(BaseOutputDirectory, ConfigIconOutputDirectory.Value);
 
-    private static ConfigEntry<string> s_configTextOutputFile = null;
     protected static ConfigEntry<string> ConfigTextOutputFile
     {
-        get => PropertyGetHelper(s_configTextOutputFile);
-        private set => s_configTextOutputFile = value;
-    }
+        get => PropertyGetHelper(field);
+        private set => field = value;
+    } = null;
     public static string TextOutputFile =>
         Path.Join(BaseOutputDirectory, ConfigTextOutputFile.Value);
 
