@@ -25,6 +25,8 @@ namespace LostSkiesDataDump;
 
 public partial class Plugin : BasePlugin
 {
+    private const string OutputSection = "Output";
+
     protected static ConfigEntry<string> ConfigBaseOutputDirectory
     {
         get => PropertyGetHelper(field);
@@ -51,22 +53,22 @@ public partial class Plugin : BasePlugin
     private void ConfigBind()
     {
         ConfigBaseOutputDirectory = Config.Bind(
-            "Output",
+            OutputSection,
             "BaseDirectory",
             Path.Join(Application.dataPath, MyPluginInfo.PLUGIN_GUID),
             "The (base) directory that this plugin saves its output to."
         );
         ConfigIconOutputDirectory = Config.Bind(
-            "Output",
+            OutputSection,
             "IconDirectory",
             "icons",
-            $"The directory that this plugin saves icons files to.  Its path is relative to that of the base output directory ({ConfigBaseOutputDirectory.Definition.Section}.{ConfigBaseOutputDirectory.Definition.Key})."
+            $"The directory that this plugin saves icons files to.  Its path is relative to that of the base output directory ({ConfigBaseOutputDirectory.Definition})."
         );
         ConfigTextOutputFile = Config.Bind(
-            "Output",
+            OutputSection,
             "TextFile",
             "data.json",
-            $"The file that this plugin saves text output to.  Its path is relative to that of the base output directory ({ConfigBaseOutputDirectory.Definition.Section}.{ConfigBaseOutputDirectory.Definition.Key})."
+            $"The file that this plugin saves text output to.  Its path is relative to that of the base output directory ({ConfigBaseOutputDirectory.Definition})."
         );
     }
 }
