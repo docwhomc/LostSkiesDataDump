@@ -44,6 +44,15 @@
         },
         {
             "type": "shell",
+            "label": "Open Config File",
+            "command": "code",
+            "args": [
+                "'${userHome}${/}AppData${/}Roaming${/}com.kesomannen.gale${/}lost-skies${/}profiles${/}Dev${/}BepInEx${/}config${/}LostSkiesDataDump.cfg'"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
             "label": "Copy Output",
             "command": "python",
             "args": [
