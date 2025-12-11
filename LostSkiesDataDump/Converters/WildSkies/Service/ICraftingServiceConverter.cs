@@ -18,7 +18,6 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Il2CppSystem.Collections.Generic;
 using WildSkies.Gameplay.Crafting;
 using WildSkies.Service;
@@ -28,11 +27,10 @@ namespace LostSkiesDataDump.Converters.WildSkies.Service;
 [RequiresPreviewFeatures]
 public class ICraftingServiceConverter<T>
     : BaseConverter<T>,
-        IConverterDefault<ICraftingServiceConverter<T>>
+        IConverterDefault<ICraftingServiceConverter<ICraftingService>>
     where T : ICraftingService
 {
-    public static JsonConverter Default { get; } =
-        new ICraftingServiceConverter<ICraftingService>();
+    public static ICraftingServiceConverter<ICraftingService> Default { get; } = new();
 
     public ICraftingServiceConverter()
         : base(false) { }

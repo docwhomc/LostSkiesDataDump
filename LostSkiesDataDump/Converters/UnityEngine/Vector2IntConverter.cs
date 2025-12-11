@@ -18,7 +18,6 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using UnityEngine;
 
 namespace LostSkiesDataDump.Converters.UnityEngine;
@@ -26,7 +25,7 @@ namespace LostSkiesDataDump.Converters.UnityEngine;
 [RequiresPreviewFeatures]
 public class Vector2IntConverter : BaseConverter<Vector2Int>, IConverterDefault<Vector2IntConverter>
 {
-    public static JsonConverter Default { get; } = new Vector2IntConverter();
+    public static Vector2IntConverter Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,

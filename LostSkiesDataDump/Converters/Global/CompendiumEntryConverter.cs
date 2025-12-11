@@ -18,17 +18,16 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace LostSkiesDataDump.Converters.Global;
 
 [RequiresPreviewFeatures]
 public class CompendiumEntryConverter<T>
     : BaseConverter<T>,
-        IConverterDefault<CompendiumEntryConverter<T>>
+        IConverterDefault<CompendiumEntryConverter<CompendiumEntry>>
     where T : CompendiumEntry
 {
-    public static JsonConverter Default { get; } = new CompendiumEntryConverter<CompendiumEntry>();
+    public static CompendiumEntryConverter<CompendiumEntry> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,

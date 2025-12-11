@@ -18,7 +18,6 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using WildSkies.Gameplay.Crafting;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Crafting;
@@ -26,11 +25,10 @@ namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Crafting;
 [RequiresPreviewFeatures]
 public class CraftableItemBlueprintConverter<T>
     : BaseConverter<T>,
-        IConverterDefault<CraftableItemBlueprintConverter<T>>
+        IConverterDefault<CraftableItemBlueprintConverter<CraftableItemBlueprint>>
     where T : CraftableItemBlueprint
 {
-    public static JsonConverter Default { get; } =
-        new CraftableItemBlueprintConverter<CraftableItemBlueprint>();
+    public static CraftableItemBlueprintConverter<CraftableItemBlueprint> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,

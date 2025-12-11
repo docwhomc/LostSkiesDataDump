@@ -18,7 +18,6 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using WildSkies.Service;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Service;
@@ -26,10 +25,10 @@ namespace LostSkiesDataDump.Converters.WildSkies.Service;
 [RequiresPreviewFeatures]
 public class LootPoolServiceConverter<T>
     : BaseConverter<T>,
-        IConverterDefault<LootPoolServiceConverter<T>>
+        IConverterDefault<LootPoolServiceConverter<LootPoolService>>
     where T : LootPoolService
 {
-    public static JsonConverter Default { get; } = new LootPoolServiceConverter<LootPoolService>();
+    public static LootPoolServiceConverter<LootPoolService> Default { get; } = new();
 
     public LootPoolServiceConverter()
         : base(false) { }

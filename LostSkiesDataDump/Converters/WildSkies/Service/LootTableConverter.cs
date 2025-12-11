@@ -18,16 +18,17 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using WildSkies.Service;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Service;
 
 [RequiresPreviewFeatures]
-public class LootTableConverter<T> : BaseConverter<T>, IConverterDefault<LootTableConverter<T>>
+public class LootTableConverter<T>
+    : BaseConverter<T>,
+        IConverterDefault<LootTableConverter<LootTable>>
     where T : LootTable
 {
-    public static JsonConverter Default { get; } = new LootTableConverter<LootTable>();
+    public static LootTableConverter<LootTable> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,

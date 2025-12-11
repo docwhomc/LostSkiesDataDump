@@ -19,7 +19,6 @@
 using System;
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using ics = Il2CppSystem;
@@ -29,10 +28,10 @@ namespace LostSkiesDataDump.Converters.UnityEngine.Localization;
 [RequiresPreviewFeatures]
 public class LocalizedStringConverter<T>
     : BaseConverter<T>,
-        IConverterDefault<LocalizedStringConverter<T>>
+        IConverterDefault<LocalizedStringConverter<LocalizedString>>
     where T : LocalizedString
 {
-    public static JsonConverter Default { get; } = new LocalizedStringConverter<LocalizedString>();
+    public static LocalizedStringConverter<LocalizedString> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,

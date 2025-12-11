@@ -18,16 +18,17 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using WildSkies.Gameplay.Crafting;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Crafting;
 
 [RequiresPreviewFeatures]
-public class ItemLevelsConverter<T> : BaseConverter<T>, IConverterDefault<ItemLevelsConverter<T>>
+public class ItemLevelsConverter<T>
+    : BaseConverter<T>,
+        IConverterDefault<ItemLevelsConverter<ItemLevels>>
     where T : ItemLevels
 {
-    public static JsonConverter Default { get; } = new ItemLevelsConverter<ItemLevels>();
+    public static ItemLevelsConverter<ItemLevels> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,

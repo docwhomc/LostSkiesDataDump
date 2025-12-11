@@ -18,7 +18,6 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using WildSkies.Service;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Service;
@@ -26,11 +25,10 @@ namespace LostSkiesDataDump.Converters.WildSkies.Service;
 [RequiresPreviewFeatures]
 public class ContainerServiceConverter<T>
     : BaseConverter<T>,
-        IConverterDefault<ContainerServiceConverter<T>>
+        IConverterDefault<ContainerServiceConverter<ContainerService>>
     where T : ContainerService
 {
-    public static JsonConverter Default { get; } =
-        new ContainerServiceConverter<ContainerService>();
+    public static ContainerServiceConverter<ContainerService> Default { get; } = new();
 
     public ContainerServiceConverter()
         : base(false) { }

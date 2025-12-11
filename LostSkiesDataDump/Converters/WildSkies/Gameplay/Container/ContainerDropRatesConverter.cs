@@ -18,7 +18,6 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using WildSkies.Gameplay.Container;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Container;
@@ -26,11 +25,10 @@ namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Container;
 [RequiresPreviewFeatures]
 public class ContainerDropRatesConverter<T>
     : BaseConverter<T>,
-        IConverterDefault<ContainerDropRatesConverter<T>>
+        IConverterDefault<ContainerDropRatesConverter<ContainerDropRates>>
     where T : ContainerDropRates
 {
-    public static JsonConverter Default { get; } =
-        new ContainerDropRatesConverter<ContainerDropRates>();
+    public static ContainerDropRatesConverter<ContainerDropRates> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,

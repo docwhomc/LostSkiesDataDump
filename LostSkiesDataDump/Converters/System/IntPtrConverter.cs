@@ -19,14 +19,13 @@
 using System;
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace LostSkiesDataDump.Converters.System;
 
 [RequiresPreviewFeatures]
 public class IntPtrConverter : BaseConverter<IntPtr>, IConverterDefault<IntPtrConverter>
 {
-    public static JsonConverter Default { get; } = new IntPtrConverter();
+    public static IntPtrConverter Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,

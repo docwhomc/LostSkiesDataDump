@@ -20,7 +20,6 @@ using System;
 using System.Reflection;
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using LostSkiesDataDump.Converters.Bossa.Dynamika.Utilities;
 using UnityEngine;
 using Utilities.Weapons;
@@ -30,10 +29,10 @@ namespace LostSkiesDataDump.Converters.Utilities.Weapons;
 [RequiresPreviewFeatures]
 public class WeaponBaseConverter<T>
     : UtilityItemConverter<T>,
-        IConverterDefault<WeaponBaseConverter<T>>
+        IConverterDefault<WeaponBaseConverter<WeaponBase>>
     where T : WeaponBase
 {
-    public static new JsonConverter Default { get; } = new WeaponBaseConverter<WeaponBase>();
+    public static new WeaponBaseConverter<WeaponBase> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,

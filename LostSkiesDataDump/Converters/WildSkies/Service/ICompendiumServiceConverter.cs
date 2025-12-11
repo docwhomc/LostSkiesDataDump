@@ -18,7 +18,6 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using WildSkies.Service;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Service;
@@ -26,11 +25,10 @@ namespace LostSkiesDataDump.Converters.WildSkies.Service;
 [RequiresPreviewFeatures]
 public class ICompendiumServiceConverter<T>
     : BaseConverter<T>,
-        IConverterDefault<ICompendiumServiceConverter<T>>
+        IConverterDefault<ICompendiumServiceConverter<ICompendiumService>>
     where T : ICompendiumService
 {
-    public static JsonConverter Default { get; } =
-        new ICompendiumServiceConverter<ICompendiumService>();
+    public static ICompendiumServiceConverter<ICompendiumService> Default { get; } = new();
 
     public ICompendiumServiceConverter()
         : base(false) { }

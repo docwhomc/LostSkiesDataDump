@@ -18,7 +18,6 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using WildSkies.Gameplay.Crafting;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Crafting;
@@ -26,11 +25,10 @@ namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Crafting;
 [RequiresPreviewFeatures]
 public class RandomStatsDefinitionConverter<T>
     : BaseConverter<T>,
-        IConverterDefault<RandomStatsDefinitionConverter<T>>
+        IConverterDefault<RandomStatsDefinitionConverter<RandomStatsDefinition>>
     where T : RandomStatsDefinition
 {
-    public static JsonConverter Default { get; } =
-        new RandomStatsDefinitionConverter<RandomStatsDefinition>();
+    public static RandomStatsDefinitionConverter<RandomStatsDefinition> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,

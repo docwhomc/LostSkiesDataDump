@@ -18,7 +18,6 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using WildSkies.Gameplay.Items;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Items;
@@ -26,10 +25,10 @@ namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Items;
 [RequiresPreviewFeatures]
 public class ItemDefinitionConverter<T>
     : BaseConverter<T>,
-        IConverterDefault<ItemDefinitionConverter<T>>
+        IConverterDefault<ItemDefinitionConverter<ItemDefinition>>
     where T : ItemDefinition
 {
-    public static JsonConverter Default { get; } = new ItemDefinitionConverter<ItemDefinition>();
+    public static ItemDefinitionConverter<ItemDefinition> Default { get; } = new();
 
     public ItemDefinitionConverter()
         : base(false) { }

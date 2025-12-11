@@ -18,7 +18,6 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using LostSkiesDataDump.Converters.WildSkies.Gameplay.Items;
 using WildSkies.Weapon;
 
@@ -27,10 +26,10 @@ namespace LostSkiesDataDump.Converters.WildSkies.Weapon;
 [RequiresPreviewFeatures]
 public class WeaponProfileConverter<T>
     : ItemProfileConverter<T>,
-        IConverterDefault<WeaponProfileConverter<T>>
+        IConverterDefault<WeaponProfileConverter<WeaponProfile>>
     where T : WeaponProfile
 {
-    public static new JsonConverter Default { get; } = new WeaponProfileConverter<WeaponProfile>();
+    public static new WeaponProfileConverter<WeaponProfile> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,

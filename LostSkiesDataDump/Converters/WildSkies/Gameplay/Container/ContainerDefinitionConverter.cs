@@ -18,7 +18,6 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using WildSkies.Gameplay.Container;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Container;
@@ -26,11 +25,10 @@ namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Container;
 [RequiresPreviewFeatures]
 public class ContainerDefinitionConverter<T>
     : BaseConverter<T>,
-        IConverterDefault<ContainerDefinitionConverter<T>>
+        IConverterDefault<ContainerDefinitionConverter<ContainerDefinition>>
     where T : ContainerDefinition
 {
-    public static JsonConverter Default { get; } =
-        new ContainerDefinitionConverter<ContainerDefinition>();
+    public static ContainerDefinitionConverter<ContainerDefinition> Default { get; } = new();
 
     public class PoolSlotConverter<TP> : BaseConverter<TP>
         where TP : ContainerDefinition.PoolSlot

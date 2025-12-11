@@ -19,18 +19,16 @@
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace LostSkiesDataDump.Converters.Global;
 
 [RequiresPreviewFeatures]
 public class CompendiumCategoryConverter<T>
     : BaseConverter<T>,
-        IConverterDefault<CompendiumCategoryConverter<T>>
+        IConverterDefault<CompendiumCategoryConverter<CompendiumCategory>>
     where T : CompendiumCategory
 {
-    public static JsonConverter Default { get; } =
-        new CompendiumCategoryConverter<CompendiumCategory>();
+    public static CompendiumCategoryConverter<CompendiumCategory> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,

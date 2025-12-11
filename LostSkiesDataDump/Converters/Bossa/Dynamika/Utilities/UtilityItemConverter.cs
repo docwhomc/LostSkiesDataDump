@@ -18,16 +18,17 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Bossa.Dynamika.Utilities;
 
 namespace LostSkiesDataDump.Converters.Bossa.Dynamika.Utilities;
 
 [RequiresPreviewFeatures]
-public class UtilityItemConverter<T> : BaseConverter<T>, IConverterDefault<UtilityItemConverter<T>>
+public class UtilityItemConverter<T>
+    : BaseConverter<T>,
+        IConverterDefault<UtilityItemConverter<UtilityItem>>
     where T : UtilityItem
 {
-    public static JsonConverter Default { get; } = new UtilityItemConverter<UtilityItem>();
+    public static UtilityItemConverter<UtilityItem> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,

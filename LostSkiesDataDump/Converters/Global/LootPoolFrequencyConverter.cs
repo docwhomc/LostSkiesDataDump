@@ -18,7 +18,6 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace LostSkiesDataDump.Converters.Global;
 
@@ -27,7 +26,7 @@ public class LootPoolFrequencyConverter
     : BaseConverter<LootPoolFrequency>,
         IConverterDefault<LootPoolFrequencyConverter>
 {
-    public static JsonConverter Default { get; } = new LootPoolFrequencyConverter();
+    public static LootPoolFrequencyConverter Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,

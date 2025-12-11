@@ -25,5 +25,5 @@ namespace LostSkiesDataDump.Converters;
 public interface IConverterDefault<T>
     where T : JsonConverter
 {
-    public static abstract JsonConverter Default { get; }
+    public static abstract T Default { get; }
 }

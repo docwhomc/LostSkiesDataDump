@@ -29,7 +29,7 @@ namespace LostSkiesDataDump.Converters.Il2CppSystem.Collections.Generic;
 [RequiresPreviewFeatures]
 public class ListConverterFactory : BaseConverterFactory, IConverterDefault<ListConverterFactory>
 {
-    public static JsonConverter Default { get; } = new ListConverterFactory();
+    public static ListConverterFactory Default { get; } = new();
 
     internal class ListConverter<TType, TItem>(bool reference, JsonSerializerOptions options)
         : FactoryConverter<TType>(reference)

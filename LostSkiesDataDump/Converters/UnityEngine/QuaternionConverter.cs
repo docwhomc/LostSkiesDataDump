@@ -18,7 +18,6 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using UnityEngine;
 
 namespace LostSkiesDataDump.Converters.UnityEngine;
@@ -26,7 +25,7 @@ namespace LostSkiesDataDump.Converters.UnityEngine;
 [RequiresPreviewFeatures]
 public class QuaternionConverter : BaseConverter<Quaternion>, IConverterDefault<QuaternionConverter>
 {
-    public static JsonConverter Default { get; } = new QuaternionConverter();
+    public static QuaternionConverter Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,

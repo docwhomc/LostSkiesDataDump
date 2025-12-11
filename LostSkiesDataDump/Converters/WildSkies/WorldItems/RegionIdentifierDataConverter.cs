@@ -18,7 +18,6 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using WildSkies.WorldItems;
 
 namespace LostSkiesDataDump.Converters.WildSkies.WorldItems;
@@ -26,11 +25,10 @@ namespace LostSkiesDataDump.Converters.WildSkies.WorldItems;
 [RequiresPreviewFeatures]
 public class RegionIdentifierDataConverter<T>
     : BaseConverter<T>,
-        IConverterDefault<RegionIdentifierDataConverter<T>>
+        IConverterDefault<RegionIdentifierDataConverter<RegionIdentifierData>>
     where T : RegionIdentifierData
 {
-    public static JsonConverter Default { get; } =
-        new RegionIdentifierDataConverter<RegionIdentifierData>();
+    public static RegionIdentifierDataConverter<RegionIdentifierData> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,

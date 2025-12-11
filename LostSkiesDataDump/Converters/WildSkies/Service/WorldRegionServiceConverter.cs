@@ -18,7 +18,6 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using WildSkies.Service;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Service;
@@ -26,11 +25,10 @@ namespace LostSkiesDataDump.Converters.WildSkies.Service;
 [RequiresPreviewFeatures]
 public class WorldRegionServiceConverter<T>
     : BaseConverter<T>,
-        IConverterDefault<WorldRegionServiceConverter<T>>
+        IConverterDefault<WorldRegionServiceConverter<WorldRegionService>>
     where T : WorldRegionService
 {
-    public static JsonConverter Default { get; } =
-        new WorldRegionServiceConverter<WorldRegionService>();
+    public static WorldRegionServiceConverter<WorldRegionService> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,

@@ -31,7 +31,7 @@ public class DictionaryConverterFactory
     : BaseConverterFactory,
         IConverterDefault<DictionaryConverterFactory>
 {
-    public static JsonConverter Default { get; } = new DictionaryConverterFactory();
+    public static DictionaryConverterFactory Default { get; } = new();
 
     internal class DictionaryConverter<TType, TKey, TValue>(
         bool reference,
