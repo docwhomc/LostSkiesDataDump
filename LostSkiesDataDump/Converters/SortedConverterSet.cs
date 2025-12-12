@@ -27,10 +27,10 @@ using LostSkiesDataDump.Extensions;
 
 namespace LostSkiesDataDump.Converters;
 
-[RequiresPreviewFeatures]
 public class SortedConverterSet(IComparer<JsonConverter> comparer)
     : SortedSet<JsonConverter>(comparer)
 {
+    [RequiresPreviewFeatures]
     static readonly Type IConverterDefaultType = typeof(IConverterDefault<>);
     public static SortedConverterSet Default { get; } = new(ConverterComparer.Default);
 
@@ -40,6 +40,7 @@ public class SortedConverterSet(IComparer<JsonConverter> comparer)
             Plugin.Log.LogError($"unable to add {converter} to {Default}");
     }
 
+    [RequiresPreviewFeatures]
     static SortedConverterSet()
     {
         Plugin.Log.LogInfo($"initializing default {nameof(SortedConverterSet)}");
@@ -48,6 +49,7 @@ public class SortedConverterSet(IComparer<JsonConverter> comparer)
         AddToDefault(new JsonStringEnumConverter());
     }
 
+    [RequiresPreviewFeatures]
     internal static IEnumerable<JsonConverter> GetDefaultConverters()
     {
         foreach (var converterType in GetConverterTypes())
@@ -55,6 +57,7 @@ public class SortedConverterSet(IComparer<JsonConverter> comparer)
                 yield return converter;
     }
 
+    [RequiresPreviewFeatures]
     public static IEnumerable<Type> GetConverterTypes(Assembly assembly = null) =>
         (assembly ?? Assembly.GetExecutingAssembly())
             .GetTypes()
@@ -65,6 +68,7 @@ public class SortedConverterSet(IComparer<JsonConverter> comparer)
                     )
             );
 
+    [RequiresPreviewFeatures]
     private static bool GetDefaultConverter(Type converterType, out JsonConverter instance)
     {
         Type[] typeParameters = converterType.GetGenericArguments();
