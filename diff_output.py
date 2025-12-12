@@ -68,7 +68,7 @@ def main() -> int:
     proc = diff_files(args)
     diff = parse_diff(proc.stdout)
     for sub_diff in diff:
-        if should_ignore_sub_diff(sub_diff):
+        if ShouldIgnore.should_ignore(sub_diff):
             continue
         line_nums = sub_diff["line_numbers"]
         to_stop = line_nums.get("to_stop")
@@ -103,7 +103,7 @@ def get_m_time(path: Path) -> float:
 
 def diff_files(args: argparse.Namespace) -> subprocess.CompletedProcess[str]:
     proc = subprocess.run(
-        ["diff", args.from_file, args.to_file],
+        ["diff", "-w", args.from_file, args.to_file],
         capture_output=True,
         check=False,
         text=True,
@@ -176,39 +176,64 @@ def parse_diff_line_numbers(num: int, line: str) -> LineNumbers:
     return parts
 
 
-def should_ignore_sub_diff(sub_diff: SubDiff) -> bool:
-    from_lines = sub_diff.get("from_lines")
-    to_lines = sub_diff.get("to_lines")
-    if from_lines is None or len(from_lines) != 2:
+class ShouldIgnore:
+    @classmethod
+    def should_ignore(cls, sub_diff: SubDiff) -> bool:
+        return cls.seemingly_random_floats(
+            sub_diff=sub_diff
+        ) or cls.id_or_ref_change(sub_diff=sub_diff)
+
+    RE_ID_LINE = re.compile(r'\s*"\$id": "\d+",')
+    RE_REF_LINE = re.compile(r'\s*"\$ref": "\d+"')
+
+    @classmethod
+    def id_or_ref_change(cls, sub_diff: SubDiff) -> bool:
+        from_lines = sub_diff.get("from_lines")
+        to_lines = sub_diff.get("to_lines")
+        if from_lines is None or len(from_lines) != 1:
+            return False
+        if to_lines is None or len(to_lines) != 1:
+            return False
+        if cls.RE_ID_LINE.fullmatch(from_lines[0]) is not None:
+            return cls.RE_ID_LINE.fullmatch(to_lines[0]) is not None
+        elif cls.RE_REF_LINE.fullmatch(from_lines[0]) is not None:
+            return cls.RE_REF_LINE.fullmatch(to_lines[0]) is not None
         return False
-    if to_lines is None or len(to_lines) != 2:
-        return False
-    if from_lines[0][-1] != ",":
-        return False
-    if from_lines[0][-1] != ",":
-        return False
-    if from_lines[0][:-1] != from_lines[1]:
-        return False
-    if to_lines[0][:-1] != to_lines[1]:
-        return False
-    if RE_FLOAT.fullmatch(from_lines[1].lstrip()) is None:
-        return False
-    if RE_FLOAT.fullmatch(to_lines[1].lstrip()) is None:
-        return False
-    line_nums = sub_diff["line_numbers"]
-    from_start = line_nums["from_start"]
-    if line_nums["type"] != "c":
-        return False
-    if (from_stop := line_nums.get("from_stop")) is None:
-        return False
-    to_start = line_nums["to_start"]
-    if (to_stop := line_nums.get("to_stop")) is None:
-        return False
-    if from_stop - from_start != 1:
-        return False
-    if to_stop - to_start != 1:
-        return False
-    return True
+
+    @staticmethod
+    def seemingly_random_floats(sub_diff: SubDiff) -> bool:
+        from_lines = sub_diff.get("from_lines")
+        to_lines = sub_diff.get("to_lines")
+        if from_lines is None or len(from_lines) != 2:
+            return False
+        if to_lines is None or len(to_lines) != 2:
+            return False
+        if from_lines[0][-1] != ",":
+            return False
+        if from_lines[0][-1] != ",":
+            return False
+        if from_lines[0][:-1] != from_lines[1]:
+            return False
+        if to_lines[0][:-1] != to_lines[1]:
+            return False
+        if RE_FLOAT.fullmatch(from_lines[1].lstrip()) is None:
+            return False
+        if RE_FLOAT.fullmatch(to_lines[1].lstrip()) is None:
+            return False
+        line_nums = sub_diff["line_numbers"]
+        from_start = line_nums["from_start"]
+        if line_nums["type"] != "c":
+            return False
+        if (from_stop := line_nums.get("from_stop")) is None:
+            return False
+        to_start = line_nums["to_start"]
+        if (to_stop := line_nums.get("to_stop")) is None:
+            return False
+        if from_stop - from_start != 1:
+            return False
+        if to_stop - to_start != 1:
+            return False
+        return True
 
 
 if __name__ == "__main__":
