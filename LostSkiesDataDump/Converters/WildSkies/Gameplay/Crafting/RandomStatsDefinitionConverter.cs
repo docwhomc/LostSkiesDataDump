@@ -68,9 +68,9 @@ public class RandomStatsDefinitionConverter<T>
         //     Plugin.Log.LogError(e);
         // }
         WriteProperty(writer, value.NumSelections, options);
-        WriteArray(
+        WriteProperty(
             writer,
-            value.NumSelectionWeightings.ToSystemEnumerable(),
+            value.NumSelectionWeightings,
             options,
             nameof(value.NumSelectionWeightings)
         );

@@ -36,7 +36,7 @@ public class ItemLevelsConverter<T>
         JsonSerializerOptions options
     )
     {
-        WriteArray(writer, value.Levels.ToSystemEnumerable(), options);
+        WriteProperty(writer, value.Levels, options);
         WriteProperty(writer, value.LevelsCount, options);
     }
 }

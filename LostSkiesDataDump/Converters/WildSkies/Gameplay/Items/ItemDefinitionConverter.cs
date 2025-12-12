@@ -60,7 +60,7 @@ public class ItemDefinitionConverter<T>
         WriteProperty(writer, value.ItemDescription, options);
         WriteProperty(writer, value.ItemTypeFlags, options);
         WriteProperty(writer, value.itemComponent, options);
-        WriteArray(writer, value.ItemCompositionList.ToSystemEnumerable(), options);
+        WriteProperty(writer, value.ItemCompositionList, options);
         WriteProperty(writer, value.Rarity, options);
         WriteProperty(writer, value.AirtableRecordReference, options);
         // TODO: `public unsafe Sprite IconSprite`

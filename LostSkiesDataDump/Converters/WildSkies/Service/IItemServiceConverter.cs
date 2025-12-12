@@ -40,6 +40,6 @@ public class IItemServiceConverter<T>
     )
     {
         WriteProperty(writer, value.AddressableLocationKey, options);
-        WriteArray(writer, value.FetchAllItems().ToSystemEnumerable(), options);
+        WriteProperty(writer, value.FetchAllItems(), options);
     }
 }
