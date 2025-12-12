@@ -136,9 +136,8 @@ public class SortedConverterSet(IComparer<JsonConverter> comparer)
 
         public override int Compare(Type x, Type y)
         {
-            int compare;
             Tuple<Type, Type> key = new(x, y);
-            bool notFound = !Cache.TryGetValue(key, out compare);
+            bool notFound = !Cache.TryGetValue(key, out int compare);
             if (notFound)
             {
                 compare = SubclassCompare(x, y);
