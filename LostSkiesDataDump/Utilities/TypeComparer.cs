@@ -19,9 +19,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LostSkiesDataDump.Extensions;
 
-namespace LostSkiesDataDump.Converters;
+namespace LostSkiesDataDump.Utilities;
 
 public class TypeComparer : Comparer<Type>
 {

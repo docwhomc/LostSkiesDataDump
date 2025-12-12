@@ -19,7 +19,7 @@
 using System;
 using System.Runtime.Versioning;
 using System.Text.Json;
-using LostSkiesDataDump.Extensions;
+using LostSkiesDataDump.Utilities;
 using UnityEngine.Localization;
 using WildSkies.Gameplay.Items;
 using ics = Il2CppSystem;

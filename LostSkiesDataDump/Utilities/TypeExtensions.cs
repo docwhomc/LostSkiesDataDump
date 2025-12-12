@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LostSkiesDataDump.Extensions;
+namespace LostSkiesDataDump.Utilities;
 
 public static class TypeExtensions
 {

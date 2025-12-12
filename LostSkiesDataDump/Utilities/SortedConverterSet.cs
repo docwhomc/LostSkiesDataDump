@@ -22,8 +22,9 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Versioning;
 using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters;
 
-namespace LostSkiesDataDump.Converters;
+namespace LostSkiesDataDump.Utilities;
 
 public class SortedConverterSet(IComparer<JsonConverter> comparer)
     : SortedSet<JsonConverter>(comparer)

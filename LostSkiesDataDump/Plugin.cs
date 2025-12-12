@@ -26,7 +26,7 @@ using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
-using LostSkiesDataDump.Converters;
+using LostSkiesDataDump.Utilities;
 
 namespace LostSkiesDataDump;
 

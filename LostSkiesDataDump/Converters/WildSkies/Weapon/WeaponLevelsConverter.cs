@@ -22,7 +22,7 @@ using System.Runtime.Versioning;
 using System.Text.Json;
 using Il2CppSystem.Linq;
 using LostSkiesDataDump.Converters.WildSkies.Gameplay.Crafting;
-using LostSkiesDataDump.Extensions;
+using LostSkiesDataDump.Utilities;
 using WildSkies.Weapon;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Weapon;
