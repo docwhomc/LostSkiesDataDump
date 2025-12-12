@@ -23,6 +23,7 @@ using System.Reflection;
 using System.Runtime.Versioning;
 using System.Text.Json.Serialization;
 using Cysharp.Threading.Tasks.Linq;
+using LostSkiesDataDump.Extensions;
 
 namespace LostSkiesDataDump.Converters;
 
@@ -148,29 +149,17 @@ public class SortedConverterSet(IComparer<JsonConverter> comparer)
 
         internal static int SubclassCompare(Type x, Type y)
         {
-            Type[] xHierarchy = [.. GetClassHierarchy(x).Reverse()];
-            Type[] yHierarchy = [.. GetClassHierarchy(y).Reverse()];
+            Type[] xHierarchy = [.. x.GetClassHierarchy().Reverse()];
+            Type[] yHierarchy = [.. y.GetClassHierarchy().Reverse()];
             int stop = Math.Min(xHierarchy.Length, yHierarchy.Length);
             for (int index = 0; index < stop; index++)
             {
-                Type xBase = TryGetGeneric(xHierarchy[index]);
-                Type yBase = TryGetGeneric(yHierarchy[index]);
+                Type xBase = xHierarchy[index].TryGetGeneric();
+                Type yBase = yHierarchy[index].TryGetGeneric();
                 if (xBase != yBase)
                     return StringComparer.InvariantCulture.Compare(xBase.Name, yBase.Name);
             }
             return yHierarchy.Length.CompareTo(xHierarchy.Length);
-        }
-
-        internal static Type TryGetGeneric(Type type) =>
-            type.IsGenericType ? type.GetGenericTypeDefinition() : type;
-
-        internal static IEnumerable<Type> GetClassHierarchy(Type type)
-        {
-            while (type != null)
-            {
-                yield return type;
-                type = type.BaseType;
-            }
         }
     }
 }
