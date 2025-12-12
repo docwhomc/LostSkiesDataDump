@@ -17,6 +17,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.Versioning;
@@ -51,6 +52,8 @@ public partial class Plugin : BasePlugin
         [RequiresPreviewFeatures]
         get => field ??= new();
     } = null;
+
+    public static readonly ConverterWriteCounter ConverterWriteCounter = new();
 
     [RequiresPreviewFeatures]
     public override void Load()
@@ -95,6 +98,7 @@ public partial class Plugin : BasePlugin
     public static void DumpData()
     {
         Log.LogInfo("Dumping data");
+        ConverterWriteCounter.Clear();
         try
         {
             Log.LogInfo(Directory.CreateDirectory(BaseOutputDirectory));
@@ -129,6 +133,14 @@ public partial class Plugin : BasePlugin
         finally
         {
             Log.LogInfo("Data dump complete");
+            IEnumerable<string> report = ConverterWriteCounter.GenerateReport(
+                ConverterWriteCounter.SortBy.Name,
+                hierarchy: true
+            );
+            Log.LogInfo("Converter Use Report");
+            foreach (string line in report)
+                Log.LogInfo(line);
+            ConverterWriteCounter.Clear();
         }
     }
 }

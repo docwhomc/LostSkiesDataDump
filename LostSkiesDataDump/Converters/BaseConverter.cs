@@ -26,8 +26,7 @@ namespace LostSkiesDataDump.Converters;
 /// Converts an object or value to or from JSON.
 /// </summary>
 /// <typeparam name="T">The type of object or value handled by the converter.</typeparam>
-/// <param name="reference">Whether or not the new converter should use references.  The value is assigned to <see cref="Reference"/>.</param>
-public abstract partial class BaseConverter<T>(bool reference) : JsonConverter<T>
+public abstract partial class BaseConverter<T> : JsonConverter<T>
 {
     /// <summary>
     /// <c>ID_KEY</c> is a JSON name whose corresponding value is the reference identifier of the object containing the name/value pair.
@@ -47,13 +46,23 @@ public abstract partial class BaseConverter<T>(bool reference) : JsonConverter<T
     /// <value>
     /// <c>Reference</c> indicates whether or not this converter should use references to avoid duplicating objects.  If true, this converter will use a reference when it encounters an object it has already serialized.  Otherwise, this converter will serialize objects it has encountered before.
     /// </value>
-    public bool Reference { get; set; } = reference;
+    public bool Reference { get; set; }
 
     /// <summary>
     /// This constructor initializes the converter with <see cref="Reference"/> set to true.
     /// </summary>
     public BaseConverter()
         : this(true) { }
+
+    /// <summary>
+    /// Initializes the converter.
+    /// </summary>
+    /// <param name="reference">Whether or not the new converter should use references.  The value is assigned to <see cref="Reference"/>.</param>
+    public BaseConverter(bool reference)
+    {
+        Reference = reference;
+        _ = Plugin.ConverterWriteCounter.GetEntry(GetType());
+    }
 
     /// <summary>
     /// Reads and converts the JSON to type <typeparamref name="T"/>.
@@ -80,6 +89,7 @@ public abstract partial class BaseConverter<T>(bool reference) : JsonConverter<T
     /// <param name="options">An object that specifies serialization options to use.</param>
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
+        Plugin.ConverterWriteCounter.Increment(GetType());
         if (value is null)
         {
             writer.WriteNullValue();
