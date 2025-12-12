@@ -22,8 +22,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Versioning;
 using System.Text.Json.Serialization;
-using Cysharp.Threading.Tasks.Linq;
-using LostSkiesDataDump.Extensions;
 
 namespace LostSkiesDataDump.Converters;
 
@@ -128,42 +126,6 @@ public class SortedConverterSet(IComparer<JsonConverter> comparer)
             Type yType = y.GetType();
             compare = TypeComparer.Compare(xType, yType);
             return compare;
-        }
-    }
-
-    public class TypeComparer : Comparer<Type>
-    {
-        public static new readonly TypeComparer Default = new();
-
-        internal Dictionary<Tuple<Type, Type>, int> Cache = [];
-
-        public void ClearCache() => Cache.Clear();
-
-        public override int Compare(Type x, Type y)
-        {
-            Tuple<Type, Type> key = new(x, y);
-            bool notFound = !Cache.TryGetValue(key, out int compare);
-            if (notFound)
-            {
-                compare = SubclassCompare(x, y);
-                Cache.TryAdd(key, compare);
-            }
-            return compare;
-        }
-
-        internal static int SubclassCompare(Type x, Type y)
-        {
-            Type[] xHierarchy = [.. x.GetClassHierarchy().Reverse()];
-            Type[] yHierarchy = [.. y.GetClassHierarchy().Reverse()];
-            int stop = Math.Min(xHierarchy.Length, yHierarchy.Length);
-            for (int index = 0; index < stop; index++)
-            {
-                Type xBase = xHierarchy[index].TryGetGeneric();
-                Type yBase = yHierarchy[index].TryGetGeneric();
-                if (xBase != yBase)
-                    return StringComparer.InvariantCulture.Compare(xBase.Name, yBase.Name);
-            }
-            return yHierarchy.Length.CompareTo(xHierarchy.Length);
         }
     }
 }
