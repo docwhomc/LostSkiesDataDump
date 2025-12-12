@@ -19,7 +19,7 @@
 using icg = Il2CppSystem.Collections.Generic;
 using scg = System.Collections.Generic;
 
-namespace LostSkiesDataDump;
+namespace LostSkiesDataDump.Extensions;
 
 public static class ToSystemEnumerableExtensions
 {
