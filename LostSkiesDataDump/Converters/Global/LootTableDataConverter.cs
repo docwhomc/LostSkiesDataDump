@@ -38,8 +38,8 @@ public class LootTableDataConverter<T>
         WriteProperty(writer, value.SubBiomeType, options);
         WriteProperty(writer, value.NumPerSquareKilometreRange, options);
         WriteProperty(writer, value.MaxValue, options);
-        WriteArray(writer, value.ContainerDefinitions, options);
-        WriteArray(writer, value.LootPoolFrequencyList, options);
+        WriteProperty(writer, value.ContainerDefinitions, options);
+        WriteProperty(writer, value.LootPoolFrequencyList, options);
         // public unsafe ContainerDefinition GetRandomContainer(Il2CppSystem.Random random)
         // public unsafe LootPoolDefinition GetRandomLootPool(Il2CppSystem.Random random)
     }

@@ -36,6 +36,6 @@ public class ContainerDropRatesConverter<T>
         JsonSerializerOptions options
     )
     {
-        WriteArray(writer, value.Values, options);
+        WriteProperty(writer, value.Values, options);
     }
 }

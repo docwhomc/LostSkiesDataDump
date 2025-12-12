@@ -45,7 +45,7 @@ public class ItemStatDefinitionConverter<T>
             WriteProperty(writer, value.CleanName, options);
             WriteProperty(writer, value.MinValue, options);
             WriteProperty(writer, value.MaxValue, options);
-            WriteArray(writer, value.MaterialAttributes, options);
+            WriteProperty(writer, value.MaterialAttributes, options);
             WriteProperty(writer, value.AttributeModifier, options);
         }
         catch (Exception e)

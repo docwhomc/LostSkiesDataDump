@@ -44,7 +44,7 @@ public class LootPoolServiceConverter<T>
         WriteProperty(writer, value.CanGameRunIfServiceFailed, options);
         WriteProperty(writer, value.UseTestAssets, options);
         WriteProperty(writer, value.AddressableLocationKey, options);
-        WriteArray(writer, value.FetchAllLootPools(), options);
+        WriteProperty(writer, value.FetchAllLootPools(), options);
         // public unsafe virtual bool TryFetchLootPoolById(string id, out LootPoolDefinition lootPoolDefinition)
         // public unsafe virtual bool TryFetchLootPoolByName(string name, out LootPoolDefinition lootPoolDefinition)
     }

@@ -39,8 +39,8 @@ public class ICompendiumServiceConverter<T>
         JsonSerializerOptions options
     )
     {
-        WriteArray(writer, value.Categories, options);
-        WriteArray(writer, value.Entries, options);
+        WriteProperty(writer, value.Categories, options);
+        WriteProperty(writer, value.Entries, options);
         // TODO: video clips via
         //     - `public unsafe virtual VideoClip LoadedTutorialVideo`
         //     - `public unsafe virtual Task<bool> LoadTutorialVideo([DefaultParameterValue(null)] string videoName)`

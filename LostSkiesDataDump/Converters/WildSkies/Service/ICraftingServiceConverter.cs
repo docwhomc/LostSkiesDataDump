@@ -42,7 +42,7 @@ public class ICraftingServiceConverter<T>
     )
     {
         WriteProperty(writer, value.UseTestAssets, options);
-        WriteArray(writer, value.RawSchematicDataList, options);
+        WriteProperty(writer, value.RawSchematicDataList, options);
         WriteProperty(writer, value.FreeCrafting, options);
         // public unsafe virtual void LearnSchematic(string schematicId, int variationSeed)
         // public unsafe virtual void LearnCraftingMethod(CraftingMethod craftingMethod)
@@ -53,7 +53,7 @@ public class ICraftingServiceConverter<T>
         // public unsafe virtual ushort GetUniqueIdFromSchematicItemId(string itemId)
         // public unsafe virtual bool GetAllSchematicsOfType(CraftingMethod type, out List<CraftableItemBlueprint> schematics)
         value.GetAllSchematics(out List<CraftableItemBlueprint> schematics);
-        WriteArray(writer, schematics, options, "GetAllSchematics()");
+        WriteProperty(writer, schematics, options, "GetAllSchematics()");
         // public unsafe virtual bool GetAssociatedSchematicForItem(string itemId, out CraftableItemBlueprint schematic)
     }
 }

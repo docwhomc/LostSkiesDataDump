@@ -44,7 +44,7 @@ public class ContainerServiceConverter<T>
         WriteProperty(writer, value.CanGameRunIfServiceFailed, options);
         WriteProperty(writer, value.UseTestAssets, options);
         WriteProperty(writer, value.AddressableLocationKey, options);
-        WriteArray(writer, value.FetchAllContainers(), options);
+        WriteProperty(writer, value.FetchAllContainers(), options);
         // public unsafe virtual bool TryFetchContainerById(string id, out ContainerDefinition containerDefinition)
         // public unsafe virtual bool TryFetchContainerByName(string name, out ContainerDefinition containerDefinition)
     }

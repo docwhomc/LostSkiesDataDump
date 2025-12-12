@@ -36,6 +36,6 @@ public class LootPoolDropRatesConverter<T>
         JsonSerializerOptions options
     )
     {
-        WriteArray(writer, value.Values, options);
+        WriteProperty(writer, value.Values, options);
     }
 }

@@ -23,7 +23,6 @@ using System.Runtime.Versioning;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
-using icg = Il2CppSystem.Collections.Generic;
 
 namespace LostSkiesDataDump.Converters;
 
@@ -210,24 +209,6 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
             Plugin.Log.LogError(e);
         }
         writer.WriteEndArray();
-    }
-
-    /// <summary>
-    ///   Writes a property name specified as a string and an list value as part of a name/value pair of a JSON object.
-    /// </summary>
-    /// <typeparam name="V">The type of the elements of the array value to convert to JSON.</typeparam>
-    /// <param name="writer">The writer to write to.</param>
-    /// <param name="value">The list value to written as a JSON array as part of a name/value pair.</param>
-    /// <param name="options">An object that specifies serialization options to use.</param>
-    /// <param name="name">The UTF-16 encoded property name of the JSON object to be processed by <see cref="EncodeName"/> written as UTF-8.  If null (the default value), the expression for <paramref name="value"/> is used.</param>
-    public static void WriteArray<V>(
-        Utf8JsonWriter writer,
-        icg.List<V> value,
-        JsonSerializerOptions options,
-        [CallerArgumentExpression(nameof(value))] string name = null
-    )
-    {
-        WriteArray(writer, value.ToSystemEnumerable(), options, name);
     }
 
     /// <summary>

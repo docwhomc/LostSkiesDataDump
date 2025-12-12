@@ -44,7 +44,7 @@ public class CraftableItemBlueprintConverter<T>
         WriteProperty(writer, value.CraftingSubCategoryLocName, options);
         WriteProperty(writer, value.CraftingMethod, options);
         WriteProperty(writer, value.SchematicType, options);
-        WriteArray(writer, value.Components, options);
+        WriteProperty(writer, value.Components, options);
         WriteProperty(writer, value.OutputItemId, options);
         WriteProperty(writer, value.OutputQuantity, options);
         WriteProperty(writer, value.TimeToCraft, options);

@@ -44,8 +44,8 @@ public class LootPoolDefinitionConverter<T>
         WriteProperty(writer, value.LootPoolName, options);
         WriteProperty(writer, value.MinItemsToDrop, options);
         WriteProperty(writer, value.MaxItemsToDrop, options);
-        WriteArray(writer, value.ItemList, options);
-        WriteArray(writer, value.ItemSelectionWeightings, options);
+        WriteProperty(writer, value.ItemList, options);
+        WriteProperty(writer, value.ItemSelectionWeightings, options);
         // public unsafe static Island.IslandDifficulty _defaultDifficulty
         // public unsafe static Island.IslandDifficulty DefaultDifficulty
         // public unsafe int GetNumItems()

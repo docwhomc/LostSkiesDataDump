@@ -61,9 +61,9 @@ public class ContainerDefinitionConverter<T>
         WriteProperty(writer, value.MaxSelections, options);
         WriteProperty(writer, value.MinRarity, options);
         WriteProperty(writer, value.MaxRarity, options);
-        WriteArray(writer, value.LootPoolList, options);
-        WriteArray(writer, value.LootPoolSelectionWeightings, options);
-        WriteArray(writer, value.LootPoolMaxSelections, options);
+        WriteProperty(writer, value.LootPoolList, options);
+        WriteProperty(writer, value.LootPoolSelectionWeightings, options);
+        WriteProperty(writer, value.LootPoolMaxSelections, options);
         // public unsafe static Island.IslandDifficulty _defaultDifficulty
         // public unsafe List<LootPoolDefinition> GetRandomLootPools(IslandController islandController)
         // public unsafe List<LootPoolDefinition> GetRandomLootPools(IslandController islandController, out List<int> selectedWeightings, Il2CppSystem.Random random = null)
