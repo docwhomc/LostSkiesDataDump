@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LostSkiesDataDump.Extensions;
 
@@ -30,6 +31,14 @@ public static class TypeExtensions
             yield return type;
             type = type.BaseType;
         }
+    }
+
+    public static string GetPrettyName(this Type type)
+    {
+        string name = type.FullName;
+        return !type.IsGenericType
+            ? name
+            : $"{name[..name.IndexOf('`')]}<{string.Join(", ", type.GetGenericArguments().Select(GetPrettyName))}>";
     }
 
     public static Type TryGetGeneric(this Type type) =>
