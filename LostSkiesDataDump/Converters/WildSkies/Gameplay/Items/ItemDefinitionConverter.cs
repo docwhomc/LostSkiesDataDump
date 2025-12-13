@@ -61,7 +61,7 @@ public class ItemDefinitionConverter<T>
         WriteProperty(writer, value.ItemCompositionList, options);
         WriteProperty(writer, value.Rarity, options);
         WriteProperty(writer, value.AirtableRecordReference, options);
-        // TODO: `public unsafe Sprite IconSprite`
+        WriteProperty(writer, value.IconSprite, options);
         WriteProperty(writer, value.worldComponent, options);
         WriteProperty(writer, value.weaponComponent, options);
         WriteProperty(writer, value.throwableComponent, options);
@@ -77,7 +77,7 @@ public class ItemDefinitionConverter<T>
         WriteProperty(writer, value.CraftingSubCategoryName, options);
         WriteProperty(writer, value.CraftingCategoryId, options);
         WriteProperty(writer, value.CraftingSubCategoryId, options);
-        // TODO: `public unsafe virtual Sprite Icon`
+        WriteProperty(writer, value.Icon, options);
         WriteProperty(writer, value.UseDynamicIconOnMainUI, options);
         WriteProperty(writer, value.Description, options);
         WriteProperty(writer, value.ExclusionRadius, options);
@@ -86,7 +86,7 @@ public class ItemDefinitionConverter<T>
         WriteProperty(writer, value.RandomStatsDefinition, options);
         WriteProperty(writer, value.InteractionName, options);
         WriteProperty(writer, value.InteractionId, options);
-        // TODO: `public unsafe virtual Sprite InteractionSprite`
+        WriteProperty(writer, value.InteractionSprite, options);
         WriteProperty(writer, value.InteractionRarity, options);
         // TODO: `public unsafe IEnumerator<ItemDefinition> GetEnumerator()`
         // TODO: `public unsafe List<BaseItemComponent> GetComponentsByType([DefaultParameterValue(null)] ItemTypes type)`

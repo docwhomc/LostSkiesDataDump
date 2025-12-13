@@ -53,7 +53,7 @@ public class WeaponBaseConverter<T>
         WriteProperty(writer, value._itemWeaponComponent, options);
         WriteProperty(writer, value._weaponLevels, options);
         WriteProperty(writer, value._weaponProfile, options);
-        // TODO: `public unsafe Transform _bulletSource`
+        WriteProperty(writer, value._bulletSource, options);
         WriteProperty(writer, value._recoilTypeString, options);
         WriteProperty(writer, value._recoilStrength, options);
         WriteProperty(writer, value._canAim, options);
@@ -88,7 +88,7 @@ public class WeaponBaseConverter<T>
         // TODO: `public unsafe static float SecondsPerMinute`
         WriteProperty(writer, value.CanShoot, options);
         WriteProperty(writer, value.CanActivate, options);
-        // TODO: `public unsafe LayerMask CollisionLayerMask`
+        WriteProperty(writer, value.CollisionLayerMask, options);
         WriteProperty(writer, value.IsAiming, options);
         TryWriteProperty<float?>(writer, value, options, nameof(value.FovChangeOnAim));
         TryWriteProperty<Vector2?>(writer, value, options, nameof(value.AimSensitivityModifier));
@@ -101,7 +101,7 @@ public class WeaponBaseConverter<T>
         WriteProperty(writer, value.DebugNoSpread, options);
         WriteProperty(writer, value.ReticuleType, options);
         // TODO: `public unsafe Animator ModelAnimator`
-        // TODO: `public unsafe Transform BulletSource`
+        WriteProperty(writer, value.BulletSource, options);
         WriteProperty(writer, value.SchematicId, options);
         WriteProperty(writer, value.CurrentSpread, options);
         // TODO: `public unsafe virtual void SetUtilityLevel([DefaultParameterValue(null)] int level)`

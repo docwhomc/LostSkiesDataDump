@@ -43,7 +43,7 @@ public class WeaponProfileConverter<T>
         WriteProperty(writer, value.InputFireType, options);
         WriteProperty(writer, value.DamageMethod, options);
         WriteProperty(writer, value.DamageType, options);
-        // TODO: `public unsafe LayerMask CollisionLayerMask`
+        WriteProperty(writer, value.CollisionLayerMask, options);
         WriteProperty(writer, value.Damage, options);
         WriteProperty(writer, value.MaxDamage, options);
         WriteProperty(writer, value.RPM, options);

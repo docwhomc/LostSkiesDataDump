@@ -49,7 +49,7 @@ public class CompendiumEntryConverter<T>
         WriteProperty(writer, value.itemId, options);
         WriteProperty(writer, value.entityId, options);
         WriteArray(writer, value.unlockIds, options);
-        // TODO: Sprite icon
+        WriteProperty(writer, value.icon, options);
         WriteProperty(writer, value.videoName, options);
         WriteProperty(writer, value.conversationHistoryId, options);
     }

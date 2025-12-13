@@ -40,7 +40,7 @@ public class CompendiumCategoryConverter<T>
         base.WriteObjectBody(writer, value, options);
         WriteProperty(writer, value.Id, options);
         WriteProperty(writer, value.Name, options);
-        // TODO: `public unsafe Sprite Icon`
+        WriteProperty(writer, value.Icon, options);
         WriteProperty(writer, value.IsMainCategory, options);
         WriteProperty(writer, value.PreferredIndex, options);
         WriteArray(writer, value.SubCategories.Select(o => o.Id), options);
