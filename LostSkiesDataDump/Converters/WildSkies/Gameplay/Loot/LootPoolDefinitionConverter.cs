@@ -48,7 +48,7 @@ public class LootPoolDefinitionConverter<T>
         WriteProperty(writer, value.ItemSelectionWeightings, options);
         // public unsafe static Island.IslandDifficulty _defaultDifficulty
         // public unsafe static Island.IslandDifficulty DefaultDifficulty
-        // public unsafe int GetNumItems()
+        WriteProperty(writer, value.GetNumItems(), options);
         // public unsafe ItemDefinition GetRandomItem(out int amountToDrop, InventoryRarityType MinRarity, InventoryRarityType MaxRarity, IslandController islandController, int seed = -1, Il2CppSystem.Random random = null)
         // public unsafe bool HasValidItems(InventoryRarityType MinRarity, InventoryRarityType MaxRarity, IslandController islandController)
         WriteArray(writer, DropRate.GetDropRates(value), options, nameof(value.GetDropRate));
