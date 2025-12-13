@@ -37,5 +37,6 @@ public class QuaternionConverter : BaseConverter<Quaternion>, IConverterDefault<
         WriteProperty(writer, value.y, options);
         WriteProperty(writer, value.z, options);
         WriteProperty(writer, value.w, options);
+        WriteProperty(writer, value.ToString(), options);
     }
 }

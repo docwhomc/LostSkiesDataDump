@@ -36,5 +36,6 @@ public class Vector3Converter : BaseConverter<Vector3>, IConverterDefault<Vector
         WriteProperty(writer, value.x, options);
         WriteProperty(writer, value.y, options);
         WriteProperty(writer, value.z, options);
+        WriteProperty(writer, value.ToString(), options);
     }
 }

@@ -37,5 +37,6 @@ public class Vector2IntConverter : BaseConverter<Vector2Int>, IConverterDefault<
         WriteProperty(writer, value.m_Y, options);
         WriteProperty(writer, value.x, options);
         WriteProperty(writer, value.y, options);
+        WriteProperty(writer, value.ToString(), options);
     }
 }
