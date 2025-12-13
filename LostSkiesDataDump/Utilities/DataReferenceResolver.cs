@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace LostSkiesDataDump;
+namespace LostSkiesDataDump.Utilities;
 
 public class DataReferenceResolver : ReferenceResolver
 {

@@ -18,7 +18,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace LostSkiesDataDump;
+namespace LostSkiesDataDump.Utilities;
 
 public class DataReferenceHandler : ReferenceHandler
 {
