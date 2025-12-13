@@ -19,6 +19,7 @@
 using System;
 using System.Runtime.Versioning;
 using System.Text.Json;
+using LostSkiesDataDump.Converters.UnityEngine;
 using LostSkiesDataDump.Utilities;
 using UnityEngine.Localization;
 using WildSkies.Gameplay.Items;
@@ -28,11 +29,11 @@ namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Items;
 
 [RequiresPreviewFeatures]
 public class ItemProfileConverter<T>
-    : BaseConverter<T>,
+    : ScriptableObjectConverter<T>,
         IConverterDefault<ItemProfileConverter<ItemProfile>>
     where T : ItemProfile
 {
-    public static ItemProfileConverter<ItemProfile> Default { get; } = new();
+    public static new ItemProfileConverter<ItemProfile> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
@@ -40,6 +41,7 @@ public class ItemProfileConverter<T>
         JsonSerializerOptions options
     )
     {
+        base.WriteObjectBody(writer, value, options);
         WriteArray(
             writer,
             value.GetItemParameters()?.ToSystemEnumerable(),

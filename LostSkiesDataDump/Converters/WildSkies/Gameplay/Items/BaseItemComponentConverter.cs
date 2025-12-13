@@ -24,11 +24,11 @@ namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Items;
 
 [RequiresPreviewFeatures]
 public class BaseItemComponentConverter<T>
-    : BaseConverter<T>,
+    : ItemDatabaseAssetConverter<T>,
         IConverterDefault<BaseItemComponentConverter<BaseItemComponent>>
     where T : BaseItemComponent
 {
-    public static BaseItemComponentConverter<BaseItemComponent> Default { get; } = new();
+    public static new BaseItemComponentConverter<BaseItemComponent> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
@@ -36,6 +36,7 @@ public class BaseItemComponentConverter<T>
         JsonSerializerOptions options
     )
     {
+        base.WriteObjectBody(writer, value, options);
         // TODO: `public unsafe static ItemTypes ClassItemType`
         WriteProperty(writer, value.Active, options);
         WriteProperty(writer, value.ItemType, options);

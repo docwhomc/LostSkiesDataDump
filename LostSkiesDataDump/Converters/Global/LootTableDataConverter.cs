@@ -18,16 +18,17 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
+using LostSkiesDataDump.Converters.UnityEngine;
 
 namespace LostSkiesDataDump.Converters.Global;
 
 [RequiresPreviewFeatures]
 public class LootTableDataConverter<T>
-    : BaseConverter<T>,
+    : ScriptableObjectConverter<T>,
         IConverterDefault<LootTableDataConverter<LootTableData>>
     where T : LootTableData
 {
-    public static LootTableDataConverter<LootTableData> Default { get; } = new();
+    public static new LootTableDataConverter<LootTableData> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
@@ -35,6 +36,7 @@ public class LootTableDataConverter<T>
         JsonSerializerOptions options
     )
     {
+        base.WriteObjectBody(writer, value, options);
         WriteProperty(writer, value.SubBiomeType, options);
         WriteProperty(writer, value.NumPerSquareKilometreRange, options);
         WriteProperty(writer, value.MaxValue, options);

@@ -18,16 +18,17 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
+using LostSkiesDataDump.Converters.UnityEngine;
 
 namespace LostSkiesDataDump.Converters.Global;
 
 [RequiresPreviewFeatures]
 public class CompendiumEntryConverter<T>
-    : BaseConverter<T>,
+    : ScriptableObjectConverter<T>,
         IConverterDefault<CompendiumEntryConverter<CompendiumEntry>>
     where T : CompendiumEntry
 {
-    public static CompendiumEntryConverter<CompendiumEntry> Default { get; } = new();
+    public static new CompendiumEntryConverter<CompendiumEntry> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
@@ -35,6 +36,7 @@ public class CompendiumEntryConverter<T>
         JsonSerializerOptions options
     )
     {
+        base.WriteObjectBody(writer, value, options);
         WriteProperty(writer, value.entryId, options);
         WriteProperty(writer, value.mainCategoryId, options);
         WriteProperty(writer, value.subCategoryId, options);

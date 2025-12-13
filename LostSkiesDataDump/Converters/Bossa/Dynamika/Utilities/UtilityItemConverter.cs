@@ -19,16 +19,17 @@
 using System.Runtime.Versioning;
 using System.Text.Json;
 using Bossa.Dynamika.Utilities;
+using LostSkiesDataDump.Converters.UnityEngine;
 
 namespace LostSkiesDataDump.Converters.Bossa.Dynamika.Utilities;
 
 [RequiresPreviewFeatures]
 public class UtilityItemConverter<T>
-    : BaseConverter<T>,
+    : MonoBehaviourConverter<T>,
         IConverterDefault<UtilityItemConverter<UtilityItem>>
     where T : UtilityItem
 {
-    public static UtilityItemConverter<UtilityItem> Default { get; } = new();
+    public static new UtilityItemConverter<UtilityItem> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
@@ -36,6 +37,7 @@ public class UtilityItemConverter<T>
         JsonSerializerOptions options
     )
     {
+        base.WriteObjectBody(writer, value, options);
         // TODO: `public unsafe DynamikaCharacter _Character_k__BackingField`
         WriteProperty(writer, value._utilityGroup, options);
         WriteProperty(writer, value._utilitySlot, options);

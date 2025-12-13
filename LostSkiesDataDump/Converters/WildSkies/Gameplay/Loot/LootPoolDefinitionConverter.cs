@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Versioning;
 using System.Text.Json;
+using LostSkiesDataDump.Converters.UnityEngine;
 using WildSkies.Gameplay.Loot;
 using WildSkies.IslandExport;
 using Island = WildSkies.WorldItems.Island;
@@ -28,11 +29,11 @@ namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Loot;
 
 [RequiresPreviewFeatures]
 public class LootPoolDefinitionConverter<T>
-    : BaseConverter<T>,
+    : ScriptableObjectConverter<T>,
         IConverterDefault<LootPoolDefinitionConverter<LootPoolDefinition>>
     where T : LootPoolDefinition
 {
-    public static LootPoolDefinitionConverter<LootPoolDefinition> Default { get; } = new();
+    public static new LootPoolDefinitionConverter<LootPoolDefinition> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
@@ -40,6 +41,7 @@ public class LootPoolDefinitionConverter<T>
         JsonSerializerOptions options
     )
     {
+        base.WriteObjectBody(writer, value, options);
         WriteProperty(writer, value.ID, options);
         WriteProperty(writer, value.LootPoolName, options);
         WriteProperty(writer, value.MinItemsToDrop, options);

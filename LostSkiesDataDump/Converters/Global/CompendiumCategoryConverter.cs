@@ -19,16 +19,17 @@
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text.Json;
+using LostSkiesDataDump.Converters.UnityEngine;
 
 namespace LostSkiesDataDump.Converters.Global;
 
 [RequiresPreviewFeatures]
 public class CompendiumCategoryConverter<T>
-    : BaseConverter<T>,
+    : ScriptableObjectConverter<T>,
         IConverterDefault<CompendiumCategoryConverter<CompendiumCategory>>
     where T : CompendiumCategory
 {
-    public static CompendiumCategoryConverter<CompendiumCategory> Default { get; } = new();
+    public static new CompendiumCategoryConverter<CompendiumCategory> Default { get; } = new();
 
     public override void WriteObjectBody(
         Utf8JsonWriter writer,
@@ -36,6 +37,7 @@ public class CompendiumCategoryConverter<T>
         JsonSerializerOptions options
     )
     {
+        base.WriteObjectBody(writer, value, options);
         WriteProperty(writer, value.Id, options);
         WriteProperty(writer, value.Name, options);
         // TODO: `public unsafe Sprite Icon`

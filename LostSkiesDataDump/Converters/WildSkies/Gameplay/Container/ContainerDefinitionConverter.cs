@@ -18,17 +18,18 @@
 
 using System.Runtime.Versioning;
 using System.Text.Json;
+using LostSkiesDataDump.Converters.UnityEngine;
 using WildSkies.Gameplay.Container;
 
 namespace LostSkiesDataDump.Converters.WildSkies.Gameplay.Container;
 
 [RequiresPreviewFeatures]
 public class ContainerDefinitionConverter<T>
-    : BaseConverter<T>,
+    : ScriptableObjectConverter<T>,
         IConverterDefault<ContainerDefinitionConverter<ContainerDefinition>>
     where T : ContainerDefinition
 {
-    public static ContainerDefinitionConverter<ContainerDefinition> Default { get; } = new();
+    public static new ContainerDefinitionConverter<ContainerDefinition> Default { get; } = new();
 
     public class PoolSlotConverter<TP> : BaseConverter<TP>
         where TP : ContainerDefinition.PoolSlot
@@ -52,6 +53,7 @@ public class ContainerDefinitionConverter<T>
         JsonSerializerOptions options
     )
     {
+        base.WriteObjectBody(writer, value, options);
         WriteProperty(writer, value.ID, options);
         WriteProperty(writer, value.ContainerName, options);
         WriteProperty(writer, value.Category, options);
