@@ -39,7 +39,24 @@ public class ItemServiceConverter<T>
         JsonSerializerOptions options
     )
     {
+        WriteProperty(writer, value._FinishedInitialisation_k__BackingField, options);
+        WriteProperty(writer, value.UseTestAssets, options);
+        WriteProperty(writer, value._allItemDefinition, options);
+        WriteProperty(writer, value._uniqueIdToItemId, options);
+        WriteProperty(writer, value._fetchItemListByNameAux, options);
+        WriteProperty(writer, value._ammoTypeDictionary, options);
+        // public unsafe static string AddressableLocationGameKey
+        // public unsafe static string AddressableLocationTestKey
+        WriteProperty(writer, value.ServiceErrorCode, options);
+        WriteProperty(writer, value.FinishedInitialisation, options);
+        WriteProperty(writer, value.CanGameRunIfServiceFailed, options);
         WriteProperty(writer, value.AddressableLocationKey, options);
         WriteProperty(writer, value.FetchAllItems(), options);
+        // public unsafe virtual ResourceType GetResourceTypeByItemId(string itemId)
+        // public unsafe virtual Sprite GetGenericIconForItemId(string itemId)
+        // public unsafe string GetCategoryFromFlags(ItemTypes types)
+        // public unsafe virtual string GetItemIdFromAmmoType(AmmoType ammoType)
+        WriteProperty(writer, value.GetAirtableItemNames(), options);
+        WriteProperty(writer, value.GetAirtableItemIDs(), options);
     }
 }
