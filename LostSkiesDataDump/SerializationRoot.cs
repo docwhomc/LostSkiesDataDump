@@ -19,6 +19,7 @@
 using System;
 using System.Runtime.Versioning;
 using System.Text.Json.Serialization;
+using LostSkiesDataDump.Converters.Global;
 using LostSkiesDataDump.Converters.WildSkies.Service;
 using WildSkies.Service;
 
@@ -37,8 +38,8 @@ public class SerializationRoot
     public PluginVersionInfo PluginVersionInfo { get; }
 
     [RequiresPreviewFeatures]
-    [JsonConverter(typeof(ICraftingServiceConverter<ICraftingService>))]
-    public ICraftingService CraftingService { get; set; }
+    [JsonConverter(typeof(CraftingServiceConverter<CraftingService>))]
+    public CraftingService CraftingService { get; set; }
 
     [RequiresPreviewFeatures]
     [JsonConverter(typeof(CompendiumServiceConverter<CompendiumService>))]

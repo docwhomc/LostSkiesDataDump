@@ -28,6 +28,17 @@ namespace LostSkiesDataDump;
 
 partial class Patch
 {
+    [HarmonyPatch(typeof(CraftingService), nameof(CraftingService.Initialise))]
+    [HarmonyPostfix]
+    [RequiresPreviewFeatures]
+    public static void CraftingService_Initialise(CraftingService __instance, int __result)
+    {
+        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(CraftingService_Initialise)}(...)");
+        Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
+        Plugin.Log.LogDebug($"{nameof(__result)}: {__result}");
+        Plugin.SerializationRoot.CraftingService = __instance;
+    }
+
     [HarmonyPatch(typeof(CompendiumUiMediator), nameof(CompendiumUiMediator.Initialise))]
     [HarmonyPostfix]
     [RequiresPreviewFeatures]
@@ -47,7 +58,6 @@ partial class Patch
         Plugin.Log.LogDebug($"{nameof(playerGuideService)}: {playerGuideService}");
         Plugin.Log.LogDebug($"{nameof(playerInventoryService)}: {playerInventoryService}");
         Plugin.Log.LogDebug($"{nameof(craftingService)}: {craftingService}");
-        Plugin.SerializationRoot.CraftingService = craftingService;
     }
 
     [HarmonyPatch(typeof(CompendiumService), nameof(CompendiumService.Initialise))]
