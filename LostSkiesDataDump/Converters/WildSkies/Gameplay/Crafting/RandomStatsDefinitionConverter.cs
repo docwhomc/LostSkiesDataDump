@@ -36,44 +36,9 @@ public class RandomStatsDefinitionConverter<T>
         JsonSerializerOptions options
     )
     {
-        // try
-        // {
-        //     Plugin.Log.LogDebug("> RandomStatsDefinition.SelectionList >");
-        //     // WriteArray(writer, value.SelectionList.ToSystemEnumerable(), options);
-        //     var index = 0;
-        //     foreach (var element in value.SelectionList.ToSystemEnumerable())
-        //     {
-        //         Plugin.Log.LogDebug($">> RandomStatsDefinition.SelectionList[{index}] >>");
-        //         try
-        //         {
-        //             WriteValue(writer, element, options);
-        //         }
-        //         catch (Exception e)
-        //         {
-        //             var message = $"Error serializing RandomStatsDefinition.SelectionList[{index}]: {element}";
-        //             writer.WriteCommentValue(message);
-        //             Plugin.Log.LogError(message);
-        //             Plugin.Log.LogError(e);
-        //         }
-        //         Plugin.Log.LogDebug($"<< RandomStatsDefinition.SelectionList[{index}] <<");
-        //         index++;
-        //     }
-        //     Plugin.Log.LogDebug("< RandomStatsDefinition.SelectionList <");
-        // }
-        // catch (Exception e)
-        // {
-        //     var message = $"Error serializing RandomStatsDefinition.SelectionList: {value.SelectionList}";
-        //     writer.WriteCommentValue(message);
-        //     Plugin.Log.LogError(message);
-        //     Plugin.Log.LogError(e);
-        // }
+        WriteProperty(writer, value.SelectionList, options);
         WriteProperty(writer, value.NumSelections, options);
-        WriteProperty(
-            writer,
-            value.NumSelectionWeightings,
-            options,
-            nameof(value.NumSelectionWeightings)
-        );
+        WriteProperty(writer, value.NumSelectionWeightings, options);
         WriteProperty(writer, value.PointRange, options);
         // TODO: `public unsafe static int MinStatPoints`
         // TODO: `public unsafe static StatsSelectionAlgorithm Algorithm`
