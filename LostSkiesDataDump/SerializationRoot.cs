@@ -50,8 +50,8 @@ public class SerializationRoot
     public ContainerService ContainerService { get; set; }
 
     [RequiresPreviewFeatures]
-    [JsonConverter(typeof(IItemServiceConverter<IItemService>))]
-    public IItemService ItemService { get; set; }
+    [JsonConverter(typeof(ItemServiceConverter<ItemService>))]
+    public ItemService ItemService { get; set; }
 
     [RequiresPreviewFeatures]
     [JsonConverter(typeof(LootPoolServiceConverter<LootPoolService>))]

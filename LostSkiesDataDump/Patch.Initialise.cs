@@ -96,7 +96,6 @@ partial class Patch
         Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(ItemInventoryMediator_Initialise)}(...)");
         Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
         Plugin.Log.LogInfo($"{nameof(itemService)}: {itemService}");
-        Plugin.SerializationRoot.ItemService = itemService;
         Plugin.Log.LogInfo($"{nameof(playerInventoryService)}: {playerInventoryService}");
         Plugin.Log.LogInfo($"{nameof(uiService)}: {uiService}");
         Plugin.Log.LogInfo($"{nameof(localisationService)}: {localisationService}");
@@ -105,11 +104,12 @@ partial class Patch
     [HarmonyPatch(typeof(ItemService), nameof(ItemService.Initialise))]
     [HarmonyPostfix]
     [RequiresPreviewFeatures]
-    public static void ItemService_Initialise(ItemInventoryMediator __instance, int __result)
+    public static void ItemService_Initialise(ItemService __instance, int __result)
     {
         Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(ItemService_Initialise)}(...)");
         Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
         Plugin.Log.LogDebug($"{nameof(__result)}: {__result}");
+        Plugin.SerializationRoot.ItemService = __instance;
     }
 
     [HarmonyPatch(typeof(LootPoolService), nameof(LootPoolService.Initialise))]
