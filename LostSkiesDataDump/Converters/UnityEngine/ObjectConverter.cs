@@ -36,8 +36,8 @@ public class ObjectConverter<T> : BaseConverter<T>, IConverterDefault<ObjectConv
     {
         WriteProperty(writer, value.name, options);
         WriteProperty(writer, value.hideFlags, options);
-        WriteProperty(writer, value.GetInstanceID(), options);
-        WriteProperty(writer, value.GetHashCode(), options);
+        // WriteProperty(writer, value.GetInstanceID(), options);
+        // WriteProperty(writer, value.GetHashCode(), options);
         WriteProperty(writer, value.ToString(), options);
         WriteProperty(writer, value.GetName(), options);
         WriteProperty(writer, Object.IsPersistent(value), options, "IsPersistent()");
