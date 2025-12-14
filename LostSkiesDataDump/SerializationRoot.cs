@@ -41,8 +41,8 @@ public class SerializationRoot
     public ICraftingService CraftingService { get; set; }
 
     [RequiresPreviewFeatures]
-    [JsonConverter(typeof(ICompendiumServiceConverter<ICompendiumService>))]
-    public ICompendiumService CompendiumService { get; set; }
+    [JsonConverter(typeof(CompendiumServiceConverter<CompendiumService>))]
+    public CompendiumService CompendiumService { get; set; }
 
     [RequiresPreviewFeatures]
     [JsonConverter(typeof(ContainerServiceConverter<ContainerService>))]
