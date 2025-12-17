@@ -54,6 +54,7 @@ public partial class Plugin : BasePlugin
     } = null;
 
     public static readonly ConverterWriteCounter ConverterWriteCounter = new();
+    public static readonly TypeSerializationCounter TypeSerializationCounter = new();
 
     [RequiresPreviewFeatures]
     public override void Load()
@@ -99,6 +100,7 @@ public partial class Plugin : BasePlugin
     {
         Log.LogInfo("Dumping data");
         ConverterWriteCounter.Clear();
+        TypeSerializationCounter.Clear();
         try
         {
             Log.LogInfo(Directory.CreateDirectory(BaseOutputDirectory));
@@ -140,7 +142,11 @@ public partial class Plugin : BasePlugin
             Log.LogInfo("Converter Use Report");
             foreach (string line in report)
                 Log.LogInfo(line);
+            Log.LogInfo("Type Serialization Report");
+            foreach (var line in TypeSerializationCounter.MakeReport())
+                Log.LogInfo($"  {line}");
             ConverterWriteCounter.Clear();
+            TypeSerializationCounter.Clear();
         }
     }
 }

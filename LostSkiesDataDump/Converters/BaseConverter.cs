@@ -39,7 +39,7 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
     public const string REFERENCE_KEY = "$ref";
 
     /// <summary>
-    /// <c>TYPE_KEY</c> is a JSON name whose corresponding value indicates the type of the serialized object.
+    /// <c>TYPE_KEY</c> is a JSON name whose corresponding value indicates the type an object is serialized as.
     /// </summary>
     public const string TYPE_KEY = "$type";
 
@@ -90,17 +90,22 @@ public abstract partial class BaseConverter<T> : JsonConverter<T>
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
         Plugin.ConverterWriteCounter.Increment(GetType());
+        Type type = value?.GetType();
+        Type serializeAsType = typeof(T);
+        Plugin.TypeSerializationCounter.Increment(type, serializeAsType);
         if (value is null)
         {
             writer.WriteNullValue();
             return;
         }
         writer.WriteStartObject();
+        if (type != serializeAsType)
+            writer.WriteCommentValue($"{type} serialized as {serializeAsType}");
         try
         {
             if (!Reference || !WriteReference(writer, value, options))
             {
-                writer.WriteString(TYPE_KEY, typeof(T).ToString());
+                writer.WriteString(TYPE_KEY, serializeAsType.ToString());
                 WriteObjectBody(writer, value, options);
             }
         }
