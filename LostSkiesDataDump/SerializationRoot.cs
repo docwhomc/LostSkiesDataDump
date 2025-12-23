@@ -62,6 +62,10 @@ public class SerializationRoot
     public LootTableService LootTableService { get; set; }
 
     [RequiresPreviewFeatures]
+    [JsonConverter(typeof(ScatterTableServiceConverter<ScatterTableService>))]
+    public ScatterTableService ScatterTableService { get; set; }
+
+    [RequiresPreviewFeatures]
     [JsonConverter(typeof(WorldRegionServiceConverter<WorldRegionService>))]
     public WorldRegionService WorldRegionService { get; set; }
 }

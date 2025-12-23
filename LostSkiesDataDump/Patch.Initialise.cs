@@ -134,6 +134,17 @@ partial class Patch
         Plugin.Log.LogDebug($"{nameof(__result)}: {__result}");
     }
 
+    [HarmonyPatch(typeof(ScatterTableService), nameof(ScatterTableService.Initialise))]
+    [HarmonyPostfix]
+    [RequiresPreviewFeatures]
+    public static void ScatterTableService_Initialise(ScatterTableService __instance, int __result)
+    {
+        Plugin.Log.LogInfo($"{nameof(Patch)}.{nameof(ScatterTableService_Initialise)}(...)");
+        Plugin.Log.LogDebug($"{nameof(__instance)}: {__instance}");
+        Plugin.SerializationRoot.ScatterTableService = __instance;
+        Plugin.Log.LogDebug($"{nameof(__result)}: {__result}");
+    }
+
     [HarmonyPatch(typeof(SteamPlatform), nameof(SteamPlatform.Initialise))]
     [HarmonyPostfix]
     [RequiresPreviewFeatures]
